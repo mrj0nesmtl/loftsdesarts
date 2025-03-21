@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { RootLayout } from "@/components/layout/RootLayout";
 import { ContactForm } from "@/components/forms/ContactForm";
 
@@ -16,6 +17,16 @@ export default function ContactPage() {
           {/* About Marc Reichel */}
           <div>
             <h2 className="text-2xl font-semibold mb-6">About Marc Reichel</h2>
+            
+            <div className="mb-6 relative w-full aspect-square max-w-md mx-auto lg:mx-0 overflow-hidden rounded-lg">
+              <Image
+                src="/marc_reichael.jpg"
+                alt="Marc Reichel - Special Effects Coordinator"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
             
             <div className="prose prose-invert max-w-none">
               <p className="text-zinc-300 mb-4">
