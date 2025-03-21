@@ -1,7 +1,13 @@
-"use client";
-
+import { Metadata } from 'next';
 import Image from "next/image";
 import { RootLayout } from "@/components/layout/RootLayout";
+import { generateMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = generateMetadata(
+  'Portfolio',
+  'Explore Marc Reichel\'s extensive portfolio of special effects work in film, television, and commercial productions.',
+  '/flak_jacket_patch.jpg'
+);
 
 // Mock data - replace with actual portfolio data later
 const projects = [

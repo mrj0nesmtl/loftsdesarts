@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { defaultMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "STTS - Special Effects Studio",
-  description: "Showcase and lead generation website for Marc Reichel's special effects studio",
-};
+export const metadata = defaultMetadata;
 
 export default function RootLayout({
   children,

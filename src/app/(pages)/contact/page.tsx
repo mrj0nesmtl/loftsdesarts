@@ -3,6 +3,14 @@
 import Image from "next/image";
 import { RootLayout } from "@/components/layout/RootLayout";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { Metadata } from 'next';
+import { generateMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = generateMetadata(
+  'Contact Us',
+  'Get in touch with STTS Special Effects Studio. Whether you need special effects for your film, TV show, or event, we\'re here to help bring your vision to life.',
+  '/stts_contact.jpg'
+);
 
 export default function ContactPage() {
   return (
