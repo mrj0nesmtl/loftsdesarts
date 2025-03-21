@@ -1,6 +1,7 @@
 "use client";
 
 import { RootLayout } from "@/components/layout/RootLayout";
+import { ContactForm } from "@/components/forms/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -10,62 +11,7 @@ export default function ContactPage() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="bg-zinc-900 rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
-            <form className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-zinc-400 mb-1">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-zinc-400 mb-1">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="project-type" className="block text-sm font-medium text-zinc-400 mb-1">Project Type</label>
-                <select
-                  id="project-type"
-                  className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-                  required
-                >
-                  <option value="">Select a project type</option>
-                  <option value="film">Film</option>
-                  <option value="tv">TV</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-zinc-400 mb-1">Message</label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-                  required
-                ></textarea>
-              </div>
-              
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
+          <ContactForm />
           
           {/* About Marc Reichel */}
           <div>
@@ -90,7 +36,7 @@ export default function ContactPage() {
                 <h3 className="text-xl font-semibold mb-4">Connect</h3>
                 <div className="flex gap-4">
                   <a 
-                    href="https://www.imdb.com" 
+                    href="https://www.imdb.com/name/nm0717003/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-md text-white transition-colors"
@@ -98,12 +44,12 @@ export default function ContactPage() {
                     IMDb Profile
                   </a>
                   <a 
-                    href="https://www.instagram.com" 
+                    href="https://www.linkedin.com/in/marc-reichel-6177b73b/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-md text-white transition-colors"
                   >
-                    Instagram
+                    LinkedIn
                   </a>
                 </div>
               </div>

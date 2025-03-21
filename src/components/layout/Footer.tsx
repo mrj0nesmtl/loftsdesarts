@@ -1,10 +1,8 @@
 import Link from "next/link";
 
 const socialLinks = [
-  { name: "Instagram", url: "https://instagram.com" },
-  { name: "YouTube", url: "https://youtube.com" },
-  { name: "IMDb", url: "https://imdb.com" },
-  { name: "LinkedIn", url: "https://linkedin.com" },
+  { name: "IMDb", url: "https://www.imdb.com/name/nm0717003/" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/marc-reichel-6177b73b/" },
 ];
 
 export function Footer() {
@@ -27,7 +25,7 @@ export function Footer() {
           </div>
           
           <div className="text-sm text-zinc-500">
-            &copy; {new Date().getFullYear()} STTS - Special Effects Studio. All rights reserved.
+            &copy; {new Date().getFullYear()} STTS Special Effects Studio. All rights reserved.
           </div>
         </div>
       </div>

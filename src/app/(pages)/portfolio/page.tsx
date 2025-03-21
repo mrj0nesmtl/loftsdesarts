@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { RootLayout } from "@/components/layout/RootLayout";
 
 // Mock data - replace with actual portfolio data later
@@ -26,12 +27,19 @@ export default function PortfolioPage() {
           </p>
         </div>
 
-        {/* Video Highlight Reel (Placeholder) */}
+        {/* Video Highlight Reel (Using image as placeholder) */}
         <div className="mb-16">
-          <div className="aspect-video bg-zinc-800 rounded-lg mb-4">
-            {/* Replace with actual video embed */}
-            <div className="flex items-center justify-center h-full text-zinc-500">
-              Highlight Reel Placeholder
+          <div className="aspect-video bg-zinc-800 rounded-lg mb-4 relative overflow-hidden">
+            <Image 
+              src="/flak_jacket_patch.jpg" 
+              alt="Marc Reichel's Special Effects - Flak Jacket Patch"
+              fill
+              className="object-contain" 
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <div className="bg-black/70 text-white px-6 py-3 rounded-md">
+                Highlight Reel Coming Soon
+              </div>
             </div>
           </div>
           <p className="text-center text-zinc-400 text-sm">

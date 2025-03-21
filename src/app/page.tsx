@@ -8,9 +8,20 @@ export default function Home() {
   return (
     <RootLayout>
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center bg-zinc-900 overflow-hidden">
-        {/* TODO: Replace with actual video */}
-        <div className="absolute inset-0 bg-black/50 z-10" />
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Video Background */}
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src="/STTS_2.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/60 z-10" />
         
         <div className="relative z-20 text-center px-4 max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
