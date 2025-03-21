@@ -16,6 +16,7 @@ function AdminLayoutInner({
   const pathname = usePathname();
   const { user, isLoading } = useAuth();
   const [isClient, setIsClient] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   
   // Check if this is the login page
   const isLoginPage = pathname === "/admin/login";
@@ -26,6 +27,20 @@ function AdminLayoutInner({
     if (!isLoading && !user && !isLoginPage) {
       router.push("/admin/login");
     }
+
+    // Check if the viewport is desktop sized
+    const checkIfDesktop = () => {
+      setIsSidebarExpanded(window.innerWidth >= 768);
+    };
+    
+    // Check on initial load
+    checkIfDesktop();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkIfDesktop);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfDesktop);
   }, [user, isLoading, router, isLoginPage]);
 
   // Show loading state while checking authentication
@@ -48,6 +63,11 @@ function AdminLayoutInner({
     return <>{children}</>;
   }
 
+  // Handle sidebar toggle
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded);
+  };
+
   // For all other admin pages, render the full admin layout with sidebar
   return (
     <div className="min-h-screen flex flex-col bg-zinc-900 text-white">
@@ -64,8 +84,11 @@ function AdminLayoutInner({
       </header>
       
       <div className="flex flex-1 overflow-hidden">
-        <aside className="w-64 bg-zinc-800 overflow-y-auto">
-          <AdminNav />
+        <aside className={`${isSidebarExpanded ? 'w-64' : 'w-16'} bg-zinc-800 overflow-y-auto transition-all duration-300 ease-in-out`}>
+          <AdminNav 
+            isExpanded={isSidebarExpanded} 
+            onToggle={toggleSidebar} 
+          />
         </aside>
         
         <main className="flex-1 p-6 overflow-y-auto">
