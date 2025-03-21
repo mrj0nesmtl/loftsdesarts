@@ -43,6 +43,15 @@ The site aims to deliver a cinematic experience with a dark, industrial aestheti
    ```
    NEXT_PUBLIC_SUPABASE_URL=your-project-url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   
+   # Optional: For email notifications
+   EMAIL_HOST=smtp.gmail.com
+   EMAIL_PORT=587
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASSWORD=your-app-specific-password
+   ADMIN_EMAIL=notifications-recipient@example.com
    ```
 
 4. Set up Supabase:
@@ -145,3 +154,29 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Admin Dashboard Features
+
+The admin dashboard provides a secure interface for managing contact form submissions:
+
+- **Authentication**: Secure login for administrators
+- **Dashboard**: Overview of recent activity and key metrics
+- **Inquiries**: View, manage, and respond to contact form submissions
+- **Real-time Updates**: Get notifications when new submissions arrive
+- **Email Notifications**: Receive email alerts for new contact form submissions
+
+## Development Guidelines
+
+- Follow the TypeScript strict type checking
+- Use Next.js App Router patterns
+- Maintain accessibility standards
+- Test across different browsers and devices
+- Keep dependencies updated
+
+## Contact
+
+For questions about this project, please contact [Your Name] at [your.email@example.com].
+
+## License
+
+This project is proprietary and owned by STTS.

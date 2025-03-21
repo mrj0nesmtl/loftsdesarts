@@ -1,31 +1,40 @@
 import { createClient } from '@supabase/supabase-js';
 
-// These environment variables will need to be configured in your hosting environment
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-// Simple URL validation without using URL.canParse which requires Node.js >=20.6.0
-const isValidUrl = (url: string) => {
+// Function to check if URL.canParse is available (Node.js 18+)
+function isValidUrl(urlString: string): boolean {
   try {
-    new URL(url);
+    // URL constructor will throw for invalid URLs
+    new URL(urlString);
     return true;
   } catch (e) {
     return false;
   }
-};
-
-if (!supabaseUrl || !supabaseAnonKey || !isValidUrl(supabaseUrl)) {
-  if (typeof window !== 'undefined') {
-    console.warn(
-      'Supabase credentials are not properly configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.'
-    );
-  }
 }
 
-// Create a single supabase client for the entire app
+// Initialize Supabase client
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+// Get the webhook URL from environment variables
+const webhookUrl = process.env.NEXT_PUBLIC_SITE_URL 
+  ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/contact` 
+  : undefined;
+
+// Create the Supabase client with optional webhook config
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    persistSession: typeof window !== 'undefined',
+    autoRefreshToken: true,
+    persistSession: true,
+  },
+  global: {
+    // Only add webhook handlers if we have a valid webhook URL
+    fetch: webhookUrl && isValidUrl(webhookUrl) ? undefined : undefined,
+    // Note: The webhook integration should be configured in Supabase dashboard
+    // under Database > Webhooks for more control and security
   },
 });
 

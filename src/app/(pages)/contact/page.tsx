@@ -11,9 +11,6 @@ export default function ContactPage() {
         <h1 className="text-4xl font-bold text-center mb-12">Contact & About</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <ContactForm />
-          
           {/* About Marc Reichel */}
           <div>
             <h2 className="text-2xl font-semibold mb-6">About Marc Reichel</h2>
@@ -40,7 +37,7 @@ export default function ContactPage() {
               <h3 className="text-xl font-semibold mt-8 mb-4">Studio Information</h3>
               
               <p className="text-zinc-300 mb-4">
-                STTS (Special Effects Studio) is based in Montreal, serving productions worldwide with state-of-the-art facilities and equipment for creating cinematic special effects.
+                STTS (Special Effects Studio) is based in Winnipeg, Canada, serving productions worldwide with state-of-the-art facilities and equipment for creating cinematic special effects.
               </p>
               
               <div className="mt-8">
@@ -66,6 +63,9 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
+          
+          {/* Contact Form */}
+          <ContactForm />
         </div>
       </div>
     </RootLayout>
