@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { RootLayout } from "@/components/layout/RootLayout";
 import { ContactForm } from "@/components/forms/ContactForm";
