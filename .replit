@@ -1,6 +1,6 @@
 run = "npm run dev"
 hidden = [".config", ".next", "node_modules", ".turbo"]
-modules = ["nodejs-20:v8-20230920-bd784b9"]
+modules = ["nodejs-20", "web", "nix"]
 
 [packager]
 language = "nodejs"
@@ -10,7 +10,7 @@ language = "nodejs"
   enabledForHosting = true
 
 [nix]
-channel = "stable-23_05"
+channel = "stable-24_05"
 
 [env]
 XDG_CONFIG_HOME = "$REPL_HOME/.config"
@@ -18,7 +18,7 @@ PATH = "$REPL_HOME/node_modules/.bin:$REPL_HOME/.config/npm/node_global/bin:$PAT
 npm_config_prefix = "$REPL_HOME/.config/npm/node_global"
 
 [deployment]
-run = ["npm", "run", "build"]
+run = ["sh", "-c", "npm run dev"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
 
