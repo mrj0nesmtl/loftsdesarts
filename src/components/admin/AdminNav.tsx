@@ -22,10 +22,10 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
   };
 
   return (
-    <nav className="p-2">
+    <nav className="py-4 px-2">
       <button 
         onClick={onToggle}
-        className="w-full flex items-center justify-center p-2 mb-4 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-md transition-colors"
+        className="w-full flex items-center justify-center p-2 mb-6 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-md transition-colors"
         aria-label={isExpanded ? "Réduire le panneau latéral" : "Agrandir le panneau latéral"}
       >
         <svg 
@@ -41,7 +41,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
           )}
         </svg>
-        {isExpanded && <span className="ml-2">Réduire</span>}
+        {isExpanded && <span className="ml-2 font-medium">Réduire</span>}
       </button>
       
       <div className="space-y-6">
@@ -51,8 +51,11 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             isActive={isActive("/admin/dashboard")}
             isExpanded={isExpanded}
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M2 11a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H3a1 1 0 01-1-1v-4zM8 7a1 1 0 011-1h4a1 1 0 011 1v8a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v11a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
               </svg>
             }
           >
@@ -64,9 +67,10 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             isActive={isActive("/admin/analytics")}
             isExpanded={isExpanded}
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
-                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 20V10"></path>
+                <path d="M18 20V4"></path>
+                <path d="M6 20v-4"></path>
               </svg>
             }
           >
@@ -78,9 +82,8 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             isActive={isActive("/admin/inquiries")}
             isExpanded={isExpanded}
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
               </svg>
             }
           >
@@ -92,8 +95,9 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             isActive={isActive("/admin/settings")}
             isExpanded={isExpanded}
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
               </svg>
             }
           >
@@ -102,30 +106,34 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
         </div>
         
         {isExpanded && (
-          <div className="pt-4 border-t border-zinc-700">
-            <div className="mb-2 px-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+          <div className="pt-6 border-t border-zinc-700">
+            <div className="mb-3 px-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
               Compte
             </div>
             
             {user && (
-              <div className="px-4 py-2 mb-2">
-                <div className="text-sm font-medium truncate">{user.email}</div>
+              <div className="px-4 py-2 mb-3 bg-zinc-800/50 rounded-md">
+                <div className="text-sm font-medium text-zinc-300">{user.email}</div>
+                <div className="text-xs text-zinc-500 mt-1">Administrateur</div>
               </div>
             )}
           </div>
         )}
-          
-        <button
-          onClick={handleSignOut}
-          className={`flex items-center ${isExpanded ? 'space-x-2' : 'justify-center'} w-full px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-md transition-colors`}
-          title="Déconnexion"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414l-5-5H3zm4 9h6v2H7v-2zm4-3h2v2h-2V9zm-4 0h2v2H7V9z" clipRule="evenodd" />
-            <path d="M14.293 5.293L9 10.586V12h1.414l5.293-5.293L14.293 5.293z" />
-          </svg>
-          {isExpanded && <span>Déconnexion</span>}
-        </button>
+        
+        <div className={`${isExpanded ? 'px-4' : ''} mt-4`}>
+          <button
+            onClick={handleSignOut}
+            className={`flex items-center ${isExpanded ? 'w-full' : 'justify-center'} px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors`}
+            title="Déconnexion"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            {isExpanded && <span className="ml-2">Déconnexion</span>}
+          </button>
+        </div>
       </div>
     </nav>
   );
@@ -143,7 +151,7 @@ function NavLink({ href, isActive, isExpanded, icon, children }: NavLinkProps) {
   return (
     <Link 
       href={href}
-      className={`flex items-center ${isExpanded ? 'space-x-2' : 'justify-center'} px-4 py-2 rounded-md transition-colors ${
+      className={`flex items-center ${isExpanded ? 'space-x-3' : 'justify-center'} px-4 py-3 rounded-md transition-colors ${
         isActive 
           ? "bg-red-600 text-white" 
           : "text-zinc-400 hover:text-white hover:bg-zinc-700"
@@ -151,7 +159,7 @@ function NavLink({ href, isActive, isExpanded, icon, children }: NavLinkProps) {
       title={isExpanded ? undefined : String(children)}
     >
       {icon}
-      {isExpanded && <span>{children}</span>}
+      {isExpanded && <span className="font-medium">{children}</span>}
     </Link>
   );
 } 

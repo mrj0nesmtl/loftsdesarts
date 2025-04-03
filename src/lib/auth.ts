@@ -60,8 +60,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       
       if (!error) {
-        router.push("/admin/dashboard");
-        router.refresh();
+        // Use window.location for a full page load instead of router.push
+        // This ensures the app is fully rehydrated with the new auth state
+        window.location.href = "/admin/dashboard";
+        return { error: null };
       }
 
       return { error: error as Error | null };
