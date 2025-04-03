@@ -299,4 +299,63 @@ NOTIFICATION_EMAIL=notifications@loftsdesarts.ca
 - [Design System Guidelines](../design/design-system.md)
 - [API Documentation](../api/README.md)
 - [Security Guidelines](../security/security-guidelines.md)
-- [Resident Portal Future Planning](../roadmap/resident-portal.md) 
+- [Resident Portal Future Planning](../roadmap/resident-portal.md)
+
+## Known Issues & Fixes
+
+### Contact Form Submission Error
+
+**Error Description:**
+- Public users receive "Échec de l'envoi du formulaire" error when submitting the contact form
+- Console error: `{code: '42501', details: null, hint: null, message: 'new row violates row-level security policy for table "contact_inquiries"'}`
+
+**Root Cause:**
+The contact_inquiries table has Row Level Security (RLS) enabled, but lacks the necessary policy to allow public (unauthenticated) users to insert new records.
+
+**SQL Fix:**
+```sql
+-- Fix for contact form submission RLS policy
+ALTER TABLE contact_inquiries ENABLE ROW LEVEL SECURITY;
+
+-- Remove existing policy if it exists to avoid conflicts
+DROP POLICY IF EXISTS "Public users can insert inquiries" ON contact_inquiries;
+
+-- Create policy to allow public (unauthenticated) users to submit contact forms
+CREATE POLICY "Public users can insert inquiries" 
+ON contact_inquiries 
+FOR INSERT 
+TO public
+WITH CHECK (true);
+```
+
+**Alternative Server-Side Solution:**
+When using server actions with Supabase, bypass RLS by using the service role client for specific operations:
+
+```typescript
+// In your server action
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+// Use service role client to bypass RLS
+const { data, error } = await supabaseAdmin.from('contact_inquiries').insert({
+  // form data
+});
+```
+
+**Verification Query:**
+```sql
+SELECT 
+  schemaname, 
+  tablename, 
+  policyname, 
+  permissive, 
+  roles, 
+  cmd, 
+  qual
+FROM pg_policies 
+WHERE tablename = 'contact_inquiries';
+``` 

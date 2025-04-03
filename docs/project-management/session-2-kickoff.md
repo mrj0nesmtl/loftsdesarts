@@ -103,4 +103,18 @@ By the end of Session 2, we will have:
 - System maintains performance targets under expected load
 - Features work seamlessly across desktop and mobile devices
 - Security testing confirms proper data protection and access controls
-- User testing confirms intuitive usability for all user roles 
+- User testing confirms intuitive usability for all user roles
+
+## Addendum: Critical Issues to Address
+
+### Identified Production Issues
+
+1. **Contact Form Submission Error**
+   - **Issue**: Public users cannot submit contact forms due to RLS policy restrictions
+   - **Impact**: Medium-High (Core public site functionality blocked)
+   - **Solution**: Add appropriate RLS policy for public inserts or modify server action to use admin client
+   - **Priority**: High (Should be fixed before other feature development)
+
+This issue was discovered during live testing on mobile devices. The contact form successfully validates input but fails when attempting to insert data into the Supabase database due to missing Row Level Security policies for public users. 
+
+Since contact form functionality is a critical part of the public-facing site, this should be prioritized in our Session 2 work to ensure potential residents and visitors can communicate with the board effectively. 

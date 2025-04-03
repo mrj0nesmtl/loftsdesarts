@@ -152,4 +152,13 @@
 - [ ] Create training materials for board members
 - [ ] Document system architecture changes
 - [ ] Update security documentation
-- [ ] Create user guides for residents 
+- [ ] Create user guides for residents
+
+## Bug Fixes & Critical Issues
+
+### Database & Security
+- [ ] Fix contact form submission RLS policy error
+- [ ] Verify all public-facing forms have appropriate RLS policies
+- [ ] Audit existing RLS policies for all tables
+- [ ] Review server actions using Supabase client vs. admin client
+- [ ] Document security policies for public vs. authenticated operations 

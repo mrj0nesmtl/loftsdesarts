@@ -49,6 +49,7 @@ ALTER TABLE contact_inquiries ENABLE ROW LEVEL SECURITY;
 -- Drop policies if they already exist
 DROP POLICY IF EXISTS "Authenticated users can view inquiries" ON contact_inquiries;
 DROP POLICY IF EXISTS "Authenticated users can update inquiries" ON contact_inquiries;
+DROP POLICY IF EXISTS "Public users can insert inquiries" ON contact_inquiries;
 
 -- Allow authenticated users to view all inquiries
 CREATE POLICY "Authenticated users can view inquiries" 
@@ -62,4 +63,48 @@ CREATE POLICY "Authenticated users can update inquiries"
 ON contact_inquiries 
 FOR UPDATE
 TO authenticated 
-USING (true); 
+USING (true);
+
+-- Allow public users to insert new contact inquiries
+CREATE POLICY "Public users can insert inquiries" 
+ON contact_inquiries 
+FOR INSERT 
+TO public 
+WITH CHECK (true);
+
+-- Additional check to make sure the existing authenticated policies exist
+-- Create if they don't exist to maintain a complete set of policies
+
+-- Check and create view policy if needed
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 
+    FROM pg_policies 
+    WHERE tablename = 'contact_inquiries' 
+    AND policyname = 'Authenticated users can view inquiries'
+  ) THEN
+    CREATE POLICY "Authenticated users can view inquiries" 
+    ON contact_inquiries 
+    FOR SELECT 
+    TO authenticated 
+    USING (true);
+  END IF;
+END $$;
+
+-- Check and create update policy if needed
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 
+    FROM pg_policies 
+    WHERE tablename = 'contact_inquiries' 
+    AND policyname = 'Authenticated users can update inquiries'
+  ) THEN
+    CREATE POLICY "Authenticated users can update inquiries" 
+    ON contact_inquiries 
+    FOR UPDATE
+    TO authenticated 
+    USING (true);
+  END IF;
+END $$; 

@@ -1,0 +1,2 @@
+schemaname,tablename,policyname,permissive,roles,cmd,qual
+public,contact_inquiries,Public users can insert inquiries,PERMISSIVE,{public},INSERT,null
