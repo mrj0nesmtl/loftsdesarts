@@ -91,7 +91,7 @@ export default function DashboardPage() {
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-sm font-medium text-zinc-200">Actions rapides</h3>
           </div>
-          <div className="grid grid-cols-2 gap-3 pt-2">
+          <div className="flex flex-col space-y-2 pt-2">
             <a 
               href="/admin/inquiries" 
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-black text-white px-3 py-2 text-sm font-medium hover:bg-zinc-900 border border-zinc-700 transition-colors"
