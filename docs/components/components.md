@@ -1,118 +1,269 @@
 # Components Documentation
 
-This directory contains documentation for all UI components used throughout the Lofts des Arts website, providing a comprehensive reference for developers.
+This directory contains comprehensive documentation for all React components used in the Lofts des Arts platform, including usage guidelines, props, and examples.
 
-## Component Organization
+## Directory Structure
 
-Components are organized into the following categories:
+- `/layout/` - Layout component documentation
+- `/ui/` - UI component documentation
+- `/forms/` - Form component documentation
+- `/admin/` - Admin-specific component documentation
+- `/patterns/` - Component pattern documentation
+- `/examples/` - Example component usage
 
-- `/admin/` - Components specific to the administrative dashboard
-- `/common/` - Shared components used across multiple areas
-- `/layout/` - Layout components like headers, footers, and navigation
-- `/forms/` - Form components and input elements
-- `/sections/` - Page section components for the public website
+## Component Overview
 
-## Component Architecture
+The Lofts des Arts platform uses a modular component architecture based on:
 
-The component architecture follows these principles:
+- **Shadcn/UI**: Core UI components built on Radix UI primitives
+- **Custom Components**: Domain-specific components built for the platform
+- **Layout Components**: Page structure and responsive layout components
+- **Form Components**: Input, validation, and form handling components
+- **Admin Components**: Components for the administrative interface
 
-1. **Atomic Design Methodology**
-   - Atoms: Basic building blocks (buttons, inputs, icons)
-   - Molecules: Simple component combinations (search fields, form groups)
-   - Organisms: Complex UI sections (navigation bars, hero sections)
-   - Templates: Page layouts with placeholder content
-   - Pages: Complete page implementations
+## Component Categories
 
-2. **Component API Standards**
-   - Consistent prop interfaces
-   - Clear typing with TypeScript
-   - Default props for common use cases
-   - Comprehensive JSDoc comments
+### Layout Components
 
-3. **Composition over Inheritance**
-   - Components are designed to be composed rather than extended
-   - Higher-order components and render props used where appropriate
+Layout components define the overall structure of pages and sections:
 
-## Admin Components
+- `Header`: Site-wide header with navigation
+- `Footer`: Site-wide footer with links and information
+- `PageLayout`: Standard page layout wrapper
+- `AdminLayout`: Admin dashboard layout
+- `Section`: Content section with standard padding and structure
 
-The admin dashboard uses a specialized set of components:
+[View Layout Components](./layout/README.md)
 
-- `ClientAdminLayout` - Main layout wrapper for admin pages
-- `AdminNav` - Navigation sidebar for admin section
-- `UserAvatar` - User profile avatar with role indication
-- `NotificationCenter` - System notification components
-- `WelcomeMessage` - Personalized greeting component
-- Specialized components for messaging, file management, etc.
+### UI Components
 
-## UI Component Library
+UI components are the building blocks of the interface:
 
-The website uses a combination of custom components and those from the Shadcn/UI library:
+- `Button`: Action triggers in various styles
+- `Card`: Content containers
+- `Modal`: Dialog overlays
+- `Tabs`: Tabbed interface sections
+- `Accordion`: Collapsible content sections
+- `Carousel`: Image and content sliders
+- `Alert`: User notifications
+- `Avatar`: User profile images
+- `ThemeToggle`: Theme switching button with appropriate icons for light/dark modes
 
-- `Button` - Various button styles (primary, secondary, ghost)
-- `Input` - Text input fields with validation
-- `Dialog` - Modal dialog components
-- `Dropdown` - Dropdown menus and select components
-- `Card` - Content container components
-- `Tabs` - Tabbed interface components
+[View UI Components](./ui/README.md)
 
-## Form Components
+### Theme Components
 
-Form components adhere to the following standards:
+Theme components manage the site-wide theming system:
 
-- Built using React Hook Form for state management
-- Zod schema validation for type-safe validation
-- Accessible error messaging
-- Consistent loading and success states
-- Self-contained form submission logic
+- `ThemeProvider`: Context provider for theme state management
+- `ThemeToggle`: User-facing toggle button for switching themes
+- `useTheme`: Custom hook for consuming theme context in components
 
-## Usage Examples
-
-Each component includes usage examples:
+#### ThemeProvider Usage
 
 ```tsx
-import { Button } from "@/components/common/Button";
+// In layout.tsx
+import { ThemeProvider } from "@/lib/theme-provider";
 
-// Primary button
-<Button variant="primary" onClick={handleClick}>
-  Submit
-</Button>
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="fr" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
 
-// Secondary button
-<Button variant="secondary" onClick={handleCancel}>
-  Cancel
-</Button>
+#### ThemeToggle Usage
 
-// Ghost button
-<Button variant="ghost" onClick={handleReset}>
-  Reset
+```tsx
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+
+export function Header() {
+  return (
+    <header>
+      <nav>
+        {/* Navigation items */}
+      </nav>
+      <ThemeToggle />
+    </header>
+  );
+}
+```
+
+#### useTheme Hook Usage
+
+```tsx
+import { useTheme } from "@/lib/theme-provider";
+
+export function ThemeAwareComponent() {
+  const { theme, toggleTheme } = useTheme();
+  
+  return (
+    <div>
+      <p>Current theme: {theme}</p>
+      <button onClick={toggleTheme}>
+        Switch to {theme === 'dark' ? 'light' : 'dark'} mode
+      </button>
+    </div>
+  );
+}
+```
+
+### Form Components
+
+Form components handle user input and validation:
+
+- `Input`: Text input fields
+- `Select`: Dropdown selection fields
+- `Checkbox`: Boolean input fields
+- `RadioGroup`: Option selection
+- `Switch`: Toggle controls
+- `DatePicker`: Date selection
+- `FileUpload`: File upload controls
+- `Form`: Form wrapper with validation
+
+[View Form Components](./forms/README.md)
+
+### Admin Components
+
+Admin components are specific to the administrative interface:
+
+- `AdminNav`: Admin navigation sidebar
+- `DataTable`: Interactive data tables
+- `StatusBadge`: Status indicators
+- `UserAvatar`: User profile displays
+- `NotificationCenter`: Admin notifications
+- `ActionMenu`: Contextual action menus
+
+[View Admin Components](./admin/README.md)
+
+## Component Usage
+
+Each component in the system follows consistent usage patterns:
+
+### Basic Import Pattern
+
+```tsx
+import { ComponentName } from "@/components/path/ComponentName";
+```
+
+### Usage Example
+
+```tsx
+<Button variant="primary" size="md" onClick={handleClick}>
+  Click Me
 </Button>
 ```
 
-## Theme Customization
+## Component Props
 
-Components support theming through:
+Component props are documented using TypeScript interfaces. Example:
 
-- CSS variables for colors, spacing, and typography
-- Dark/light mode support via theme context
-- Responsive design properties
-- Design token consistency
+```tsx
+interface ButtonProps {
+  /** The button's visual style */
+  variant: "primary" | "secondary" | "outline" | "ghost";
+  /** The button's size */
+  size: "sm" | "md" | "lg";
+  /** Whether the button is disabled */
+  disabled?: boolean;
+  /** Click handler */
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /** Button content */
+  children: React.ReactNode;
+}
+```
 
-## Accessibility Standards
+## Component Structure
 
-All components adhere to WCAG 2.1 AA standards:
+Components follow a consistent file structure:
 
-- Proper semantic HTML
-- ARIA attributes where necessary
-- Keyboard navigation support
+```
+ComponentName/
+├── index.ts       # Export file
+├── ComponentName.tsx  # Main component
+├── ComponentName.test.tsx  # Unit tests
+└── ComponentName.stories.tsx  # Storybook stories (future)
+```
+
+## Styling Approach
+
+Components use Tailwind CSS for styling with consistent patterns:
+
+- Utility-first approach
+- CSS variables for theming
+- Responsive design with mobile-first approach
+- Accessibility considerations built-in
+
+## Component Composition
+
+Components are designed for composition, allowing complex UIs to be built from simple parts:
+
+```tsx
+<Card>
+  <Card.Header>
+    <Card.Title>Card Title</Card.Title>
+    <Card.Description>Card description text</Card.Description>
+  </Card.Header>
+  <Card.Content>
+    <p>Card content goes here</p>
+  </Card.Content>
+  <Card.Footer>
+    <Button variant="primary">Action</Button>
+  </Card.Footer>
+</Card>
+```
+
+## Accessibility
+
+All components are built with accessibility in mind:
+
+- ARIA attributes
+- Keyboard navigation
 - Focus management
-- Color contrast compliance
 - Screen reader support
+- Color contrast compliance
+- Motion preferences respect
+
+## State Management
+
+Components handle state in the following ways:
+
+- Local state with React useState
+- Form state with react-hook-form
+- Global state with Zustand where needed
+- Context providers for shared state
+
+## Custom Hooks
+
+Many components use custom hooks for behavior:
+
+- `useMediaQuery`: Responsive behavior
+- `useDebounce`: Performance optimization
+- `useFocusTrap`: Accessibility enhancement
+- `useLocalStorage`: Persistent settings
 
 ## Testing
 
-Each component includes:
+Components are tested using:
 
-- Unit tests with Jest and React Testing Library
-- Snapshot tests for UI stability
-- Integration tests for complex interactions
-- Visual regression tests (Storybook) 
+- Jest for unit testing
+- React Testing Library for component testing
+- Storybook for visual testing (future)
+
+## Performance Considerations
+
+Components are optimized for performance:
+
+- Code splitting
+- Memoization where beneficial
+- Virtualization for long lists
+- Lazy loading where appropriate
+- Bundle size monitoring 

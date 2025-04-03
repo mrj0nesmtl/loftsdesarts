@@ -1,65 +1,168 @@
 # API Documentation
 
-This directory contains documentation for all APIs used in the Lofts des Arts project, including both internal APIs and external service integrations.
+This directory contains comprehensive documentation for the Lofts des Arts API, including endpoints, authentication, request/response formats, and integration guides.
 
-## Structure
+## Directory Structure
 
-- `/endpoints/` - REST API endpoint documentation
-- `/auth/` - Authentication API documentation
-- `/supabase/` - Supabase API integration details
-- `/external/` - Third-party API integrations
+- `/endpoints/` - Detailed documentation for each API endpoint
+- `/authentication/` - Authentication and authorization guides
+- `/schemas/` - API data schemas and validation rules
+- `/examples/` - Example API requests and responses
+- `/webhooks/` - Webhook integration documentation
+- `/versioning/` - API versioning guidelines
 
-## API Principles
+## API Overview
 
-- All APIs follow RESTful design principles where applicable
-- Authentication is handled via JWT tokens
-- Rate limiting is implemented on public-facing endpoints
-- All endpoints include proper error handling
+The Lofts des Arts API enables interaction with the platform's core functionality, providing access to:
 
-## Available APIs
-
-### Internal APIs
-
-- **Authentication API** - User registration, login, and session management
-- **Inquiries API** - Contact form submission and management
-- **Files API** - Document storage and retrieval
-- **Messaging API** - Internal communication system
-- **Package API** - Package delivery notifications and tracking
-
-### External Service Integrations
-
-- **Supabase Auth** - User authentication and management
-- **Supabase Storage** - File storage
-- **Supabase Database** - Data storage and retrieval
-- **OpenAI API** - AI assistance and chatbot functionality
-- **Camera System API** - Building security camera feeds
-- **Twilio/SendGrid** - SMS and email notifications
-
-## API Versioning
-
-All internal APIs are versioned with the format `/api/v{majorVersion}/{resource}`. The current version is v1.
+- User and profile management
+- Content retrieval and management
+- Contact inquiries submissions
+- Administrative operations
+- Media asset management
 
 ## Authentication
 
-Most API endpoints require authentication using JWT tokens. Token validation occurs through Supabase Auth.
+All API requests require authentication using the following methods:
 
-## Error Handling
+- **Supabase JWT Tokens**: For client-side applications
+- **API Keys**: For server-to-server communication
+- **Session Cookies**: For browser sessions
 
-All APIs return standard HTTP status codes with a JSON response body in the following format:
+Authentication details can be found in the [Authentication Guide](./authentication/README.md).
 
+## API Endpoints
+
+The API follows RESTful conventions and provides the following main endpoint categories:
+
+### User Management
+
+- `GET /api/users` - List users (admin only)
+- `GET /api/users/:id` - Get user details
+- `PATCH /api/users/:id` - Update user information
+
+### Profiles
+
+- `GET /api/profiles` - List profiles
+- `GET /api/profiles/:id` - Get profile details
+- `PATCH /api/profiles/:id` - Update profile
+
+### Contact Inquiries
+
+- `POST /api/contact` - Submit a contact inquiry
+- `GET /api/contact` - List contact inquiries (admin only)
+- `GET /api/contact/:id` - Get specific inquiry details (admin only)
+- `PATCH /api/contact/:id` - Update inquiry status (admin only)
+
+### Media
+
+- `GET /api/media` - List media items
+- `POST /api/media/upload` - Upload new media
+- `DELETE /api/media/:id` - Delete media item
+
+## Request and Response Formats
+
+All API requests and responses use JSON format. Example:
+
+Request:
+```json
+POST /api/contact
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "message": "I'd like more information about the property."
+}
+```
+
+Response:
 ```json
 {
-  "success": false,
-  "error": {
-    "code": "ERROR_CODE",
-    "message": "Human-readable error message",
-    "details": {}
-  }
+  "id": "123e4567-e89b-12d3-a456-426655440000",
+  "status": "submitted",
+  "created_at": "2023-04-01T12:00:00Z"
 }
 ```
 
 ## Rate Limiting
 
-Public-facing APIs implement rate limiting to prevent abuse. Limits are set at:
+API requests are subject to rate limiting to ensure platform stability:
+
 - 100 requests per minute for authenticated users
-- 20 requests per minute for unauthenticated users 
+- 20 requests per minute for unauthenticated requests
+
+Limits are applied per IP address and authentication token.
+
+## Error Handling
+
+API errors follow a standard format:
+
+```json
+{
+  "error": {
+    "code": "invalid_request",
+    "message": "The request was invalid",
+    "details": "Email address is required"
+  }
+}
+```
+
+Common error codes:
+
+- `unauthorized` - Authentication required
+- `forbidden` - Insufficient permissions
+- `not_found` - Resource not found
+- `rate_limited` - Too many requests
+- `validation_error` - Invalid input data
+
+## Data Validation
+
+All API requests are validated against schemas defined in [Zod schemas](./schemas/README.md). These schemas ensure data consistency and prevent invalid operations.
+
+## Webhooks (Future)
+
+Webhook integration will enable real-time notification of events such as:
+
+- New contact inquiry submissions
+- Profile updates
+- System notifications
+
+## Versioning
+
+API versioning follows this pattern:
+
+- `/api/v1/...` - Current stable version
+- `/api/v2/...` - New features (when available)
+
+Breaking changes are only introduced in new major versions.
+
+## Contact Form Submission
+
+The contact form submission endpoint requires special consideration for Row Level Security (RLS) policies in Supabase. For public submissions to work properly, the following policy must be in place:
+
+```sql
+CREATE POLICY "Public users can insert inquiries" 
+ON contact_inquiries 
+FOR INSERT 
+TO public
+WITH CHECK (true);
+```
+
+Alternatively, server actions can bypass RLS by using the service role client:
+
+```typescript
+// In server action
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+// Use admin client to bypass RLS
+const { data, error } = await supabaseAdmin.from('contact_inquiries').insert({
+  name: result.data.name,
+  email: result.data.email,
+  message: result.data.message,
+  // additional fields
+});
+``` 

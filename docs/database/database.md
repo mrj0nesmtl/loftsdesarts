@@ -1,99 +1,102 @@
 # Database Documentation
 
-This directory contains documentation for the database architecture, schema design, and data management strategies used in the Lofts des Arts application.
+This directory contains comprehensive documentation for the Lofts des Arts database architecture, schema design, and data access patterns.
 
-## Database Architecture
+## Directory Structure
 
-The application uses Supabase, a PostgreSQL-based Backend-as-a-Service (BaaS), as its primary database system.
+- `/schema/` - Database schema definitions and ERD diagrams
+- `/migrations/` - Documentation for database migrations
+- `/queries/` - Common SQL queries and examples
+- `/access-patterns/` - Data access patterns and optimization strategies
+- `/security/` - Row Level Security (RLS) policies and configuration
+- `/backup/` - Backup and recovery procedures
 
-### Key Architectural Features
+## Database Overview
 
-- **PostgreSQL Foundation**: Built on PostgreSQL 13+
-- **Row-Level Security (RLS)**: Fine-grained access control at the row level
-- **Real-time Capabilities**: PubSub mechanism for live data updates
-- **Edge Functions**: Serverless functions for database operations
-- **Storage Integration**: File storage with database references
+The Lofts des Arts platform uses Supabase with PostgreSQL as its database, providing:
+
+- Relational data storage with strong consistency
+- Row Level Security for fine-grained access control
+- Full-text search capabilities
+- Real-time data subscriptions (future feature)
+- Automated backups and point-in-time recovery
 
 ## Database Schema
 
-The database schema is organized into the following main tables:
+The database is organized into several key schemas:
 
-### Authentication & Users
+- `public`: Primary application data
+- `auth`: Managed by Supabase Auth
+- `storage`: Managed by Supabase Storage
 
-- `auth.users` - User authentication managed by Supabase Auth
-- `profiles` - Extended user profile information linked to auth.users
+### Core Tables
 
-### Content Management
+The main tables in the database include:
 
-- `conversations` - Board communication threads
-- `messages` - Individual messages within conversations
-- `folders` - File system directory structure
-- `files` - Document metadata linked to Supabase Storage
+#### Users and Profiles
 
-### Property Management
+- `auth.users`: Managed by Supabase Auth, contains user authentication data
+- `public.profiles`: Extended user profile information
+  - Linked to `auth.users` via `id` foreign key
+  - Contains display name, avatar, role, and preferences
 
-- `cameras` - Security camera registration and metadata
-- `camera_recordings` - Archived camera recordings
-- `packages` - Package delivery tracking
-- `maintenance_requests` - Resident maintenance requests
+#### Content Management
 
-### Public Website
+- `public.pages`: Static page content
+- `public.media`: Media assets and metadata
 
-- `contact_inquiries` - Public contact form submissions
-- `announcements` - Board announcements and notifications
+#### Communication
 
-## Schema Diagrams
+- `public.contact_inquiries`: Contact form submissions and inquiries
+  - Contains contact information, message, and status
+  - Tracks submission time and administrative responses
 
-Entity Relationship Diagrams (ERDs) can be found in the `/diagrams/` subdirectory, showing:
+### Entity Relationship Diagram
 
-- Table relationships
-- Foreign key constraints
-- Cardinality between entities
-- Inheritance hierarchies
+The main entity relationships are documented in the [Entity Relationship Diagram](./schema/erd.png).
 
-## SQL Migrations
+## Row Level Security
 
-Database changes are managed through version-controlled SQL migration scripts located in:
+Row Level Security (RLS) is implemented at the database level to enforce access control:
 
-- `/migrations/` - SQL scripts for schema changes
+### RLS Policies
 
-Key migration files:
+#### Profiles Table
 
-- `create_profiles_table.sql` - Profile table creation
-- `update_contact_inquiries.sql` - Contact form table updates
-- `insert_board_profiles.sql` - Board member data insertion
+- `profiles_public_read`: Anyone can read basic profile information
+- `profiles_owner_update`: Users can update their own profiles
+- `profiles_admin_all`: Administrators have full access to all profiles
 
-## Row-Level Security Policies
+#### Contact Inquiries Table
 
-Access control is implemented using PostgreSQL's Row-Level Security (RLS) policies:
+- `contact_inquiries_insert_public`: Anyone can insert a new inquiry
+- `contact_inquiries_view_admin`: Only administrators can view inquiries
+- `contact_inquiries_update_admin`: Only administrators can update inquiries
 
-### Profiles Table
+Detailed policy definitions can be found in the [RLS Policies documentation](./security/rls-policies.md).
 
-```sql
--- Users can view their own profile
-CREATE POLICY "Users can view their own profile" 
-ON profiles 
-FOR SELECT 
-USING (auth.uid() = id);
+### RLS Policy Implementation Examples
 
--- Users can update their own profile
-CREATE POLICY "Users can update their own profile" 
-ON profiles 
-FOR UPDATE 
-USING (auth.uid() = id);
-```
+#### Contact Inquiries Table Policies
 
-### Contact Inquiries Table
+The `contact_inquiries` table requires specific RLS policies to function properly:
 
 ```sql
--- Authenticated users can view inquiries
+-- Allow public (unauthenticated) users to submit contact forms
+CREATE POLICY "Public users can insert inquiries" 
+ON contact_inquiries 
+FOR INSERT 
+TO public
+WITH CHECK (true);
+
+-- Allow authenticated users to view all inquiries
 CREATE POLICY "Authenticated users can view inquiries" 
 ON contact_inquiries 
 FOR SELECT 
 TO authenticated 
 USING (true);
 
--- Authenticated users can update inquiries
+-- Allow authenticated users to update inquiries (mark as viewed)
 CREATE POLICY "Authenticated users can update inquiries" 
 ON contact_inquiries 
 FOR UPDATE
@@ -101,38 +104,144 @@ TO authenticated
 USING (true);
 ```
 
+It's important to note that without the `Public users can insert inquiries` policy, the contact form on the public site will fail with a `new row violates row-level security policy` error when users try to submit inquiries.
+
 ## Database Access Patterns
 
-The application uses the following access patterns:
+### Data Access Methods
 
-- **Server Component Access**: Direct PostgreSQL queries with RLS applied
-- **Client Component Access**: Supabase client with user-specific auth context
-- **API Routes**: Server-side access with enhanced security
-- **Webhooks**: Event-driven database updates via Supabase Edge Functions
+The application accesses the database through:
 
-## Performance Optimization
+1. **Supabase JavaScript Client**:
+   - Used for client-side queries with RLS applied
+   - Provides real-time subscriptions for live updates
 
-Database performance is optimized through:
+2. **Server-Side API Routes**:
+   - Uses Supabase Admin client for privileged operations
+   - Implements additional business logic and validation
 
-- **Indexing Strategy**: Indexes on frequently queried columns
-- **Query Optimization**: Prepared statements and minimized data fetching
-- **Connection Pooling**: Efficient connection management
-- **Materialized Views**: For complex aggregate queries
+3. **Direct SQL** (migrations and maintenance):
+   - Used for schema migrations
+   - Used for administrative tasks
 
-## Data Backup & Recovery
+### Common Query Patterns
 
-Backup and recovery strategy includes:
+Examples of common query patterns:
 
-- Automated daily backups
+#### Fetching Profile Data
+
+```typescript
+// Client-side with RLS applied
+const { data, error } = await supabase
+  .from('profiles')
+  .select('id, display_name, avatar_url')
+  .eq('id', userId);
+```
+
+#### Submitting Contact Inquiry
+
+```typescript
+// Client-side with RLS applied
+const { data, error } = await supabase
+  .from('contact_inquiries')
+  .insert([
+    {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message
+    }
+  ]);
+```
+
+#### Server-Side Contact Form Submission (Alternative to RLS)
+
+For server-side operations like Next.js server actions, an alternative approach is to use the Supabase admin client to bypass RLS entirely:
+
+```typescript
+// In server action
+import { createClient } from '@supabase/supabase-js';
+
+// Create admin client with service role key
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+// Use admin client to bypass RLS policies
+const { data, error } = await supabaseAdmin.from('contact_inquiries').insert({
+  name: result.data.name,
+  email: result.data.email,
+  phone: result.data.phone || null,
+  message: result.data.message,
+  viewed: false
+});
+```
+
+This approach can be useful when:
+1. RLS policies are complex and difficult to manage
+2. You need to perform operations that would be restricted by RLS
+3. The operation is performed in a secure server-side context
+
+More query examples can be found in the [Query Examples](./queries/README.md) section.
+
+## Database Migrations
+
+Database migrations are managed through SQL scripts and Supabase migrations:
+
+- Migration scripts are stored in the `/sql` directory
+- Each migration is versioned and applied sequentially
+- Migrations are tracked in version control
+
+The migration process is documented in [Migration Procedures](./migrations/README.md).
+
+## Indexes and Performance
+
+The database uses the following indexes for performance optimization:
+
+- Primary keys on all tables
+- Foreign key indexes for relationships
+- Full-text search indexes for text columns
+- Custom indexes for frequent query patterns
+
+Performance optimization strategies are documented in [Performance Tuning](./access-patterns/performance.md).
+
+## Backup and Recovery
+
+The database backup strategy includes:
+
+- Automated daily backups via Supabase
 - Point-in-time recovery capability
-- Disaster recovery procedures
-- Data retention policies
+- Manual backup procedures for critical operations
 
-## Future Schema Evolution
+Backup procedures are documented in [Backup and Recovery](./backup/README.md).
 
-Planned database schema changes:
+## Security Considerations
 
-- Resident portal user tables
-- Event and amenity booking system
-- Payment processing integration
-- Smart building system integration 
+Database security is implemented through multiple layers:
+
+- Connection encryption (SSL/TLS)
+- Row Level Security policies
+- Password policies and hashing
+- Role-based access control
+- Audit logging
+
+Security practices are documented in [Security Best Practices](./security/README.md).
+
+## Future Enhancements
+
+Planned database enhancements include:
+
+- Real-time notifications for admin users
+- Enhanced search capabilities
+- Archiving strategies for historical data
+- Performance optimization for increased scale
+
+## Troubleshooting
+
+Common database issues and their solutions are documented in [Troubleshooting Guide](./troubleshooting.md).
+
+## References
+
+- [Supabase Documentation](https://supabase.com/docs)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [SQL Style Guide](./sql-style-guide.md) 
