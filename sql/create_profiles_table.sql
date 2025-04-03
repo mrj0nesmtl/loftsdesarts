@@ -39,10 +39,15 @@ USING (auth.uid() = id);
 
 -- Insert Marc's profile (Replace the UUID with Marc's actual auth.users ID)
 INSERT INTO profiles (id, email, role) 
-VALUES ('8f1769d-7eba-4518-8012-8510439f98e1', 'joel.yaffe+stts@gmail.com', 'ADMIN')
+VALUES ('8f1769d-7eba-4518-8012-8510439f98e1', 'joel.yaffe+lda@gmail.com', 'ADMIN')
 ON CONFLICT (id) DO NOTHING;
 
 -- Insert your profile (Replace the UUID with your actual auth.users ID)
 INSERT INTO profiles (id, email, role) 
 VALUES ('8b689ccb-eb1e-4aa3-a928-4cabe8bbac1d', 'sttsreichel@gmail.com', 'ADMIN')
+ON CONFLICT (id) DO NOTHING;
+
+-- Modify the INSERT statements to use your condominium board emails
+INSERT INTO profiles (id, email, role) 
+VALUES ('your-board-member-uuid', 'board-member@example.com', 'ADMIN')
 ON CONFLICT (id) DO NOTHING; 

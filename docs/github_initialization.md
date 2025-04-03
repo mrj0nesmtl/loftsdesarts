@@ -1,18 +1,16 @@
 ## GitHub Initialization
-A repository has already been created named `stts` for Marc Reichel. We will still have to initialize it by generating a **README.md** file containing:
+A repository has already been created named `loftdesarts` https://github.com/mrj0nesmtl/loftsdesarts for Loft des Arts Condominiums. We will still have to initialize it by generating a **README.md** file containing:
 
 ```markdown
-# STTS Website – Marc Reichel Special Effects
+# Lofts des Arts Condominiums
 
 ## Project Overview
-This is the official website for **Marc Reichel**, a world-renowned special effects expert and pyrotechnician. Built using **React + Vite**, this site highlights Marc’s extensive filmography, career highlights, and offers direct contact options for film, TV, and commercial work.
+This is the official website for **Lot des Arts Condominiums**. Built using **Next.js**, this site highlights the condominium's history, amenities, and offers direct contact options for the Board of Directors.
 
 ## Features
 - Cinematic landing page with looping hero video.
-- Dynamic portfolio page pulling data from IMDb.
-- Dedicated highlight reel showcase page.
-- Contact & About section featuring studio info and Marc’s career background.
-- Fully responsive with dark, industrial design inspired by Marc’s explosive work.
+- Contact & About section featuring condominium info and Board of Directors.
+- Fully responsive with dark, industrial design inspired by Lot des Arts Condominiums.
 
 ## Tech Stack
 - React (Vite)
@@ -23,12 +21,12 @@ This is the official website for **Marc Reichel**, a world-renowned special effe
 
 ## Pages
 - Home (Landing Page)
-- Portfolio (Selected Works & Full Credits)
 - Contact & About (Form, Bio, Social Links)
+- Admin Dashboard (Contact form submissions, website content management, and parcel delivery tracking)
 
 ## Installation
 ```bash
-git clone https://github.com/mrj0nesmtl/stts.git
-cd stts
+git clone https://github.com/mrj0nesmtl/loftsdesarts.git
+cd loftsdesarts
 npm install
 npm run dev
