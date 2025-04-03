@@ -1,6 +1,6 @@
 # Lofts des Arts Condominiums
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/mrj0nesmtl/loftsdesarts/blob/main/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.5-blue.svg)](https://github.com/mrj0nesmtl/loftsdesarts/blob/main/CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-alpha-orange.svg)](https://github.com/mrj0nesmtl/loftsdesarts/blob/main/STATUS.md)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
@@ -20,6 +20,7 @@ This website serves as the digital presence for Lofts des Arts Condominiums, fea
 - Photo gallery showcasing the property
 - Contact information for the Board of Directors
 - Admin dashboard for board members and staff (contact form submissions, website content management, and parcel delivery tracking)
+- Dark/Light theme toggle for personalized user experience
 
 ## Project Vision
 
@@ -32,6 +33,7 @@ The site delivers an elegant, sophisticated experience with an aesthetic that re
 - **Frontend**: Next.js 14, TypeScript, Tailwind CSS, Shadcn/ui
 - **Backend**: Supabase (Auth, Storage, Database)
 - **Deployment**: Replit
+- **Theme System**: Context-based theme provider with localStorage persistence
 
 ## Key Features
 
@@ -40,6 +42,7 @@ The site delivers an elegant, sophisticated experience with an aesthetic that re
 - **About Page** - Building history, amenities, and surrounding neighborhood
 - **Gallery** - Photo gallery showcasing the condominium's architecture, common spaces, and views
 - **Contact** - Contact form for inquiries to the board of directors
+- **Theme Toggle** - Dark/Light mode for personalized browsing experience
 
 ### Admin Dashboard
 - **Authentication**: Secure login for board members and staff
@@ -47,6 +50,7 @@ The site delivers an elegant, sophisticated experience with an aesthetic that re
 - **Inquiries**: View, manage, and respond to contact form submissions
 - **Content Management**: Edit the website content and gallery
 - **Parcel Delivery Tracking**: Track parcel deliveries for residents
+- **Mobile-Optimized**: Responsive design for managing condominium affairs on the go
 
 ## Documentation
 
@@ -65,6 +69,11 @@ git clone https://github.com/mrj0nesmtl/loftsdesarts.git
 cd loftsdesarts
 npm install
 npm run dev
+```
+
+For network access (mobile testing):
+```bash
+npm run dev:network
 ```
 
 ## Development Timeline

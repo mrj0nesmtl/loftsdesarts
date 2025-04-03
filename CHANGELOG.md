@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2025-04-06
+
+### Added
+- Light/Dark theme toggle functionality across the site
+- Theme context provider with localStorage persistence
+- Network-accessible development server for mobile testing
+- Mobile testing guide with troubleshooting tips
+- Reusable ThemeToggle component
+
+### Changed
+- Updated admin header layout to match public site for consistency
+- Improved logo sizing and placement for better visual hierarchy
+- Refactored global CSS variables for better theme support
+
+### Fixed
+- Logo 404 error in the admin interface
+- Hydration errors in client components
+- Theme toggle button functionality in admin layout
+- Header element alignment and consistency
+
 ## [0.1.0] - 2025-04-04
 
 ### Added
