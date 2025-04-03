@@ -17,37 +17,33 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_profiles_updated_at
-BEFORE UPDATE ON profiles
-FOR EACH ROW
-EXECUTE FUNCTION update_modified_column();
+-- Add IF NOT EXISTS to avoid errors on re-run
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_profiles_updated_at') THEN
+    CREATE TRIGGER update_profiles_updated_at
+    BEFORE UPDATE ON profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION update_modified_column();
+  END IF;
+END $$;
 
 -- Set up Row Level Security (RLS)
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 -- Create policy for admins to view their own profile
+DROP POLICY IF EXISTS "Users can view their own profile" ON profiles;
 CREATE POLICY "Users can view their own profile" 
 ON profiles 
 FOR SELECT 
 USING (auth.uid() = id);
 
 -- Create policy for admins to update their own profile
+DROP POLICY IF EXISTS "Users can update their own profile" ON profiles;
 CREATE POLICY "Users can update their own profile" 
 ON profiles 
 FOR UPDATE 
 USING (auth.uid() = id);
 
--- Insert Marc's profile (Replace the UUID with Marc's actual auth.users ID)
-INSERT INTO profiles (id, email, role) 
-VALUES ('8f1769d-7eba-4518-8012-8510439f98e1', 'joel.yaffe+lda@gmail.com', 'ADMIN')
-ON CONFLICT (id) DO NOTHING;
-
--- Insert your profile (Replace the UUID with your actual auth.users ID)
-INSERT INTO profiles (id, email, role) 
-VALUES ('8b689ccb-eb1e-4aa3-a928-4cabe8bbac1d', 'sttsreichel@gmail.com', 'ADMIN')
-ON CONFLICT (id) DO NOTHING;
-
--- Modify the INSERT statements to use your condominium board emails
-INSERT INTO profiles (id, email, role) 
-VALUES ('your-board-member-uuid', 'board-member@example.com', 'ADMIN')
-ON CONFLICT (id) DO NOTHING; 
+-- Note: Board member profiles are inserted in a separate script (insert_board_profiles.sql)
+-- with the correct UUIDs after user registration
