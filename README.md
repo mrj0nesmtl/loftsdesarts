@@ -1,5 +1,16 @@
 # Lofts des Arts Condominiums
+
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/mrj0nesmtl/loftsdesarts/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-alpha-orange.svg)](https://github.com/mrj0nesmtl/loftsdesarts/blob/main/STATUS.md)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3-38bdf8.svg)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-2.0-3ecf8e.svg)](https://supabase.io/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 A modern, elegant website for Lofts des Arts Condominiums located in Montreal, Quebec.
+
+**🌐 [Live Site](https://loftsdesarts.replit.app)**
 
 ## Overview
 
@@ -37,6 +48,17 @@ The site delivers an elegant, sophisticated experience with an aesthetic that re
 - **Content Management**: Edit the website content and gallery
 - **Parcel Delivery Tracking**: Track parcel deliveries for residents
 
+## Documentation
+
+This project includes comprehensive documentation to guide development and usage:
+
+- [Project Status](STATUS.md) - Current development status and progress tracking
+- [Changelog](CHANGELOG.md) - History of changes and versions
+- [Roadmap](ROADMAP.md) - Development plan and timeline for future features
+- [Statement of Work](SOW.md) - Detailed project scope and deliverables
+- [Request for Product](RFP.md) - Original project requirements
+- [Developer Documentation](docs/README.md) - Comprehensive guide for developers
+
 ## Installation
 ```bash
 git clone https://github.com/mrj0nesmtl/loftsdesarts.git
@@ -44,3 +66,20 @@ cd loftsdesarts
 npm install
 npm run dev
 ```
+
+## Development Timeline
+
+The project is following a phased approach:
+
+- **Phase 1**: Foundation - Core website and admin functionality ✅
+- **Phase 2**: Extended Admin - Document management and enhanced analytics
+- **Phase 3**: Resident Portal - Resident accounts and service requests
+- **Phase 4**: Community Features - Events and amenities booking
+- **Phase 5**: Advanced Features - Mobile app and integrations
+- **Phase 6**: Optimization - Performance and usability improvements
+
+See [ROADMAP.md](ROADMAP.md) for the detailed development plan.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
