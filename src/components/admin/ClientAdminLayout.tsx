@@ -40,56 +40,59 @@ export function PublicSiteBanner() {
 function PublicSiteHeader() {
   return (
     <header className="bg-black text-white w-full py-4 px-6 flex justify-between items-center border-b border-zinc-800">
-      <Link href="/" className="flex items-center">
-        <Image
-          src="/logos/loftsdesarts-logo-white.png"
-          alt="Lofts des Arts"
-          width={180}
-          height={50}
-          className="h-10 w-auto"
-          priority
-        />
+      <Link href="/" className="flex items-center" target="_blank">
+        <div className="relative h-10 w-40">
+          <Image
+            src="/images/logo-light.png"
+            alt="Lofts des Arts"
+            fill
+            style={{ objectFit: 'contain', objectPosition: 'left' }}
+            priority
+          />
+        </div>
       </Link>
       
       <nav className="hidden md:flex items-center gap-8">
-        <Link href="/" className="text-white hover:text-gray-300 transition-colors">
+        <Link href="/" className="text-white hover:text-gray-300 transition-colors" target="_blank">
           Accueil
         </Link>
-        <Link href="/galerie" className="text-white hover:text-gray-300 transition-colors">
+        <Link href="/galerie" className="text-white hover:text-gray-300 transition-colors" target="_blank">
           Galerie
         </Link>
-        <Link href="/a-propos" className="text-white hover:text-gray-300 transition-colors">
+        <Link href="/a-propos" className="text-white hover:text-gray-300 transition-colors" target="_blank">
           À Propos
         </Link>
-        <Link href="/contact" className="text-white hover:text-gray-300 transition-colors">
+        <Link href="/contact" className="text-white hover:text-gray-300 transition-colors" target="_blank">
           Contact
         </Link>
       </nav>
       
       <div className="flex items-center gap-4">
-        <button className="text-white">
+        <button 
+          className="text-white hover:text-gray-300 transition-colors"
+          aria-label="Toggle theme"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
+            className="h-5 w-5"
             viewBox="0 0 24 24"
+            fill="none"
             stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
-            />
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
         </button>
-        
-        <Link
-          href="/admin/dashboard"
-          className="bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-2 px-4 rounded transition-colors"
-        >
-          Connexion
-        </Link>
       </div>
     </header>
   );
