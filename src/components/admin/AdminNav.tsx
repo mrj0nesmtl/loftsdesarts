@@ -7,11 +7,15 @@ import { useAuth } from "@/lib/auth";
 interface AdminNavProps {
   isExpanded: boolean;
   onToggle: () => void;
+  signOut?: () => Promise<void>;
 }
 
-export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
+export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProps) {
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
+  
+  // Get the signOut function from props or from auth context as fallback
+  const handleSignOut = signOut || useAuth().signOut;
 
   const isActive = (path: string) => {
     return pathname === path || pathname?.startsWith(`${path}/`);
@@ -112,9 +116,9 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
         )}
           
         <button
-          onClick={signOut}
+          onClick={handleSignOut}
           className={`flex items-center ${isExpanded ? 'space-x-2' : 'justify-center'} w-full px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-md transition-colors`}
-          title="Sign out"
+          title="Déconnexion"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414l-5-5H3zm4 9h6v2H7v-2zm4-3h2v2h-2V9zm-4 0h2v2H7V9z" clipRule="evenodd" />

@@ -13,7 +13,7 @@ export default function ClientAdminLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, signOut } = useAuth();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   
   useEffect(() => {
@@ -67,6 +67,7 @@ export default function ClientAdminLayout({
           <AdminNav 
             isExpanded={isSidebarExpanded} 
             onToggle={toggleSidebar} 
+            signOut={signOut}
           />
         </aside>
         

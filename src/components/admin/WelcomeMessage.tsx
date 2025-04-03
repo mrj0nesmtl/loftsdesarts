@@ -1,107 +1,79 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
-import { generateInitials } from '@/lib/helpers';
+import { User } from '@supabase/supabase-js';
+import { useAuth } from '@/lib/auth';
 
-interface BoardMember {
-  name: string;
-  role: string;
-  email: string;
+interface WelcomeMessageProps {
+  userName?: string;
 }
 
-export function WelcomeMessage() {
-  const { user } = useAuth();
-  const [boardMember, setBoardMember] = useState<BoardMember | null>(null);
-  const [greeting, setGreeting] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+export function WelcomeMessage({ userName }: WelcomeMessageProps) {
+  const { user: authUser } = useAuth();
+  const [greeting, setGreeting] = useState<string>('');
+  const [mounted, setMounted] = useState<boolean>(false);
 
+  // Set up initial state
   useEffect(() => {
-    if (!user) return;
+    setMounted(true);
+  }, []);
 
-    // Generate greeting based on time of day
-    const getTimeBasedGreeting = () => {
-      const hour = new Date().getHours();
-      if (hour < 12) return 'Bonjour';
-      if (hour < 18) return 'Bon après-midi';
-      return 'Bonsoir';
-    };
-
-    setGreeting(getTimeBasedGreeting());
-
-    // Get board member info
-    const getBoardMemberInfo = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single();
-
-        if (error) throw error;
-
-        // Map known emails to names if not in profile
-        const memberInfo: BoardMember = {
-          email: user.email || '',
-          role: data?.role || 'ADMIN',
-          name: ''
-        };
-
-        // Map emails to names
-        switch (user.email) {
-          case 'joel.yaffe+lda@gmail.com':
-            memberInfo.name = 'Joel Yaffe';
-            break;
-          case 'viviane.sokoluk@gmail.com':
-            memberInfo.name = 'Viviane Sokoluk';
-            break;
-          case 'info@jacquesgermain.com':
-            memberInfo.name = 'Jacques Germain';
-            break;
-          case 'david.morissette@loftsdesarts.ca':
-            memberInfo.name = 'David Morissette';
-            break;
-          default:
-            // Use the email name part as fallback
-            memberInfo.name = user.email?.split('@')[0]?.replace(/\./g, ' ') || '';
-            // Capitalize each word
-            memberInfo.name = memberInfo.name
-              .split(' ')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ');
-        }
-
-        setBoardMember(memberInfo);
-      } catch (error) {
-        console.error('Error fetching board member info:', error);
-      } finally {
-        setIsLoading(false);
+  // Set greeting based on user
+  useEffect(() => {
+    if (!mounted) return;
+    
+    const hour = new Date().getHours();
+    let timeGreeting = 'Bonjour';
+    let displayName = userName;
+    
+    // If no userName provided, try to get it from user metadata
+    if (!displayName && authUser?.user_metadata?.full_name) {
+      displayName = authUser.user_metadata.full_name;
+    }
+    
+    // Fallback to email mapping if no name found
+    if (!displayName && authUser?.email) {
+      switch (authUser.email) {
+        case 'joel.yaffe+lda@gmail.com':
+          displayName = 'Joel Yaffe';
+          break;
+        case 'viviane.sokoluk@gmail.com':
+          displayName = 'Viviane Sokoluk';
+          break;
+        case 'info@jacquesgermain.com':
+          displayName = 'Jacques Germain';
+          break;
+        case 'david.morissette@loftsdesarts.ca':
+          displayName = 'David Morissette';
+          break;
+        default:
+          displayName = authUser.email.split('@')[0]
+            .split('.')
+            .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
       }
-    };
+    }
+    
+    if (hour >= 12 && hour < 18) {
+      timeGreeting = 'Bon après-midi';
+    } else if (hour >= 18) {
+      timeGreeting = 'Bonsoir';
+    }
+    
+    setGreeting(`${timeGreeting}, ${displayName || 'User'}!`);
+  }, [authUser, userName, mounted]);
 
-    getBoardMemberInfo();
-  }, [user]);
-
-  if (isLoading || !boardMember) {
-    return null;
+  if (!mounted) {
+    return <div className="min-h-[60px]" aria-hidden="true" />;
   }
 
   return (
-    <div className="bg-zinc-800/50 border-l-4 border-red-600 p-4 rounded-lg mb-8">
-      <div className="flex items-center">
-        <div className="h-12 w-12 rounded-full bg-red-600/20 flex items-center justify-center text-red-500 text-xl font-bold mr-4">
-          {generateInitials(boardMember.name)}
-        </div>
-        <div>
-          <h2 className="text-2xl font-medium">
-            {greeting}, {boardMember.name}!
-          </h2>
-          <p className="text-zinc-400">
-            Bienvenue au tableau de bord d'administration du Syndicat Lofts des Arts
-          </p>
-        </div>
-      </div>
+    <div className="space-y-2 pb-4 md:pb-6">
+      <h1 className="text-3xl font-bold tracking-tight">{greeting}</h1>
+      <p className="text-zinc-400">
+        Bienvenue au tableau de bord d&apos;administration du Syndicat Lofts des Arts
+      </p>
     </div>
   );
 } 
