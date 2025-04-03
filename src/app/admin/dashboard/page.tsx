@@ -1,6 +1,7 @@
 "use client";
 
 import { WelcomeMessage } from '@/components/admin/WelcomeMessage';
+import { PublicSiteBanner } from '@/components/admin/ClientAdminLayout';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -42,6 +43,9 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      {/* Public Website Banner */}
+      <PublicSiteBanner />
+
       <WelcomeMessage />
       
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
