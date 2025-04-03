@@ -3,10 +3,24 @@ CREATE TABLE IF NOT EXISTS contact_inquiries (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   email TEXT NOT NULL,
+  phone TEXT,
   message TEXT NOT NULL,
   viewed BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Check if the phone column exists, if not, add it
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_name = 'contact_inquiries'
+        AND column_name = 'phone'
+    ) THEN
+        ALTER TABLE contact_inquiries ADD COLUMN phone TEXT;
+    END IF;
+END $$;
 
 -- Check if the viewed column exists, if not, add it
 -- This is mostly redundant since we're creating the table with the viewed column

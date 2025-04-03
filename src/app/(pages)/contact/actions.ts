@@ -47,22 +47,24 @@ export async function submitContactForm(formData: FormData) {
     }
 
     // All validation passed, store in Supabase
-    const { error } = await supabase.from('contact_inquiries').insert({
+    const { data, error } = await supabase.from('contact_inquiries').insert({
       name: result.data.name,
       email: result.data.email,
       phone: result.data.phone || null,
       message: result.data.message,
       viewed: false, // Add viewed status field
-    });
+    }).select();
 
     if (error) {
       console.error('Supabase error:', error);
       return {
-        error: 'Échec de l\'envoi du formulaire. Veuillez réessayer plus tard.',
+        message: 'Échec de l\'envoi du formulaire. Veuillez réessayer plus tard.',
         success: false,
       };
     }
 
+    console.log('Contact form submitted successfully:', data);
+    
     return {
       success: true,
       message: 'Merci pour votre message! Nous vous répondrons bientôt.',

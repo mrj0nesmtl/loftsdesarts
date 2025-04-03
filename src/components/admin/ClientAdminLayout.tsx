@@ -8,6 +8,8 @@ import NotificationCenter from "@/components/admin/NotificationCenter";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import Image from "next/image";
+import { useTheme } from "@/lib/theme-provider";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 // Public Site Banner component that can be used across admin pages
 export function PublicSiteBanner() {
@@ -41,58 +43,40 @@ function PublicSiteHeader() {
   return (
     <header className="bg-black text-white w-full py-4 px-6 flex justify-between items-center border-b border-zinc-800">
       <Link href="/" className="flex items-center" target="_blank">
-        <div className="relative h-10 w-40">
-          <Image
-            src="/images/logo-light.png"
-            alt="Lofts des Arts"
-            fill
-            style={{ objectFit: 'contain', objectPosition: 'left' }}
-            priority
-          />
-        </div>
+        <Image
+          src="/lda_logo.png"
+          alt="Lofts des Arts"
+          width={140}
+          height={40}
+          className="h-8 w-auto"
+          priority
+        />
       </Link>
       
-      <nav className="hidden md:flex items-center gap-8">
-        <Link href="/" className="text-white hover:text-gray-300 transition-colors" target="_blank">
-          Accueil
-        </Link>
-        <Link href="/galerie" className="text-white hover:text-gray-300 transition-colors" target="_blank">
-          Galerie
-        </Link>
-        <Link href="/a-propos" className="text-white hover:text-gray-300 transition-colors" target="_blank">
-          À Propos
-        </Link>
-        <Link href="/contact" className="text-white hover:text-gray-300 transition-colors" target="_blank">
-          Contact
-        </Link>
-      </nav>
-      
-      <div className="flex items-center gap-4">
-        <button 
-          className="text-white hover:text-gray-300 transition-colors"
-          aria-label="Toggle theme"
+      <div className="flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6">
+          <Link href="/" className="text-white hover:text-gray-300 transition-colors" target="_blank">
+            Accueil
+          </Link>
+          <Link href="/galerie" className="text-white hover:text-gray-300 transition-colors" target="_blank">
+            Galerie
+          </Link>
+          <Link href="/a-propos" className="text-white hover:text-gray-300 transition-colors" target="_blank">
+            À Propos
+          </Link>
+          <Link href="/contact" className="text-white hover:text-gray-300 transition-colors" target="_blank">
+            Contact
+          </Link>
+        </nav>
+        
+        <ThemeToggle />
+        
+        <Link
+          href="/admin"
+          className="text-sm font-medium px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded transition-colors"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="5" />
-            <line x1="12" y1="1" x2="12" y2="3" />
-            <line x1="12" y1="21" x2="12" y2="23" />
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-            <line x1="1" y1="12" x2="3" y2="12" />
-            <line x1="21" y1="12" x2="23" y2="12" />
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-          </svg>
-        </button>
+          Connexion
+        </Link>
       </div>
     </header>
   );

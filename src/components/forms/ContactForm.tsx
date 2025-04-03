@@ -33,11 +33,24 @@ export function ContactForm() {
     });
     
     startTransition(async () => {
-      const result = await submitContactForm(formData);
-      setFormStatus(result);
-      
-      if (result.success) {
-        reset();
+      try {
+        const result = await submitContactForm(formData);
+        setFormStatus(result);
+        
+        if (result.success) {
+          reset();
+          // Scroll to the top of the form to show success message
+          window.scrollTo({
+            top: window.scrollY - 200,
+            behavior: 'smooth',
+          });
+        }
+      } catch (err) {
+        console.error('Error submitting form:', err);
+        setFormStatus({
+          success: false,
+          message: 'Une erreur s\'est produite lors de l\'envoi du formulaire. Veuillez réessayer.'
+        });
       }
     });
   };
