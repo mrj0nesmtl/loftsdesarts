@@ -1,10 +1,12 @@
 import { Inter } from "next/font/google";
-import { defaultMetadata } from "@/lib/seo";
+import { defaultMetadata, defaultViewport } from "@/lib/seo";
+import { ThemeProvider } from "@/lib/theme-provider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = defaultMetadata;
+export const viewport = defaultViewport;
 
 export default function RootLayout({
   children,
@@ -12,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-white dark:bg-black dark:text-white`}>
-        {children}
+    <html lang="fr" className="dark">
+      <body className={`${inter.className} bg-background text-foreground dark:bg-black dark:text-white`}>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

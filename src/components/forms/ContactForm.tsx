@@ -1,149 +1,155 @@
 "use client";
 
-import { useState } from "react";
-import { submitContactForm, ContactFormData } from "@/lib/actions/contact";
+import { useState, useTransition } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { submitContactForm } from "@/app/(pages)/contact/actions";
+
+type FormValues = {
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+};
 
 export function ContactForm() {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
-    email: "",
-    project_type: "",
-    message: ""
-  });
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string | null;
-  }>({ type: null, message: null });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setFormStatus({ type: null, message: null });
-
-    try {
+    success?: boolean;
+    message?: string;
+    fieldErrors?: Record<string, string[]>;
+  }>({});
+  const [isPending, startTransition] = useTransition();
+  
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>();
+  
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value) formData.append(key, value);
+    });
+    
+    startTransition(async () => {
       const result = await submitContactForm(formData);
+      setFormStatus(result);
       
       if (result.success) {
-        setFormStatus({
-          type: "success",
-          message: "Your message has been sent successfully. We'll be in touch soon!"
-        });
-        
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          project_type: "",
-          message: ""
-        });
-      } else {
-        setFormStatus({
-          type: "error",
-          message: result.error || "Failed to send message. Please try again."
-        });
+        reset();
       }
-    } catch (error) {
-      setFormStatus({
-        type: "error",
-        message: "An unexpected error occurred. Please try again later."
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   };
-
+  
   return (
-    <div className="bg-zinc-900 rounded-lg p-6">
-      <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
-      {formStatus.type && (
-        <div 
-          className={`mb-6 p-4 rounded-md ${
-            formStatus.type === "success" ? "bg-green-900/50 text-green-300" : "bg-red-900/50 text-red-300"
-          }`}
-        >
-          {formStatus.message}
-        </div>
-      )}
+    <div className="bg-zinc-900 p-6 rounded-lg">
+      <h2 className="text-2xl font-semibold mb-6">Contactez le Conseil</h2>
       
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-zinc-400 mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-            required
-          />
+      {formStatus.success ? (
+        <div className="bg-green-900/50 text-green-300 p-4 rounded-md mb-6">
+          {formStatus.message || "Votre message a été envoyé avec succès."}
         </div>
-        
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-zinc-400 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-            required
-          />
-        </div>
-        
-        <div>
-          <label htmlFor="project_type" className="block text-sm font-medium text-zinc-400 mb-1">
-            Project Type
-          </label>
-          <select
-            id="project_type"
-            value={formData.project_type}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-            required
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block mb-2 text-sm font-medium">
+              Votre Nom
+            </label>
+            <input
+              id="name"
+              type="text"
+              className={`w-full px-4 py-2 bg-zinc-800 border ${
+                errors.name ? "border-red-500" : "border-zinc-700"
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-zinc-600`}
+              {...register("name", { required: "Le nom est requis" })}
+              disabled={isPending}
+            />
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+            )}
+          </div>
+          
+          <div>
+            <label htmlFor="email" className="block mb-2 text-sm font-medium">
+              Adresse E-mail
+            </label>
+            <input
+              id="email"
+              type="email"
+              className={`w-full px-4 py-2 bg-zinc-800 border ${
+                errors.email ? "border-red-500" : "border-zinc-700"
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-zinc-600`}
+              {...register("email", {
+                required: "L'e-mail est requis",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Adresse e-mail invalide",
+                },
+              })}
+              disabled={isPending}
+            />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
+          
+          <div>
+            <label htmlFor="phone" className="block mb-2 text-sm font-medium">
+              Numéro de Téléphone <span className="text-zinc-500">(Optionnel)</span>
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-zinc-600"
+              {...register("phone")}
+              disabled={isPending}
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="message" className="block mb-2 text-sm font-medium">
+              Message
+            </label>
+            <textarea
+              id="message"
+              rows={5}
+              className={`w-full px-4 py-2 bg-zinc-800 border ${
+                errors.message ? "border-red-500" : "border-zinc-700"
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-zinc-600`}
+              {...register("message", {
+                required: "Le message est requis",
+                minLength: {
+                  value: 10,
+                  message: "Le message doit comporter au moins 10 caractères",
+                },
+              })}
+              disabled={isPending}
+            ></textarea>
+            {errors.message && (
+              <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+            )}
+          </div>
+          
+          {formStatus.message && !formStatus.success && (
+            <div className="bg-red-900/50 text-red-300 p-4 rounded-md">
+              {formStatus.message}
+            </div>
+          )}
+          
+          <button
+            type="submit"
+            className="w-full px-6 py-3 bg-zinc-700 hover:bg-zinc-600 text-white font-medium rounded-md transition-colors disabled:opacity-70"
+            disabled={isPending}
           >
-            <option value="">Select a project type</option>
-            <option value="film">Film</option>
-            <option value="tv">TV</option>
-            <option value="commercial">Commercial</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium text-zinc-400 mb-1">
-            Message
-          </label>
-          <textarea
-            id="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows={5}
-            className="w-full px-4 py-3 rounded-md bg-zinc-800 border border-zinc-700 text-white"
-            required
-          ></textarea>
-        </div>
-        
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? "Sending..." : "Send Message"}
-        </button>
-      </form>
+            {isPending ? "Envoi en cours..." : "Envoyer le Message"}
+          </button>
+          
+          <p className="text-sm text-zinc-500 mt-4">
+            Votre demande sera envoyée au Conseil d'Administration des Lofts des Arts.
+          </p>
+        </form>
+      )}
     </div>
   );
 } 

@@ -22,7 +22,7 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
       <button 
         onClick={onToggle}
         className="w-full flex items-center justify-center p-2 mb-4 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-md transition-colors"
-        aria-label={isExpanded ? "Collapse Sidebar" : "Expand Sidebar"}
+        aria-label={isExpanded ? "Réduire le panneau latéral" : "Agrandir le panneau latéral"}
       >
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
@@ -37,7 +37,7 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
           )}
         </svg>
-        {isExpanded && <span className="ml-2">Collapse</span>}
+        {isExpanded && <span className="ml-2">Réduire</span>}
       </button>
       
       <div className="space-y-6">
@@ -52,7 +52,7 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
               </svg>
             }
           >
-            Dashboard
+            Tableau de bord
           </NavLink>
           
           <NavLink 
@@ -66,7 +66,7 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
               </svg>
             }
           >
-            Analytics
+            Analytique
           </NavLink>
           
           <NavLink 
@@ -80,7 +80,7 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
               </svg>
             }
           >
-            Inquiries
+            Demandes
           </NavLink>
           
           <NavLink 
@@ -93,14 +93,14 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
               </svg>
             }
           >
-            Settings
+            Paramètres
           </NavLink>
         </div>
         
         {isExpanded && (
           <div className="pt-4 border-t border-zinc-700">
             <div className="mb-2 px-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-              Account
+              Compte
             </div>
             
             {user && (
@@ -120,7 +120,7 @@ export default function AdminNav({ isExpanded, onToggle }: AdminNavProps) {
             <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414l-5-5H3zm4 9h6v2H7v-2zm4-3h2v2h-2V9zm-4 0h2v2H7V9z" clipRule="evenodd" />
             <path d="M14.293 5.293L9 10.586V12h1.414l5.293-5.293L14.293 5.293z" />
           </svg>
-          {isExpanded && <span>Sign out</span>}
+          {isExpanded && <span>Déconnexion</span>}
         </button>
       </div>
     </nav>

@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-zinc-500"></div>
       </div>
     );
   }
@@ -31,8 +31,8 @@ export default function AdminLoginPage() {
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/stts_contact.jpg"
-          alt="STTS Background"
+          src="/lda_bg.png"
+          alt="Lofts des Arts Background"
           fill
           className="object-cover"
           priority
@@ -49,12 +49,12 @@ export default function AdminLoginPage() {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Back to Site
+          Retour au Site
         </Link>
         
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-red-500">STTS</h1>
-          <p className="text-zinc-400 mt-2">Admin Portal</p>
+          <h1 className="text-2xl font-bold text-white">Syndicate Lofts des Arts</h1>
+          <p className="text-zinc-400 mt-2">Portail d'Administration</p>
         </div>
         
         <LoginForm />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { WelcomeMessage } from "@/components/admin/WelcomeMessage";
 
 interface AnalyticsData {
   totalPageViews: number;
@@ -112,6 +113,8 @@ export default function AnalyticsPage() {
 
   return (
     <div>
+      <WelcomeMessage />
+      
       <h1 className="text-3xl font-bold mb-8">Analytics</h1>
       
       {/* Key Metrics */}

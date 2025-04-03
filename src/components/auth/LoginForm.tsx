@@ -18,10 +18,10 @@ export function LoginForm() {
     try {
       const { error } = await signIn(email, password);
       if (error) {
-        setError(error.message || "Invalid email or password");
+        setError(error.message || "Adresse e-mail ou mot de passe invalide");
       }
     } catch (err) {
-      setError("An unexpected error occurred. Please try again.");
+      setError("Une erreur inattendue s'est produite. Veuillez réessayer.");
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -30,7 +30,7 @@ export function LoginForm() {
 
   return (
     <div className="bg-zinc-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 className="text-2xl font-bold text-white mb-6">Admin Login</h2>
+      <h2 className="text-2xl font-bold text-white mb-6">Connexion Admin</h2>
       
       {error && (
         <div className="mb-4 p-3 bg-red-500/20 border border-red-500 text-red-200 rounded-md">
@@ -41,7 +41,7 @@ export function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-1">
-            Email
+            Adresse e-mail
           </label>
           <input
             id="email"
@@ -50,12 +50,13 @@ export function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-3 rounded-md bg-zinc-700 border border-zinc-600 text-white"
             required
+            autoComplete="username"
           />
         </div>
         
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-zinc-300 mb-1">
-            Password
+            Mot de passe
           </label>
           <input
             id="password"
@@ -64,15 +65,16 @@ export function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-3 rounded-md bg-zinc-700 border border-zinc-600 text-white"
             required
+            autoComplete="current-password"
           />
         </div>
         
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full px-6 py-3 bg-zinc-700 hover:bg-zinc-600 text-white font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Signing in..." : "Sign In"}
+          {isLoading ? "Connexion en cours..." : "Se connecter"}
         </button>
       </form>
     </div>

@@ -15,10 +15,10 @@ function isValidUrl(urlString: string): boolean {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Valid email is required'),
+  name: z.string().min(1, 'Le nom est requis'),
+  email: z.string().email('Une adresse e-mail valide est requise'),
   phone: z.string().optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  message: z.string().min(10, 'Le message doit comporter au moins 10 caractères'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -40,7 +40,7 @@ export async function submitContactForm(formData: FormData) {
       // Return validation errors
       const fieldErrors = result.error.flatten().fieldErrors;
       return {
-        error: 'Validation failed',
+        error: 'Validation échouée',
         fieldErrors,
         success: false,
       };
@@ -58,19 +58,19 @@ export async function submitContactForm(formData: FormData) {
     if (error) {
       console.error('Supabase error:', error);
       return {
-        error: 'Failed to submit form. Please try again later.',
+        error: 'Échec de l\'envoi du formulaire. Veuillez réessayer plus tard.',
         success: false,
       };
     }
 
     return {
       success: true,
-      message: 'Thank you for your message! We will get back to you soon.',
+      message: 'Merci pour votre message! Nous vous répondrons bientôt.',
     };
   } catch (error) {
     console.error('Unexpected error:', error);
     return {
-      error: 'An unexpected error occurred. Please try again later.',
+      error: 'Une erreur inattendue s\'est produite. Veuillez réessayer plus tard.',
       success: false,
     };
   }

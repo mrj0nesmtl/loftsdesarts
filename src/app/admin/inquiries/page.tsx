@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { WelcomeMessage } from "@/components/admin/WelcomeMessage";
 
 interface Inquiry {
   id: string;
@@ -105,6 +106,8 @@ export default function InquiriesPage() {
 
   return (
     <div>
+      <WelcomeMessage />
+      
       <h1 className="text-3xl font-bold mb-8">Inquiries</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
+import { WelcomeMessage } from "@/components/admin/WelcomeMessage";
 
 export default function SettingsPage() {
   const { user, signOut } = useAuth();
@@ -19,6 +20,8 @@ export default function SettingsPage() {
 
   return (
     <div>
+      <WelcomeMessage />
+      
       <h1 className="text-3xl font-bold mb-8">Settings</h1>
       
       <div className="grid grid-cols-1 gap-6">

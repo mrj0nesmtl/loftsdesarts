@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { WelcomeMessage } from "@/components/admin/WelcomeMessage";
 
 interface DashboardStats {
   totalInquiries: number;
@@ -75,6 +76,8 @@ export default function DashboardPage() {
 
   return (
     <div>
+      <WelcomeMessage />
+      
       <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
