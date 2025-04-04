@@ -4,7 +4,7 @@ This file tracks the current status and progress of the Lofts des Arts website p
 
 ## Current Status: Phase 2 - Extended Admin Capabilities
 
-Last Updated: April 10, 2025
+Last Updated: April 3, 2025
 
 ## Phase 1: Foundation ✅
 **Completion: 100%**
@@ -49,22 +49,22 @@ Last Updated: April 10, 2025
 
 ### In Progress
 - [ ] Document management system - 30% complete
-  - [x] Basic file upload functionality
-  - [x] Storage bucket configuration in Supabase
+  - [ ] Basic file upload functionality
+  - [ ] Storage bucket configuration in Supabase
   - [ ] Category organization structure - in progress
   - [ ] Document versioning - not started
   - [ ] Access control implementation - not started
 - [ ] Enhanced analytics dashboard - 25% complete
-  - [x] Basic metrics collection
+  - [ ] Basic metrics collection
   - [ ] Data visualization components - in progress
   - [ ] Custom reporting functionality - not started
 - [ ] Board announcement system - 20% complete
-  - [x] Database schema design
+  - [ ] Database schema design
   - [ ] Announcement creation interface - in progress
   - [ ] Publishing workflow - not started
 - [ ] Email notification system - 40% complete
-  - [x] Email service integration (SendGrid)
-  - [x] Template system for emails
+  - [ ] Email service integration (SendGrid)
+  - [ ] Template system for emails
   - [ ] Notification preferences - in progress
   - [ ] Scheduled delivery - not started
 
