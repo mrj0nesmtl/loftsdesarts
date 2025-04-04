@@ -25,7 +25,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
     <nav className="py-4 px-2">
       <button 
         onClick={onToggle}
-        className="w-full flex items-center justify-center p-2 mb-6 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-md transition-colors"
+        className="w-full flex items-center justify-center p-2 mb-6 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
         aria-label={isExpanded ? "Réduire le panneau latéral" : "Agrandir le panneau latéral"}
       >
         <svg 
@@ -106,15 +106,15 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
         </div>
         
         {isExpanded && (
-          <div className="pt-6 border-t border-zinc-700">
-            <div className="mb-3 px-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+          <div className="pt-6 border-t border-border">
+            <div className="mb-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Compte
             </div>
             
             {user && (
-              <div className="px-4 py-2 mb-3 bg-zinc-800/50 rounded-md">
-                <div className="text-sm font-medium text-zinc-300">{user.email}</div>
-                <div className="text-xs text-zinc-500 mt-1">Administrateur</div>
+              <div className="px-4 py-2 mb-3 bg-muted/50 rounded-md">
+                <div className="text-sm font-medium text-card-foreground">{user.email}</div>
+                <div className="text-xs text-muted-foreground mt-1">Administrateur</div>
               </div>
             )}
           </div>
@@ -123,7 +123,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
         <div className={`${isExpanded ? 'px-4' : ''} mt-4`}>
           <button
             onClick={handleSignOut}
-            className={`flex items-center ${isExpanded ? 'w-full' : 'justify-center'} px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors`}
+            className={`flex items-center ${isExpanded ? 'w-full' : 'justify-center'} px-4 py-2 text-sm font-medium text-primary-foreground bg-destructive hover:bg-destructive/90 rounded-md transition-colors`}
             title="Déconnexion"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -153,8 +153,8 @@ function NavLink({ href, isActive, isExpanded, icon, children }: NavLinkProps) {
       href={href}
       className={`flex items-center ${isExpanded ? 'space-x-3' : 'justify-center'} px-4 py-3 rounded-md transition-colors ${
         isActive 
-          ? "bg-red-600 text-white" 
-          : "text-zinc-400 hover:text-white hover:bg-zinc-700"
+          ? "bg-primary text-primary-foreground" 
+          : "text-muted-foreground hover:text-foreground hover:bg-muted"
       }`}
       title={isExpanded ? undefined : String(children)}
     >

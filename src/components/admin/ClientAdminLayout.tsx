@@ -8,23 +8,23 @@ import NotificationCenter from "@/components/admin/NotificationCenter";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "@/lib/theme-provider";
+import { useTheme } from "@/context/ThemeProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 // Public Site Banner component that can be used across admin pages
 export function PublicSiteBanner() {
   return (
-    <div className="rounded-lg bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 p-4 flex items-center justify-between mb-6">
+    <div className="rounded-lg border bg-card p-4 flex items-center justify-between mb-6 theme-transition">
       <div className="flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-400 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-muted-foreground mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
-        <span className="text-zinc-300 font-medium">Lofts des Arts - Site public</span>
+        <span className="text-card-foreground font-medium">Lofts des Arts - Site public</span>
       </div>
       <Link 
         href="/"
-        className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-zinc-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-600 transition-colors"
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-secondary text-secondary-foreground px-3 py-1.5 text-sm font-medium hover:bg-secondary/90 transition-colors"
         target="_blank"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -101,8 +101,8 @@ export default function ClientAdminLayout({
   // Loading state while checking authentication
   if (isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-zinc-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -124,16 +124,16 @@ export default function ClientAdminLayout({
 
   // For all other admin pages, render the full admin layout with sidebar
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-900 text-white">
+    <div className="min-h-screen flex flex-col bg-background text-foreground theme-transition">
       {/* Public site header */}
       <PublicSiteHeader />
       
       {/* Admin header */}
-      <header className="bg-zinc-800 border-b border-zinc-700 p-4 flex justify-between items-center">
+      <header className="bg-card border-b border-border p-4 flex justify-between items-center theme-transition">
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-bold">Syndicate Lofts des Arts - Admin</h1>
-          <span className="text-zinc-400">|</span>
-          <span className="text-zinc-400 hidden sm:inline">{user?.email}</span>
+          <span className="text-muted-foreground">|</span>
+          <span className="text-muted-foreground hidden sm:inline">{user?.email}</span>
         </div>
         <div className="flex items-center space-x-4">
           <NotificationCenter />
@@ -142,7 +142,7 @@ export default function ClientAdminLayout({
       </header>
       
       <div className="flex flex-1 overflow-hidden">
-        <aside className={`${isSidebarExpanded ? 'w-64' : 'w-16'} bg-zinc-800 overflow-y-auto transition-all duration-300 ease-in-out`}>
+        <aside className={`${isSidebarExpanded ? 'w-64' : 'w-16'} bg-card overflow-y-auto transition-all duration-300 ease-in-out theme-transition`}>
           <AdminNav 
             isExpanded={isSidebarExpanded} 
             onToggle={toggleSidebar} 

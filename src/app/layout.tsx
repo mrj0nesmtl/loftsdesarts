@@ -1,7 +1,7 @@
 import { AuthProvider } from '@/lib/auth';
 import { Inter } from "next/font/google";
 import { defaultMetadata, defaultViewport } from "@/lib/seo";
-import { ThemeProvider } from "@/lib/theme-provider";
+import { ThemeProvider } from "@/context/ThemeProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="dark" suppressHydrationWarning>
-      <body className={`${inter.className} bg-background text-foreground dark:bg-black dark:text-white`}>
+    <html lang="fr" suppressHydrationWarning>
+      <body className={`${inter.className} bg-background text-foreground min-h-screen theme-transition`}>
         <AuthProvider>
           <ThemeProvider>{children}</ThemeProvider>
         </AuthProvider>
