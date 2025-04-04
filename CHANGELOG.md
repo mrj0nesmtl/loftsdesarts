@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-04-07
+
+### Added
+- Document management system with folder organization
+- File upload functionality with progress indicators
+- Document preview for images and PDFs
+- File sharing capability with expiring links
+- Folder operations (create, delete, duplicate)
+- File operations (download, delete, duplicate, share)
+- Document metadata display with size and creation date
+- Mobile-responsive document interface
+- Database tables for files and folders
+
+### Changed
+- Updated admin navigation to include document management
+- Enhanced UI components with better accessibility
+- Improved folder navigation with visual hierarchy indicators
+- Added breadcrumb navigation for document browsing
+
+### Fixed
+- Theme persistence issues across page navigation
+- UI component styling inconsistencies
+- Folder selection and navigation issues
+
 ## [0.1.5] - 2025-04-06
 
 ### Added

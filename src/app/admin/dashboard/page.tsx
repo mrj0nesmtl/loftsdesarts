@@ -4,6 +4,9 @@ import { WelcomeMessage } from '@/components/admin/WelcomeMessage';
 import { PublicSiteBanner } from '@/components/admin/ClientAdminLayout';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
+import { useTheme } from '@/context/ThemeProvider';
+import Link from 'next/link';
 
 interface DashboardStats {
   totalInquiries: number;
@@ -12,6 +15,7 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
+  const { theme } = useTheme();
   const [stats, setStats] = useState<DashboardStats>({
     totalInquiries: 0,
     newInquiries: 0,
@@ -50,67 +54,115 @@ export default function DashboardPage() {
       
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {/* Total des demandes */}
-        <div className="rounded-lg bg-zinc-800 border border-zinc-700 p-6">
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-sm font-medium text-zinc-200">Total des demandes</h3>
-          </div>
-          <div className="flex items-center pt-2">
-            <div className="text-2xl font-bold text-white">{stats.totalInquiries}</div>
-          </div>
-        </div>
+        <Card className="theme-transition">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Total des demandes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{stats.totalInquiries}</div>
+          </CardContent>
+        </Card>
 
         {/* Nouvelles demandes */}
-        <div className="rounded-lg bg-zinc-800 border border-zinc-700 p-6">
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-sm font-medium text-zinc-200">Nouvelles demandes (7 jours)</h3>
-          </div>
-          <div className="flex items-center pt-2">
-            <div className="text-2xl font-bold text-white">{stats.newInquiries}</div>
-          </div>
-        </div>
+        <Card className="theme-transition">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Nouvelles demandes</CardTitle>
+            <CardDescription>7 derniers jours</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{stats.newInquiries}</div>
+          </CardContent>
+        </Card>
 
         {/* Dernière activité */}
-        <div className="rounded-lg bg-zinc-800 border border-zinc-700 p-6">
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-sm font-medium text-zinc-200">Dernière activité</h3>
-          </div>
-          <div className="pt-2">
+        <Card className="theme-transition">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Dernière activité</CardTitle>
+          </CardHeader>
+          <CardContent>
             {stats.latestInquiry ? (
-              <div className="text-sm">
-                <p className="text-zinc-300">
+              <div>
+                <p className="font-medium">
                   Nouvelle demande de {stats.latestInquiry.name}
                 </p>
-                <p className="text-xs text-zinc-400 mt-1">
+                <p className="text-sm text-muted-foreground mt-1">
                   {new Date(stats.latestInquiry.created_at).toLocaleDateString('fr-CA')}
                 </p>
               </div>
             ) : (
-              <p className="text-sm text-zinc-300">Aucune demande</p>
+              <p>Aucune demande</p>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Actions rapides */}
-        <div className="rounded-lg bg-zinc-800 border border-zinc-700 p-6">
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-sm font-medium text-zinc-200">Actions rapides</h3>
-          </div>
-          <div className="flex flex-col space-y-2 pt-2">
-            <a 
-              href="/admin/inquiries" 
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-black text-white px-3 py-2 text-sm font-medium hover:bg-zinc-900 border border-zinc-700 transition-colors"
+        <Card className="theme-transition">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Actions rapides</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-2">
+            <Link
+              href="/admin/inquiries"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-primary text-primary-foreground px-3 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
             >
               Voir les demandes
-            </a>
-            <a 
-              href="/" 
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 transition-colors"
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-secondary text-secondary-foreground px-3 py-2 text-sm font-medium hover:bg-secondary/90 transition-colors"
+              target="_blank"
             >
               Visiter le site
-            </a>
-          </div>
-        </div>
+            </Link>
+          </CardContent>
+          <CardFooter className="text-xs text-muted-foreground">
+            Thème actuel: {theme === 'dark' ? 'Foncé' : 'Clair'}
+          </CardFooter>
+        </Card>
       </div>
+      
+      {/* Theme Demo Section */}
+      <Card className="theme-transition">
+        <CardHeader>
+          <CardTitle>Démonstration du thème</CardTitle>
+          <CardDescription>
+            Voici comment les différents éléments d'interface s'affichent dans le thème {theme === 'dark' ? 'foncé' : 'clair'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium">Éléments de texte</h4>
+              <div className="space-y-2 rounded-md border p-2">
+                <p className="text-lg font-bold">Texte en gras</p>
+                <p>Texte normal</p>
+                <p className="text-muted-foreground">Texte secondaire</p>
+                <p className="text-sm text-muted-foreground">Petit texte secondaire</p>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <h4 className="font-medium">Couleurs primaires</h4>
+              <div className="space-y-2">
+                <div className="h-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
+                  Primaire
+                </div>
+                <div className="h-10 rounded-md bg-secondary text-secondary-foreground flex items-center justify-center">
+                  Secondaire
+                </div>
+                <div className="h-10 rounded-md bg-muted text-muted-foreground flex items-center justify-center">
+                  Atténué
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter className="justify-between">
+          <p className="text-sm text-muted-foreground">
+            Utilisez le bouton dans l'en-tête pour changer de thème
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 } 

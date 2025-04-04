@@ -1,6 +1,6 @@
 'use client'
 
-import { useTheme } from "@/lib/theme-provider"
+import { useTheme } from "@/context/ThemeProvider"
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
@@ -8,13 +8,14 @@ export function ThemeToggle() {
   return (
     <button 
       onClick={toggleTheme}
-      className="text-current hover:text-primary transition-colors"
+      className="p-2 rounded-md hover:bg-secondary transition-colors theme-transition"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
       {theme === 'dark' ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="h-[1.2rem] w-[1.2rem]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -35,7 +36,7 @@ export function ThemeToggle() {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="h-[1.2rem] w-[1.2rem]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

@@ -41,6 +41,10 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 
 ### 3.2 Phase 2: Extended Admin Capabilities (April 8-14, 2025)
 - Document management system for administrative documents
+  - Folder organization with hierarchical structure
+  - File upload with progress indicators
+  - Document preview and sharing capabilities 
+  - Permission-based access controls
 - Enhanced analytics dashboard
 - Announcement publishing system
 - Notification center development
@@ -63,7 +67,19 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Profile management functionality
 - Building information repository
 - Maintenance request system
-- Community bulletin board
+- Internal messaging system
+  - Real-time messaging using Supabase Realtime
+  - Direct messaging between residents and management
+  - Group conversations for committees and interest groups
+  - File attachments with secure storage
+  - Message read receipts and delivery status
+  - Push notifications for new messages
+- Package management system
+  - Staff interface for logging incoming packages
+  - QR code generation for package tracking
+  - Resident notification via email and in-app alerts
+  - Package pickup confirmation with electronic signature
+  - Package history and reporting dashboard
 - Service provider directory
 - Building rules and regulations access
 - Resident-specific notification preferences
@@ -73,14 +89,15 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Complete profile creation and editing capabilities
 - Searchable building information with document access
 - End-to-end maintenance request lifecycle working
-- Community bulletin board with moderation tools
+- Real-time messaging with proper delivery confirmation
+- Package notification system with QR tracking
 - Directory with search and filtering functionality
 - All resident-specific areas protected by proper authorization
 
 ### 3.4 Phase 4: Community Features (April 22-28, 2025)
 - Events calendar and booking systems
 - Amenity reservation functionality
-- Package notification system
+- Community bulletin board
 - Community forum implementation
 - Polls and voting system
 - Photo galleries and media management
@@ -90,7 +107,7 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 **Success Criteria:**
 - Event creation, registration, and calendar integration working
 - Amenity booking system with conflict prevention
-- Package logging and notification system functioning
+- Community bulletin board with moderation tools
 - Discussion forums with topic management and moderation
 - Secure voting system with results visualization
 - Photo galleries with organization and privacy controls
@@ -141,6 +158,10 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Fully functional public website with multilingual support
 - Administrative management portal with complete feature set
 - Resident services portal with community features
+  - Real-time messaging system
+  - Package tracking and notification system
+  - Maintenance request system
+  - Document access portal
 - Native mobile applications for iOS and Android
 - API endpoints for third-party integrations
 - Progressive Web App functionality
@@ -148,6 +169,8 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 ### 4.2 Documentation
 - Technical system architecture documentation
 - Database schema and relationship diagrams
+  - Messaging system data model
+  - Package tracking system data model
 - API documentation with endpoint specifications
 - Security implementation details
 - Deployment and infrastructure configuration
@@ -193,6 +216,7 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - **Email**: SendGrid for transactional emails
 - **Scheduling**: Temporal for background jobs
 - **Websockets**: Supabase Realtime for live updates
+- **QR Code Generation**: QRCode.react library
 
 ### 5.3 Infrastructure
 - **Hosting**: Replit with continuous deployment
@@ -284,7 +308,7 @@ The project will follow the six-phase approach detailed in the project roadmap:
 |-------|-------|-----------------|
 | 1: Foundation | April 1-7, 2025 | Core website, admin authentication, contact system |
 | 2: Admin Capabilities | April 8-14, 2025 | Document system, analytics, announcements |
-| 3: Resident Portal | April 15-21, 2025 | Resident access, profiles, maintenance requests |
+| 3: Resident Portal | April 15-21, 2025 | Resident access, messaging system, package management |
 | 4: Community Features | April 22-28, 2025 | Events, bookings, forums, voting |
 | 5: Advanced Features | April 29-May 5, 2025 | Mobile app, integrations, payments |
 | 6: Refinement | May 6-12, 2025 | Optimization, security, documentation |
@@ -381,6 +405,8 @@ Changes will be evaluated based on:
 - Security implementation following OWASP guidelines
 - Regular security assessments and vulnerability testing
 - Data breach notification procedures defined
+- Message content encryption for sensitive communications
+- Secure attachment handling with virus scanning
 
 ### 12.3 Service Level Agreement
 - System uptime guarantee: 99.9% excluding scheduled maintenance
@@ -388,6 +414,8 @@ Changes will be evaluated based on:
 - Data backup frequency: Daily with 30-day retention
 - Disaster recovery time objective: 4 hours
 - Maximum consecutive downtime: 2 hours
+- Messaging system availability: 99.95%
+- Real-time notification delivery: Maximum 2-minute delay
 
 ## 13. Approval
 
