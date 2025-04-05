@@ -2,6 +2,8 @@
 
 This directory contains comprehensive documentation for the Lofts des Arts platform design system, visual language, and user experience principles.
 
+*Last Updated: April 5, 2025 | Version: 0.2.0*
+
 ## Directory Structure
 
 - `/design-system/` - Core design system documentation
@@ -14,6 +16,9 @@ This directory contains comprehensive documentation for the Lofts des Arts platf
 - `/user-research/` - User research findings and insights
 - `/assets/` - Design assets and resources
 - `/user-flows/` - User journey and flow diagrams
+- `/messaging/` - Messaging system design
+- `/package-management/` - Package management system design
+- `/rbac/` - Role-based access control design
 
 ## Design System
 
@@ -66,6 +71,19 @@ Design tokens are the foundational variables that drive the visual design:
   --color-error: #dc2626;         /* Red 600 */
   --color-success: #16a34a;       /* Green 600 */
   
+  /* Status colors */
+  --color-status-pending: #f59e0b;  /* Amber 500 */
+  --color-status-received: #3b82f6; /* Blue 500 */
+  --color-status-notified: #8b5cf6; /* Violet 500 */
+  --color-status-delivered: #10b981; /* Emerald 500 */
+  --color-status-returned: #ef4444; /* Red 500 */
+  
+  /* Message status colors */
+  --color-message-sent: #9ca3af;   /* Gray 400 */
+  --color-message-delivered: #6b7280; /* Gray 500 */
+  --color-message-read: #3b82f6;   /* Blue 500 */
+  --color-message-error: #ef4444;  /* Red 500 */
+  
   /* Theme colors - dynamically applied */
   --background: 255 255 255; /* white - light mode */
   --foreground: 34 34 34; /* dark gray for text - light mode */
@@ -76,6 +94,11 @@ Design tokens are the foundational variables that drive the visual design:
 .dark {
   --background: 0 0 0; /* black - dark mode */
   --foreground: 255 255 255; /* white text - dark mode */
+  --color-status-pending: #b45309; /* Amber 700 - dark mode */
+  --color-status-received: #2563eb; /* Blue 600 - dark mode */
+  --color-status-notified: #7c3aed; /* Violet 600 - dark mode */
+  --color-status-delivered: #059669; /* Emerald 600 - dark mode */
+  --color-status-returned: #dc2626; /* Red 600 - dark mode */
 }
 ```
 
@@ -159,6 +182,10 @@ The design system includes specifications for all UI components:
 - **Feedback**: Alerts, notifications, modals, toasts
 - **Media**: Image displays, carousels, galleries
 - **Tables**: Data tables and grid displays
+- **Conversation UI**: Message bubbles, conversation lists, typing indicators
+- **Package Cards**: Package tracking and status cards
+- **Role Badges**: Visual indicators for user roles
+- **Permission Indicators**: Visual cues for permission status
 
 [View Component Designs](./ui-components/README.md)
 
@@ -205,6 +232,8 @@ The platform is designed for the following primary personas:
 - **Current Residents**: Condominium owners and residents
 - **Property Managers**: Administrative staff and property managers
 - **Board Members**: Condominium board members with administrative access
+- **Building Staff**: Doormen, maintenance workers, and other staff members
+- **Contractors**: External service providers with limited access
 
 [View User Personas](./user-research/personas.md)
 
@@ -216,6 +245,9 @@ Key user journeys through the application:
 - **Contact Journey**: Visitors submitting inquiries
 - **Resident Access Journey**: Residents accessing protected resources
 - **Administrative Journey**: Staff managing content and inquiries
+- **Package Journey**: Package delivery, notification, and pickup workflow
+- **Messaging Journey**: Conversation initiation, messaging, and notification flow
+- **Role Assignment Journey**: Administrative flow for permission management
 
 [View User Journeys](./user-research/journeys.md)
 
@@ -228,6 +260,8 @@ The site structure and content organization follows:
 - Logical content grouping
 - Progressive disclosure of complex information
 - Consistent labeling and terminology
+- Role-based navigation adaptation
+- Permission-aware content display
 
 ### Interaction Models
 
@@ -238,6 +272,8 @@ The platform follows these interaction principles:
 - **Feedback Loops**: Providing clear feedback for user actions
 - **Error Prevention**: Designing to prevent errors before they occur
 - **Graceful Recovery**: Helping users recover when errors occur
+- **Real-time Updates**: Immediate feedback for collaborative actions
+- **Permission-aware Interfaces**: Adapting UI based on user permissions
 
 ### Accessibility Guidelines
 
@@ -248,62 +284,279 @@ The platform adheres to WCAG 2.1 AA standards:
 - **Understandable**: Information and operation understandable to all users
 - **Robust**: Content interpreted reliably by various user agents
 
-[View Accessibility Guidelines](./accessibility/README.md)
+## Messaging System Design
 
-## Design Process
+The messaging system follows specific design principles to ensure effective communication:
 
-### Research Methodology
+### Conversation Layout
 
-The design process begins with user research:
+```
+┌──────────────────────────────┬──────────────────────────────────────────┐
+│                              │                                          │
+│  Conversation List           │  Message Thread                          │
+│  ┌────────────────────────┐  │  ┌────────────────────────────────────┐  │
+│  │ Recent Conversations   │  │  │ Conversation Header               │  │
+│  │                        │  │  │ ┌──────────────────────────────┐  │  │
+│  │ ┌──────────────────┐   │  │  │ │ Recipient Name             ↓ │  │  │
+│  │ │ Conversation 1   │   │  │  │ └──────────────────────────────┘  │  │
+│  │ └──────────────────┘   │  │  │                                  │  │
+│  │                        │  │  │ ┌──────────────────────────────┐  │  │
+│  │ ┌──────────────────┐   │  │  │ │ Message Bubbles              │  │  │
+│  │ │ Conversation 2   │   │  │  │ │                              │  │  │
+│  │ └──────────────────┘   │  │  │ │ ┌─────────────────────────┐  │  │  │
+│  │                        │  │  │ │ │ Sender Message          │  │  │  │
+│  │ ┌──────────────────┐   │  │  │ │ └─────────────────────────┘  │  │  │
+│  │ │ Conversation 3   │   │  │  │ │                              │  │  │
+│  │ └──────────────────┘   │  │  │ │ ┌─────────────────────────┐  │  │  │
+│  │                        │  │  │ │ │ Recipient Message       │  │  │  │
+│  └────────────────────────┘  │  │ │ └─────────────────────────┘  │  │  │
+│                              │  │ │                              │  │  │
+│                              │  │ └──────────────────────────────┘  │  │
+│                              │  │                                  │  │
+│                              │  │ ┌────────────────────────────────┐  │
+│                              │  │ │ Message Composer               │  │
+│                              │  │ │ ┌────────────────────────────┐ │  │
+│                              │  │ │ │ Type a message...          │ │  │
+│                              │  │ │ └────────────────────────────┘ │  │
+│                              │  │ └────────────────────────────────┘  │
+│                              │  │                                    │ │
+└──────────────────────────────┴──────────────────────────────────────────┘
+```
 
-- **User Interviews**: Direct conversations with target users
-- **Competitive Analysis**: Evaluation of similar platforms
-- **Heuristic Review**: Expert evaluation against usability principles
+### Message Bubbles
 
-### Design Tools
+Different message types have distinct visual treatments:
 
-The design team uses the following tools:
+- **Self Messages**: Right-aligned, primary color background
+- **Other User Messages**: Left-aligned, neutral background
+- **System Messages**: Center-aligned, subtle background
+- **Error Messages**: Highlighted with error state styling
 
-- **Figma**: Primary design and prototyping tool
-- **Adobe Creative Suite**: For complex graphic work
-- **Miro**: For collaborative design thinking and user journey mapping
-- **Lookback**: For user testing and research
+### Conversation States
 
-### Design to Development Handoff
+Visual indicators for conversation states:
 
-The design-to-development workflow includes:
+- **New Message**: Unread count badge
+- **Read Receipt**: Checkmark icon with status color
+- **Typing Indicator**: Animated dots for real-time feedback
+- **Attachment Indicator**: Paper clip icon with count
 
-- **Component Specifications**: Detailed component documentation
-- **Figma Developer Handoff**: Design specs and measurements
-- **Interactive Prototypes**: Functional examples of interactions
-- **Detailed Annotations**: Guidance for developers
-- **Animation Specifications**: Timing and easing functions
-- **Asset Delivery Format**: Guidelines for production-ready assets
+### Responsive Adaptations
 
-## Design Principles
+- **Mobile**: Stack layout with conversation list toggling to thread view
+- **Tablet**: Side-by-side with collapsible conversation list
+- **Desktop**: Full two-column layout with additional details panel
 
-The Lofts des Arts platform follows these core design principles:
+### Accessibility Considerations
 
-### Elegant Simplicity
-Create interfaces that feel simple and intuitive while offering sophisticated functionality.
+- **Screen Reader Announcements**: New message notifications
+- **Keyboard Navigation**: Complete thread navigation via keyboard
+- **Focus Management**: Proper focus handling in conversation switching
+- **Alternative Text**: For message attachments and visual elements
 
-### Contextual Hierarchy
-Organize information to emphasize what matters most in each context.
+[View Messaging Design Specifications](./messaging/README.md)
 
-### Intuitive Navigation
-Design navigation that allows users to confidently explore and find what they need.
+## Package Management Design
 
-### Thoughtful Animation
-Use motion purposefully to enhance understanding and guide attention.
+The package management system follows a user-centered design approach:
 
-### Typographic Clarity
-Employ typography that enhances readability and reinforces information hierarchy.
+### Package Cards
 
-### Visual Harmony
-Create coherent visual experiences through consistent patterns and thoughtful contrasts.
+```
+┌─────────────────────────────────────────────────────────┐
+│ Package #12345                                          │
+│ ┌─────────────┐                                         │
+│ │             │  Resident: John Doe (Unit 303)          │
+│ │  Carrier    │  Received: April 2, 2025                │
+│ │    Logo     │                                         │
+│ │             │  Status: NOTIFIED                       │
+│ └─────────────┘  ┌────────────────────┐                 │
+│                  │     NOTIFIED       │                 │
+│ Description:     └────────────────────┘                 │
+│ Large box from Amazon                                   │
+│                                                         │
+│ ┌─────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│ │ Details │  │ QR Code     │  │ Mark as Delivered   │  │
+│ └─────────┘  └─────────────┘  └─────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
-### Accessible by Default
-Design with universal accessibility in mind as a fundamental requirement.
+### Status Indicators
 
-### Progressive Enhancement
-Ensure core functionality is available to all users while providing enhanced experiences where supported. 
+- **Color Coding**: Distinct colors for each package status
+- **Progress Timeline**: Visual representation of package journey
+- **Status Badges**: Prominent status indicators
+- **Icons**: Visual reinforcement of status meaning
+
+### QR Code Integration
+
+- **QR Code Display**: Clean, high-contrast QR codes
+- **Scanning Interface**: Camera access with frame guides
+- **Verification Feedback**: Clear success/failure states
+- **Print Formatting**: Printer-friendly QR code layouts
+
+### Package List Views
+
+- **Staff View**: Comprehensive list with filtering and sorting
+- **Resident View**: Personalized view of own packages
+- **Timeline View**: Historical package tracking
+
+### Mobile Considerations
+
+- **Scan-Optimized UI**: One-handed scanning interface
+- **Quick Actions**: Swipe gestures for common actions
+- **Push Notifications**: Clear delivery notifications
+- **Offline Support**: Basic functionality without connection
+
+[View Package Design Specifications](./package-management/README.md)
+
+## Role-Based Access Control Design
+
+The RBAC system design focuses on clarity and security:
+
+### Role Visualization
+
+```
+┌───────────────────────────────────────────────────────┐
+│ ROLE: DOORMAN                                         │
+│ ┌────────────────┐                                    │
+│ │                │  Description: Front desk staff     │
+│ │     ROLE       │  responsible for receiving         │
+│ │     ICON       │  packages and visitor management   │
+│ │                │                                    │
+│ └────────────────┘                                    │
+│                                                       │
+│ Permissions:                                          │
+│                                                       │
+│ ┌─────────────────────┐  ┌─────────────────────────┐ │
+│ │ packages:create     │  │ packages:read           │ │
+│ └─────────────────────┘  └─────────────────────────┘ │
+│                                                       │
+│ ┌─────────────────────┐  ┌─────────────────────────┐ │
+│ │ packages:update     │  │ residents:view          │ │
+│ └─────────────────────┘  └─────────────────────────┘ │
+│                                                       │
+│ Hierarchy Level: 6                                    │
+│ ┌───────────────────────────────────────────────────┐ │
+│ │●●●●●●○○○○                                        │ │
+│ └───────────────────────────────────────────────────┘ │
+└───────────────────────────────────────────────────────┘
+```
+
+### Permission UI Elements
+
+- **Permission Badges**: Visual indicators of granted permissions
+- **Role Hierarchy**: Visual representation of authority levels
+- **Access Indicators**: Clear visual cues for accessible features
+- **Permission Groups**: Logical grouping of related permissions
+- **Toggle Controls**: Clear enable/disable permission switches
+
+### User Interface Adaptations
+
+- **Navigation Adaptation**: Menu items based on permissions
+- **Feature Visibility**: Conditional rendering based on roles
+- **Action Availability**: Contextual actions based on permissions
+- **Error States**: Clear messaging for permission denied scenarios
+- **Education**: Helper text explaining permission requirements
+
+### Role Assignment Interface
+
+- **Role Selection**: Visually clear role selection process
+- **Permission Preview**: Preview of granted permissions
+- **Temporary Role Controls**: Clear duration settings for temporary roles
+- **Confirmation Steps**: Verification steps for critical permission changes
+- **Audit Trail**: Visible history of permission changes
+
+[View RBAC Design Specifications](./rbac/README.md)
+
+## Design for Specific User Flows
+
+### Package Management User Flow
+
+```mermaid
+flowchart TD
+    A[Package Arrives] --> B[Doorman: Log Package]
+    B --> C[System: Generate QR]
+    C --> D[System: Send Notification]
+    D --> E{Resident Action}
+    E -->|Check App| F[View Package Details]
+    E -->|Visit Desk| G[Present for Pickup]
+    G --> H[Doorman: Scan QR]
+    H --> I[Update Status]
+    I --> J[Package Delivered]
+```
+
+### Messaging User Flow
+
+```mermaid
+flowchart TD
+    A[User: Navigate to Messages] --> B[View Conversation List]
+    B -->|Select Existing| C[Open Conversation]
+    B -->|Create New| D[Select Recipients]
+    D --> E[Start Conversation]
+    E --> F[Type Message]
+    C --> F
+    F --> G[Send Message]
+    G --> H[System: Deliver Message]
+    H --> I[System: Update Read Status]
+    I --> J[System: Show Read Receipt]
+```
+
+### Role Assignment User Flow
+
+```mermaid
+flowchart TD
+    A[Admin: Access User Management] --> B[Select User]
+    B --> C[View Current Roles]
+    C --> D[Select Manage Roles]
+    D --> E[Add/Remove Roles]
+    E --> F[Set Role Duration]
+    F --> G[Review Changes]
+    G --> H[Confirm Assignment]
+    H --> I[System: Update Permissions]
+    I --> J[System: Log Change]
+    J --> K[System: Notify User]
+```
+
+## Design Documentation
+
+The design specifications are maintained through:
+
+- **Component Library**: Interactive documentation of all UI components
+- **Design Tokens**: Published token documentation
+- **Design System Website**: Internal documentation site
+- **Design Files**: Figma design files with component libraries
+- **Style Guide**: Comprehensive design language documentation
+- **Pattern Library**: Reusable design patterns with usage guidelines
+- **Accessibility Documentation**: WCAG compliance documentation
+
+## Version Control & Collaboration
+
+Design artifacts are version-controlled through:
+
+- **Git Repository**: Design token files in code repository
+- **Figma Version History**: Component design history
+- **Design Decision Log**: Documentation of design decisions
+- **Feedback Loops**: User testing results informing iterations
+
+## Design Research
+
+Design decisions are informed by:
+
+- **User Testing**: Usability testing with all user personas
+- **Heatmap Analysis**: Interaction pattern analysis
+- **Accessibility Audits**: Regular WCAG compliance checks
+- **Performance Testing**: Load time and performance analysis
+- **Preference Testing**: A/B testing of design alternatives
+- **Stakeholder Interviews**: Feedback from building management
+
+## References
+
+- [Design System Handbook](https://www.designsystemshandbook.com/)
+- [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+- [Inclusive Components](https://inclusive-components.design/)
+- [Material Design](https://material.io/design)
+- [Refactoring UI](https://refactoringui.com/)
+- [Nielsen Norman Group](https://www.nngroup.com/)
+- [Smashing Magazine](https://www.smashingmagazine.com/)
+- [A List Apart](https://alistapart.com/) 
