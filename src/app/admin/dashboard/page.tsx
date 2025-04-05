@@ -1,7 +1,6 @@
 "use client";
 
 import { WelcomeMessage } from '@/components/admin/WelcomeMessage';
-import { PublicSiteBanner } from '@/components/admin/ClientAdminLayout';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -47,9 +46,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Public Website Banner */}
-      <PublicSiteBanner />
-
       <WelcomeMessage />
       
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -120,49 +116,6 @@ export default function DashboardPage() {
           </CardFooter>
         </Card>
       </div>
-      
-      {/* Theme Demo Section */}
-      <Card className="theme-transition">
-        <CardHeader>
-          <CardTitle>Démonstration du thème</CardTitle>
-          <CardDescription>
-            Voici comment les différents éléments d'interface s'affichent dans le thème {theme === 'dark' ? 'foncé' : 'clair'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <h4 className="font-medium">Éléments de texte</h4>
-              <div className="space-y-2 rounded-md border p-2">
-                <p className="text-lg font-bold">Texte en gras</p>
-                <p>Texte normal</p>
-                <p className="text-muted-foreground">Texte secondaire</p>
-                <p className="text-sm text-muted-foreground">Petit texte secondaire</p>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <h4 className="font-medium">Couleurs primaires</h4>
-              <div className="space-y-2">
-                <div className="h-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
-                  Primaire
-                </div>
-                <div className="h-10 rounded-md bg-secondary text-secondary-foreground flex items-center justify-center">
-                  Secondaire
-                </div>
-                <div className="h-10 rounded-md bg-muted text-muted-foreground flex items-center justify-center">
-                  Atténué
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="justify-between">
-          <p className="text-sm text-muted-foreground">
-            Utilisez le bouton dans l'en-tête pour changer de thème
-          </p>
-        </CardFooter>
-      </Card>
     </div>
   );
 } 

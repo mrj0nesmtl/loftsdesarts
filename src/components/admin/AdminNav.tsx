@@ -28,6 +28,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
   const canAccessPackages = userRole === 'ADMIN' || userRole === 'DOORMAN';
   const canAccessSettings = userRole === 'ADMIN';
   const canAccessDocuments = userRole === 'ADMIN' || userRole === 'SYNDIC' || userRole === 'USER';
+  const canAccessResidents = userRole === 'ADMIN';
 
   return (
     <nav className="py-4 px-2">
@@ -54,6 +55,22 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
       
       <div className="space-y-6">
         <div className="space-y-1">
+          {/* Public Site Link - Always visible to all users */}
+          <NavLink 
+            href="/"
+            isActive={false}
+            isExpanded={isExpanded}
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            }
+            external={true}
+          >
+            LDA Site Public
+          </NavLink>
+
           {canAccessDashboard && (
             <NavLink 
               href="/admin/dashboard"
@@ -140,6 +157,24 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             </NavLink>
           )}
           
+          {canAccessResidents && (
+            <NavLink 
+              href="/admin/residents"
+              isActive={isActive("/admin/residents")}
+              isExpanded={isExpanded}
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              }
+            >
+              Résidents
+            </NavLink>
+          )}
+          
           {canAccessSettings && (
             <NavLink 
               href="/admin/settings"
@@ -202,9 +237,10 @@ type NavLinkProps = {
   isExpanded: boolean;
   icon: React.ReactNode;
   children: React.ReactNode;
+  external?: boolean;
 };
 
-function NavLink({ href, isActive, isExpanded, icon, children }: NavLinkProps) {
+function NavLink({ href, isActive, isExpanded, icon, children, external }: NavLinkProps) {
   return (
     <Link 
       href={href}
@@ -214,6 +250,7 @@ function NavLink({ href, isActive, isExpanded, icon, children }: NavLinkProps) {
           : "text-muted-foreground hover:text-foreground hover:bg-muted"
       }`}
       title={isExpanded ? undefined : String(children)}
+      target={external ? "_blank" : undefined}
     >
       {icon}
       {isExpanded && <span className="font-medium">{children}</span>}

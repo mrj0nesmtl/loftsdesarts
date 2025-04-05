@@ -11,7 +11,8 @@ import Image from "next/image";
 import { useTheme } from "@/context/ThemeProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
-// Public Site Banner component that can be used across admin pages
+// Public Site Banner component that can be used across admin pages - 
+// REMOVED FROM LAYOUT, KEEPING FOR REFERENCE
 export function PublicSiteBanner() {
   return (
     <div className="rounded-lg border bg-card p-4 flex items-center justify-between mb-6 theme-transition">
