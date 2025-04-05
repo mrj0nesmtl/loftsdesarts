@@ -2,6 +2,54 @@
 
 This roadmap outlines the planned development trajectory for the Lofts des Arts condominium website, with detailed tasks, deliverables, and timelines for each phase.
 
+*Last Updated: April 5, 2025*
+
+## Development Timeline
+
+```mermaid
+gantt
+    title Lofts des Arts Development Roadmap (2025)
+    dateFormat YYYY-MM-DD
+    axisFormat %b %d
+    todayMarker on
+    
+    section Phase 1
+    Foundation                       :done,    p1, 2025-04-01, 2025-04-07
+    
+    section Phase 2
+    Extended Admin                   :active,  p2, 2025-04-08, 2025-04-14
+    Document Management              :done,    dm, 2025-04-08, 2025-04-10
+    User Management                  :done,    um, 2025-04-08, 2025-04-11
+    RBAC System                      :done,    rbac, 2025-04-10, 2025-04-12
+    Messaging & Package DB Schema    :done,    mpdb, 2025-04-12, 2025-04-05
+    Messaging UI Implementation      :active,  mui, 2025-04-05, 2025-04-09
+    Package Management UI            :active,  pmui, 2025-04-07, 2025-04-11
+    Analytics Dashboard              :active,  ad, 2025-04-09, 2025-04-14
+    
+    section Phase 3
+    Resident Portal                  :         p3, 2025-04-15, 2025-04-21
+    Authentication & Profiles        :         auth, 2025-04-15, 2025-04-17
+    Messaging System Completion      :         msgcomp, 2025-04-16, 2025-04-19
+    Package System Completion        :         pkgcomp, 2025-04-17, 2025-04-20
+    Building Info Repository         :         repo, 2025-04-18, 2025-04-21
+    
+    section Phase 4
+    Community Features               :         p4, 2025-04-22, 2025-04-28
+    
+    section Phase 5
+    Advanced Features                :         p5, 2025-04-29, 2025-05-05
+    
+    section Phase 6
+    Refinement & Optimization        :         p6, 2025-05-06, 2025-05-12
+    
+    section Milestones
+    Today                            :milestone, today, 2025-04-05, 0d
+    Phase 2 Complete                 :milestone, m1, 2025-04-14, 0d
+    Phase 3 Complete                 :milestone, m2, 2025-04-21, 0d
+    RC v1                            :milestone, m3, 2025-05-01, 0d
+    Production Release v1.0          :milestone, m4, 2025-05-07, 0d
+```
+
 ## Phase 1: Foundation (April 1-7, 2025) ✅
 **Objective:** Establish core platform infrastructure and basic functionality
 
@@ -31,6 +79,15 @@ This roadmap outlines the planned development trajectory for the Lofts des Arts 
   - [x] Category-based organization structure
   - [x] Version control for documents
   - [x] Permission-based access controls
+- [x] Enhanced role-based access control (RBAC)
+  - [x] Six user roles (SUPER_ADMIN, ADMIN, MANAGER, DOORMAN, SECURITY, RESIDENT)
+  - [x] Role capabilities documentation
+  - [x] Permission matrix for granular access control
+- [x] Database schema for messaging and package systems
+  - [x] Conversations and participants structure
+  - [x] Messages with attachments and read receipts
+  - [x] Package tracking with status history
+  - [x] QR code generation infrastructure
 - [ ] Enhanced analytics dashboard
   - [x] Visitor metrics and reporting
   - [ ] Inquiry analysis tools
@@ -54,6 +111,8 @@ This roadmap outlines the planned development trajectory for the Lofts des Arts 
 
 ### Deliverables:
 - [x] Document repository with search functionality
+- [x] Comprehensive RBAC system with documentation
+- [x] Messaging and package management database schema
 - [ ] Interactive analytics dashboard
 - [ ] Announcement management system
 - [ ] Multi-channel notification system
@@ -62,6 +121,14 @@ This roadmap outlines the planned development trajectory for the Lofts des Arts 
 
 ## Phase 3: Resident Portal (April 15-21, 2025) 🔄
 **Objective:** Create resident-specific features and access controls
+
+### Current Status: Pre-work (5% Complete)
+- [x] Database schema design for messaging system completed
+- [x] Database schema design for package management completed
+- [x] Building units and residents database structure implemented
+- [x] Role-based access control for residents configured
+- [x] User flows documented for messaging and package systems
+- [ ] UI/UX mockups in development
 
 ### Tasks:
 - [ ] Resident authentication system
@@ -82,13 +149,15 @@ This roadmap outlines the planned development trajectory for the Lofts des Arts 
   - [ ] Status tracking and notifications
   - [ ] Communication thread for each request
 - [ ] Internal messaging system
-  - [ ] Direct messaging between residents and management
-  - [ ] Group conversations for committees
+  - [x] Database schema and backend infrastructure
+  - [ ] Conversation list and management UI
+  - [ ] Message composition interface
   - [ ] File attachments and rich media support
-  - [ ] Real-time notifications
+  - [ ] Real-time notifications via WebSockets
 - [ ] Package notification system
+  - [x] Database schema and backend infrastructure
   - [ ] Package logging interface for staff
-  - [ ] QR code generation for tracking
+  - [ ] QR code generation and scanning
   - [ ] Automated notifications to residents
   - [ ] Pickup confirmation process
 - [ ] Directory of services and contacts
@@ -276,11 +345,11 @@ This roadmap outlines the planned development trajectory for the Lofts des Arts 
 
 ## Progress Tracking
 
-| Phase | Progress | Timeline Status |
-|-------|----------|----------------|
-| Phase 1 | 100% | Completed |
-| Phase 2 | 75% | On Track |
-| Phase 3 | 5% | Starting |
-| Phase 4 | 0% | Not Started |
-| Phase 5 | 0% | Not Started |
-| Phase 6 | 0% | Not Started | 
+| Phase | Progress | Timeline Status | Key Features in Development |
+|-------|----------|----------------|----------------------------|
+| Phase 1 | 100% | Completed | ✓ Next.js setup, ✓ Admin dashboard, ✓ Contact system |
+| Phase 2 | 80% | On Track | 🔄 Messaging DB, 🔄 Package DB, 🔄 RBAC system |
+| Phase 3 | 5% | Starting | 🟡 UI/UX mockups, 🟡 Messaging UI, 🟡 Package UI |
+| Phase 4 | 0% | Not Started | 📅 Events calendar, 📋 Amenity booking |
+| Phase 5 | 0% | Not Started | 📱 Mobile app, 🏢 Building systems integration |
+| Phase 6 | 0% | Not Started | ⚡ Performance optimization, �� Security audit | 

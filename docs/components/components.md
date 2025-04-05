@@ -2,12 +2,17 @@
 
 This directory contains comprehensive documentation for all React components used in the Lofts des Arts platform, including usage guidelines, props, and examples.
 
+*Last Updated: April 5, 2025 | Version: 0.2.0*
+
 ## Directory Structure
 
 - `/layout/` - Layout component documentation
 - `/ui/` - UI component documentation
 - `/forms/` - Form component documentation
 - `/admin/` - Admin-specific component documentation
+- `/messaging/` - Messaging system components
+- `/packages/` - Package management components
+- `/auth/` - Authentication and RBAC components
 - `/patterns/` - Component pattern documentation
 - `/examples/` - Example component usage
 
@@ -20,6 +25,9 @@ The Lofts des Arts platform uses a modular component architecture based on:
 - **Layout Components**: Page structure and responsive layout components
 - **Form Components**: Input, validation, and form handling components
 - **Admin Components**: Components for the administrative interface
+- **Messaging Components**: Real-time communication components
+- **Package Components**: Package tracking and management components
+- **Permission Components**: Role-based access control components
 
 ## Component Categories
 
@@ -31,6 +39,7 @@ Layout components define the overall structure of pages and sections:
 - `Footer`: Site-wide footer with links and information
 - `PageLayout`: Standard page layout wrapper
 - `AdminLayout`: Admin dashboard layout
+- `ResidentLayout`: Resident portal layout
 - `Section`: Content section with standard padding and structure
 
 [View Layout Components](./layout/README.md)
@@ -48,6 +57,9 @@ UI components are the building blocks of the interface:
 - `Alert`: User notifications
 - `Avatar`: User profile images
 - `ThemeToggle`: Theme switching button with appropriate icons for light/dark modes
+- `Badge`: Status indicators and labels
+- `QRCode`: QR code generation for package tracking
+- `Scanner`: QR code scanning component
 
 [View UI Components](./ui/README.md)
 
@@ -128,6 +140,9 @@ Form components handle user input and validation:
 - `DatePicker`: Date selection
 - `FileUpload`: File upload controls
 - `Form`: Form wrapper with validation
+- `SearchInput`: Search field with autocomplete
+- `AddressInput`: Address input with formatting
+- `PhoneInput`: Phone number input with formatting
 
 [View Form Components](./forms/README.md)
 
@@ -141,8 +156,206 @@ Admin components are specific to the administrative interface:
 - `UserAvatar`: User profile displays
 - `NotificationCenter`: Admin notifications
 - `ActionMenu`: Contextual action menus
+- `RoleManager`: Role assignment interface
+- `PermissionManager`: Permission management interface
+- `AuditLog`: Activity logging display
 
 [View Admin Components](./admin/README.md)
+
+### Messaging Components
+
+Messaging components handle real-time communication:
+
+- `ConversationList`: List of user conversations
+- `ConversationItem`: Individual conversation preview
+- `MessageThread`: Thread of messages in a conversation
+- `MessageBubble`: Individual message display
+- `MessageComposer`: Message input and sending interface
+- `AttachmentUploader`: File attachment component
+- `ReadReceipt`: Message read status indicator
+- `ParticipantList`: Conversation participant display
+- `NotificationBadge`: Unread message indicator
+
+#### ConversationList Usage
+
+```tsx
+import { ConversationList } from "@/components/messaging/ConversationList";
+
+export function MessagingPage() {
+  return (
+    <div className="flex h-full">
+      <div className="w-1/3 border-r">
+        <ConversationList 
+          onSelectConversation={handleSelectConversation}
+          selectedId={selectedConversationId}
+        />
+      </div>
+      <div className="w-2/3">
+        {selectedConversationId ? (
+          <MessageThread conversationId={selectedConversationId} />
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p>Select a conversation to view messages</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+#### MessageComposer Usage
+
+```tsx
+import { MessageComposer } from "@/components/messaging/MessageComposer";
+
+export function ConversationView({ conversationId }) {
+  const handleSendMessage = async (content, attachments) => {
+    // Send message logic
+  };
+  
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto p-4">
+        {/* Message thread */}
+      </div>
+      <MessageComposer 
+        onSendMessage={handleSendMessage}
+        conversationId={conversationId}
+        placeholder="Type a message..."
+        allowAttachments
+        maxAttachments={5}
+      />
+    </div>
+  );
+}
+```
+
+[View Messaging Components](./messaging/README.md)
+
+### Package Management Components
+
+Package management components handle package tracking and notifications:
+
+- `PackageList`: List of packages with filtering
+- `PackageDetail`: Detailed package information
+- `PackageForm`: Package logging interface
+- `PackageHistory`: Package status history timeline
+- `QRCodeGenerator`: Package QR code creation
+- `QRCodeScanner`: Package verification scanner
+- `CarrierSelect`: Shipping carrier selection
+- `NotificationSettings`: Delivery notification preferences
+- `StatusUpdater`: Package status update interface
+
+#### PackageList Usage
+
+```tsx
+import { PackageList } from "@/components/packages/PackageList";
+
+export function PackagesPage() {
+  return (
+    <div className="container mx-auto py-6">
+      <h1 className="text-2xl font-bold mb-4">Package Tracking</h1>
+      <PackageList 
+        filterStatus={["RECEIVED", "NOTIFIED"]}
+        onSelectPackage={handleSelectPackage}
+        onStatusChange={handleStatusChange}
+        sortBy="received_at"
+        sortDirection="desc"
+      />
+    </div>
+  );
+}
+```
+
+#### PackageForm Usage
+
+```tsx
+import { PackageForm } from "@/components/packages/PackageForm";
+
+export function LogPackagePage() {
+  const handleSubmit = async (data) => {
+    // Submit package data
+  };
+  
+  return (
+    <div className="container mx-auto py-6">
+      <h1 className="text-2xl font-bold mb-4">Log New Package</h1>
+      <PackageForm 
+        onSubmit={handleSubmit}
+        carriers={carriers}
+        residents={residents}
+      />
+    </div>
+  );
+}
+```
+
+[View Package Management Components](./packages/README.md)
+
+### Permission Components
+
+Permission-based components handle access control:
+
+- `PermissionGuard`: Component wrapper that renders based on permissions
+- `RoleGuard`: Component wrapper that renders based on user roles
+- `RoleBadge`: Display for user roles
+- `PermissionIndicator`: Visual indicator for permission status
+- `RoleSelector`: Role assignment dropdown
+- `PermissionSelector`: Permission assignment interface
+
+#### PermissionGuard Usage
+
+```tsx
+import { PermissionGuard } from "@/components/auth/PermissionGuard";
+
+export function DocumentActions({ documentId }) {
+  return (
+    <div className="flex space-x-2">
+      <PermissionGuard permission="documents:read">
+        <Button variant="outline" onClick={() => viewDocument(documentId)}>
+          View
+        </Button>
+      </PermissionGuard>
+      
+      <PermissionGuard permission="documents:update">
+        <Button variant="outline" onClick={() => editDocument(documentId)}>
+          Edit
+        </Button>
+      </PermissionGuard>
+      
+      <PermissionGuard permission="documents:delete">
+        <Button variant="destructive" onClick={() => deleteDocument(documentId)}>
+          Delete
+        </Button>
+      </PermissionGuard>
+    </div>
+  );
+}
+```
+
+#### RoleGuard Usage
+
+```tsx
+import { RoleGuard } from "@/components/auth/RoleGuard";
+
+export function AdminSection() {
+  return (
+    <RoleGuard
+      roles={["ADMIN", "MANAGER"]}
+      fallback={<AccessDeniedMessage />}
+    >
+      <div className="admin-dashboard">
+        {/* Admin content only visible to ADMIN and MANAGER roles */}
+        <h1>Admin Dashboard</h1>
+        <AnalyticsDashboard />
+      </div>
+    </RoleGuard>
+  );
+}
+```
+
+[View Permission Components](./auth/README.md)
 
 ## Component Usage
 
@@ -221,6 +434,167 @@ Components are designed for composition, allowing complex UIs to be built from s
 </Card>
 ```
 
+## Real-time Component Patterns
+
+Components that deal with real-time data follow these patterns:
+
+- Optimistic UI updates for immediate feedback
+- WebSocket subscriptions for live data
+- Loading states and fallbacks
+- Error handling and recovery
+- Cache synchronization with TanStack Query
+
+Example of optimistic updates pattern:
+
+```tsx
+// In MessageComposer component
+const sendMessage = async (content) => {
+  // Generate temporary ID for optimistic update
+  const tempId = `temp-${Date.now()}`;
+  
+  // Add message to UI immediately
+  queryClient.setQueryData(['messages', conversationId], old => ({
+    ...old,
+    messages: [...old.messages, {
+      id: tempId,
+      content,
+      status: 'sending',
+      created_at: new Date().toISOString(),
+      sender_id: currentUserId
+    }]
+  }));
+  
+  try {
+    // Actually send message to server
+    const { data } = await supabase.from('messages').insert({
+      conversation_id: conversationId,
+      content,
+      sender_id: currentUserId
+    }).select().single();
+    
+    // Update with real data from server
+    queryClient.setQueryData(['messages', conversationId], old => ({
+      ...old,
+      messages: old.messages.map(msg => 
+        msg.id === tempId ? data : msg
+      )
+    }));
+  } catch (error) {
+    // Handle error - mark message as failed
+    queryClient.setQueryData(['messages', conversationId], old => ({
+      ...old,
+      messages: old.messages.map(msg => 
+        msg.id === tempId ? {...msg, status: 'failed'} : msg
+      )
+    }));
+  }
+};
+```
+
+## Permission-Based Rendering Patterns
+
+Components use these patterns for permission-based UI rendering:
+
+### Hook-based Permission Check
+
+```tsx
+// Custom permission hook
+function AdminAction() {
+  const hasPermission = useHasPermission('users:manage');
+  
+  if (!hasPermission) {
+    return null;
+  }
+  
+  return (
+    <Button onClick={handleAdminAction}>
+      Admin Action
+    </Button>
+  );
+}
+```
+
+### Higher-Order Component Pattern
+
+```tsx
+// HOC for permission checking
+const withPermission = (permission, Component) => {
+  return function PermissionCheckedComponent(props) {
+    const hasPermission = useHasPermission(permission);
+    
+    if (!hasPermission) {
+      return null;
+    }
+    
+    return <Component {...props} />;
+  };
+};
+
+const AdminButton = withPermission('admin:access', Button);
+```
+
+## QR Code Component Patterns
+
+QR code components follow these implementation patterns:
+
+### QR Generation
+
+```tsx
+import QRCode from 'qrcode.react';
+
+function PackageQRCode({ packageId }) {
+  const qrValue = `${window.location.origin}/packages/verify/${packageId}`;
+  
+  return (
+    <div className="qr-container p-4 bg-white rounded-lg shadow">
+      <QRCode 
+        value={qrValue}
+        size={200}
+        level="H" // High error correction
+        renderAs="svg"
+        includeMargin={true}
+      />
+      <p className="text-center mt-2 text-sm text-gray-600">
+        Scan to verify package
+      </p>
+    </div>
+  );
+}
+```
+
+### QR Scanning
+
+```tsx
+import { QrReader } from 'react-qr-reader';
+
+function PackageVerificationScanner({ onScan }) {
+  const [scanResult, setScanResult] = useState(null);
+  
+  const handleScan = (result) => {
+    if (result) {
+      setScanResult(result);
+      onScan(result);
+    }
+  };
+  
+  return (
+    <div className="scanner-container">
+      <QrReader
+        constraints={{ facingMode: 'environment' }}
+        onResult={handleScan}
+        containerStyle={{ width: '100%', maxWidth: '300px' }}
+        videoStyle={{ width: '100%' }}
+      />
+      {scanResult && (
+        <div className="scan-result mt-4 p-2 bg-green-100 text-green-800 rounded">
+          Package verified: {scanResult}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
 ## Accessibility
 
 All components are built with accessibility in mind:
@@ -231,6 +605,8 @@ All components are built with accessibility in mind:
 - Screen reader support
 - Color contrast compliance
 - Motion preferences respect
+- WCAG 2.1 AA compliance
+- Role-specific announcements for screen readers
 
 ## State Management
 
@@ -240,6 +616,8 @@ Components handle state in the following ways:
 - Form state with react-hook-form
 - Global state with Zustand where needed
 - Context providers for shared state
+- TanStack Query for server state
+- Optimistic updates for real-time operations
 
 ## Custom Hooks
 
@@ -249,6 +627,11 @@ Many components use custom hooks for behavior:
 - `useDebounce`: Performance optimization
 - `useFocusTrap`: Accessibility enhancement
 - `useLocalStorage`: Persistent settings
+- `usePermission`: Permission checking
+- `useRole`: User role checking
+- `useConversation`: Messaging state management
+- `usePackage`: Package data management
+- `useRealtime`: WebSocket subscription management
 
 ## Testing
 
@@ -257,6 +640,8 @@ Components are tested using:
 - Jest for unit testing
 - React Testing Library for component testing
 - Storybook for visual testing (future)
+- Mock Service Worker for API mocking
+- Playwright for end-to-end testing
 
 ## Performance Considerations
 
@@ -266,4 +651,7 @@ Components are optimized for performance:
 - Memoization where beneficial
 - Virtualization for long lists
 - Lazy loading where appropriate
-- Bundle size monitoring 
+- Bundle size monitoring
+- React.memo for expensive renders
+- Web Worker delegation for heavy computations
+- Adaptive loading based on device capabilities 

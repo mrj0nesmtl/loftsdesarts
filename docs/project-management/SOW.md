@@ -2,7 +2,8 @@
 ## Lofts des Arts Website Development Project
 
 **Effective Date:** April 1, 2025  
-**Project End Date:** May 1, 2025
+**Project End Date:** May 1, 2025  
+**Last Updated:** April 5, 2025 | Version: 0.2.0
 
 ## 1. Project Overview
 
@@ -52,6 +53,12 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Email template system for communications
 - Board meeting scheduling tools
 - Administrative reporting capabilities
+- Role-Based Access Control (RBAC) system
+  - Role definition and management interface
+  - Permission mapping and enforcement
+  - Access control auditing and reporting
+  - Visual role hierarchy representation
+  - Dynamic UI adaptation based on permissions
 
 **Success Criteria:**
 - Document upload, categorization, and retrieval working
@@ -61,6 +68,9 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Complete audit trail of administrative actions
 - User management with role assignment capabilities
 - Scheduled reports generated and delivered
+- RBAC system correctly enforcing permissions across all interfaces
+- Role management interface allowing for permission adjustments
+- Access control logs providing detailed audit capabilities
 
 ### 3.3 Phase 3: Resident Portal (April 15-21, 2025)
 - Resident authentication system
@@ -74,12 +84,24 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
   - File attachments with secure storage
   - Message read receipts and delivery status
   - Push notifications for new messages
+  - Message threading with reply context
+  - Rich text formatting support
+  - Message scheduling and draft saving
+  - Emoji reactions and interactive elements
+  - Searchable message history with filters
+  - Message archiving and retention policies
 - Package management system
   - Staff interface for logging incoming packages
   - QR code generation for package tracking
   - Resident notification via email and in-app alerts
   - Package pickup confirmation with electronic signature
   - Package history and reporting dashboard
+  - Package status tracking (delivered, notified, picked up)
+  - Automated reminder notifications for unclaimed packages
+  - Digital photo capture of delivered packages
+  - Package size classification and storage location tracking
+  - Package delivery scheduling for outgoing shipments
+  - Integration with major carrier APIs (USPS, FedEx, UPS)
 - Service provider directory
 - Building rules and regulations access
 - Resident-specific notification preferences
@@ -90,7 +112,12 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Searchable building information with document access
 - End-to-end maintenance request lifecycle working
 - Real-time messaging with proper delivery confirmation
+- Message read receipts accurately tracking message status
+- Group conversations properly managing participant permissions
+- File attachments securely stored and properly displayed
 - Package notification system with QR tracking
+- Package status accurately reflected throughout lifecycle
+- QR codes successfully scanning and validating package pickup
 - Directory with search and filtering functionality
 - All resident-specific areas protected by proper authorization
 
@@ -157,9 +184,20 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 ### 4.1 Software Components
 - Fully functional public website with multilingual support
 - Administrative management portal with complete feature set
+  - Role-based access control system with permission management
+  - Administrative document management with version control
+  - User management interface with role assignment
 - Resident services portal with community features
-  - Real-time messaging system
+  - Real-time messaging system with comprehensive feature set
+    - One-to-one and group messaging capabilities
+    - Message status tracking and delivery confirmation
+    - File attachment support with preview capabilities
+    - Searchable message archive with advanced filters
   - Package tracking and notification system
+    - QR-based package identification and tracking
+    - Status monitoring through delivery lifecycle
+    - Automated notification system with delivery alerts
+    - Package history and reporting capabilities
   - Maintenance request system
   - Document access portal
 - Native mobile applications for iOS and Android
@@ -170,7 +208,17 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Technical system architecture documentation
 - Database schema and relationship diagrams
   - Messaging system data model
+    - Conversations and participant relationships
+    - Message storage and attachment handling
+    - Read status tracking and notification schema
   - Package tracking system data model
+    - Package metadata and delivery information
+    - Notification and status tracking schema
+    - QR code generation and validation system
+  - RBAC system data model
+    - Role definitions and hierarchies
+    - Permission mappings and inheritance
+    - User-role assignments and audit trails
 - API documentation with endpoint specifications
 - Security implementation details
 - Deployment and infrastructure configuration
@@ -216,7 +264,11 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - **Email**: SendGrid for transactional emails
 - **Scheduling**: Temporal for background jobs
 - **Websockets**: Supabase Realtime for live updates
+  - Real-time message delivery and status updates
+  - Live package status notifications
+  - Dynamic permission and role updates
 - **QR Code Generation**: QRCode.react library
+- **Permission System**: Custom RBAC implementation with Supabase RLS
 
 ### 5.3 Infrastructure
 - **Hosting**: Replit with continuous deployment
@@ -299,6 +351,35 @@ Each phase will proceed through the following quality gates:
 - User testing validates usability requirements
 - Accessibility requirements met and verified
 - Security testing completed without critical findings
+
+### 7.3 Specific Feature Acceptance Criteria
+
+#### Messaging System
+- Messages deliver in real-time with no more than 2-second latency
+- File attachments up to 10MB upload successfully with progress indication
+- Message read status accurately displays in sender's interface
+- Group conversations correctly handle participant management
+- Search returns accurate results across message content and metadata
+- Message threading correctly maintains context and relationships
+- All messages properly encrypted at rest and in transit
+
+#### Package Management System
+- Package entry form captures all required metadata in under 30 seconds
+- QR codes generate correctly and scan on first attempt with standard scanners
+- Notification delivery occurs within 60 seconds of package status change
+- Package history maintains accurate audit trail of all status changes
+- Reports accurately reflect package volume, delivery times, and pickup patterns
+- Integration with carrier APIs successfully retrieves tracking data
+- User interface adapts appropriately for staff vs. resident views
+
+#### Role-Based Access Control System
+- Role definitions correctly enforce access restrictions across all interfaces
+- Permission changes take effect immediately without system restart
+- Role assignment interface successfully maps users to appropriate roles
+- Inheritance hierarchy correctly propagates permission changes
+- Audit logs capture all permission-related changes with accurate timestamps
+- User interface elements correctly show/hide based on permission context
+- API endpoints correctly enforce permission requirements
 
 ## 8. Timeline
 
@@ -407,6 +488,11 @@ Changes will be evaluated based on:
 - Data breach notification procedures defined
 - Message content encryption for sensitive communications
 - Secure attachment handling with virus scanning
+- Package notification privacy controls
+- Role-based information access limitations
+- Data retention policies for messaging history
+- User consent management for communication preferences
+- Audit logging of all sensitive data access
 
 ### 12.3 Service Level Agreement
 - System uptime guarantee: 99.9% excluding scheduled maintenance
@@ -416,6 +502,10 @@ Changes will be evaluated based on:
 - Maximum consecutive downtime: 2 hours
 - Messaging system availability: 99.95%
 - Real-time notification delivery: Maximum 2-minute delay
+- Package system response time: 99% of transactions under 3 seconds
+- Permission changes propagation: Maximum 5-second delay
+- QR code generation: Under 1 second per code
+- Search query response: 95% of queries under 2 seconds
 
 ## 13. Approval
 
