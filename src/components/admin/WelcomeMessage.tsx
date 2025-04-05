@@ -29,29 +29,29 @@ export function WelcomeMessage({ userName }: WelcomeMessageProps) {
     
     // If no userName provided, try to get it from user metadata
     if (!displayName && authUser?.user_metadata?.full_name) {
-      displayName = authUser.user_metadata.full_name;
+      displayName = authUser.user_metadata.full_name.split(' ')[0]; // Only use first name
     }
     
     // Fallback to email mapping if no name found
     if (!displayName && authUser?.email) {
       switch (authUser.email) {
         case 'joel.yaffe+lda@gmail.com':
-          displayName = 'Joel Yaffe';
+          displayName = 'Joel';
           break;
         case 'viviane.sokoluk@gmail.com':
-          displayName = 'Viviane Sokoluk';
+          displayName = 'Viviane';
           break;
         case 'info@jacquesgermain.com':
-          displayName = 'Jacques Germain';
+          displayName = 'Jacques';
           break;
         case 'david.morissette@loftsdesarts.ca':
-          displayName = 'David Morissette';
+          displayName = 'David';
           break;
         default:
+          // Get only the first name from email
           displayName = authUser.email.split('@')[0]
-            .split('.')
-            .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+            .split('.')[0] // Only take the first part before dots
+            .charAt(0).toUpperCase() + authUser.email.split('@')[0].split('.')[0].slice(1);
       }
     }
     
