@@ -1,13 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
-import { Metadata } from 'next';
-import { generateMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateMetadata(
-  'Contactez-Nous',
-  'Contactez le conseil d\'administration des condominiums Lofts des Arts. Obtenez des informations sur l\'immeuble, les installations et les services.',
-  '/lda_bg.png'
+// Social media icons
+const FacebookIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
+
+const MapIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+    <circle cx="12" cy="10" r="3"></circle>
+  </svg>
+);
+
+// Instagram icon
+const InstagramIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
 );
 
 export default function ContactPage() {
@@ -52,20 +69,32 @@ export default function ContactPage() {
                 Montréal, Québec<br />
                 Canada H2X 2R5
               </p>
-              <div className="flex gap-4">
+              <div className="flex space-x-3">
                 <a 
                   href="https://www.facebook.com/LoftDesArts" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-md text-white transition-colors"
+                  className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-full text-zinc-300 hover:text-white transition-colors"
+                  aria-label="Facebook"
+                  title="Facebook"
                 >
-                  Facebook
+                  <FacebookIcon />
+                </a>
+                <a 
+                  href="https://www.instagram.com/explore/tags/loftsdesarts/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-full text-zinc-300 hover:text-white transition-colors"
+                  aria-label="Instagram"
+                  title="Instagram"
+                >
+                  <InstagramIcon />
                 </a>
                 <a 
                   href="https://maps.app.goo.gl/tz5g4Zq5yGPz949N7" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-md text-white transition-colors"
+                  className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-full text-zinc-300 hover:text-white transition-colors"
                   onClick={(e) => {
                     // Add error handling for ad blockers
                     try {
@@ -77,8 +106,10 @@ export default function ContactPage() {
                       console.info("Maps link may be blocked by an ad blocker, attempting fallback.");
                     }
                   }}
+                  aria-label="Google Maps"
+                  title="Google Maps"
                 >
-                  Google Maps
+                  <MapIcon />
                 </a>
               </div>
             </div>
