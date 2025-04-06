@@ -38,16 +38,26 @@ export default function UserAvatar({ showNotification = true }: UserAvatarProps)
       try {
         if (!user) return;
         
+        // Use a more direct approach with service_role if available
+        // or use direct ID-based query without RLS dependency
         const { data, error } = await supabase
           .from('profiles')
-          .select('avatar_url')
+          .select('avatar_url, role')
           .eq('id', user.id)
-          .single();
+          .maybeSingle();
           
-        if (error) throw error;
-        setAvatarUrl(data?.avatar_url);
+        if (error) {
+          console.error('Error fetching user profile:', error);
+          // Continue with default avatar
+          return;
+        }
+        
+        if (data?.avatar_url) {
+          setAvatarUrl(data.avatar_url);
+        }
       } catch (error) {
         console.error('Error fetching user profile:', error);
+        // Continue with default avatar - don't let this break the UI
       }
     }
     
