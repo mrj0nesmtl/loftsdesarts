@@ -2,7 +2,7 @@
 
 This directory contains comprehensive documentation for the Lofts des Arts API, including endpoints, authentication, request/response formats, and integration guides.
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 ## Directory Structure
 
@@ -11,6 +11,7 @@ This directory contains comprehensive documentation for the Lofts des Arts API, 
   - `/endpoints/packages/` - Package management API endpoints
   - `/endpoints/users/` - User and profile management endpoints
   - `/endpoints/documents/` - Document management endpoints
+  - `/endpoints/settings/` - User preferences and system settings endpoints
 - `/authentication/` - Authentication and authorization guides
 - `/schemas/` - API data schemas and validation rules
 - `/examples/` - Example API requests and responses
@@ -31,6 +32,8 @@ The Lofts des Arts API enables interaction with the platform's core functionalit
 - Package tracking and notifications
 - Document management system
 - Role-based access control
+- User interface preferences
+- Theme system configuration
 
 ## Authentication
 
@@ -154,6 +157,15 @@ The API follows RESTful conventions and provides the following main endpoint cat
 - `POST /api/roles/:roleName/permissions` - Add permission to role
 - `DELETE /api/roles/:roleName/permissions/:permissionId` - Remove permission
 
+### Settings and Preferences
+
+- `GET /api/settings/theme` - Get current user's theme preference
+- `PATCH /api/settings/theme` - Update user's theme preference
+- `GET /api/settings/theme/default` - Get system default theme
+- `PATCH /api/settings/theme/default` - Update system default theme (admin only)
+- `GET /api/settings/ui` - Get user interface preferences
+- `PATCH /api/settings/ui` - Update user interface preferences
+
 ## Request and Response Formats
 
 All API requests and responses use JSON format. Example:
@@ -269,6 +281,7 @@ The API supports real-time updates through WebSockets for select endpoints:
 - `/realtime/conversations` - Updates for conversations and messages
 - `/realtime/packages` - Updates for package status changes
 - `/realtime/notifications` - System and user notifications
+- `/realtime/theme` - Theme preference change notifications
 
 ### WebSocket Authentication
 
@@ -366,7 +379,8 @@ Breaking changes are only introduced in new major versions. Changes that maintai
 
 - **v1.0** (April 1, 2025) - Initial stable API release
 - **v1.1** (April 5, 2025) - Added messaging and package management endpoints
-- **v1.2** (Planned: April 15, 2025) - Resident portal integration
+- **v1.2** (April 6, 2025) - Added theme system and UI preferences endpoints
+- **v1.3** (Planned: April 10, 2025) - Resident portal integration
 
 ## Implementation Notes
 

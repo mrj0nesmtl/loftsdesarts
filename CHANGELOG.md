@@ -8,11 +8,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Messaging system components for conversation management
-- Advanced analytics dashboard components
-- Package tracking workflow interface improvements
+- Resident portal authentication and profile management
+- Maintenance request submission and tracking system
+- Building information repository for residents
 
-## [0.3.0] - 2025-04-10
+## [0.4.0] - 2025-04-06
+
+### Added
+- Automated project structure documentation generator
+- Comprehensive documentation updates across all major sections
+- Session 6 planning documentation for Resident Portal phase
+- Project status updates reflecting completion of Phase 2
+- Enhanced GitHub workflow for versioning and releases
+- Modern badges and improved documentation structure in README
+- Initial messaging system components for conversation management
+- Package management workflow interface improvements
+- Enhanced analytics dashboard for visitor metrics
+
+### Changed
+- Improved theme system across all admin pages with light/dark mode consistency
+- Updated UI components to use theme-aware classes instead of hardcoded colors
+- Restricted theme toggle to admin interface only (removed from public pages)
+- Enhanced visual consistency across admin dashboard, analytics, inquiries, and settings pages
+- Added smooth theme transitions for better user experience
+- Reorganized documentation structure for better navigation
+- Updated all API documentation to reflect theme system endpoints
+
+### Fixed
+- GitHub Actions versioning workflow token permissions
+- Documentation inconsistencies between files
+- Theme system implementation documentation gaps
+
+## [0.3.0] - 2025-04-05
 
 ### Added
 - Comprehensive residents management system

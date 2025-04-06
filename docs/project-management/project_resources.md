@@ -1,6 +1,6 @@
 # Lofts des Arts Website - Project Resources
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 ## Project Structure
 ```
@@ -19,6 +19,7 @@ loftsdesarts/
 │   │   ├── inquiries/     # Inquiry management
 │   │   ├── packages/      # Package management
 │   │   ├── roles/         # Role management
+│   │   ├── analytics/     # Analytics dashboard
 │   │   └── settings/      # Site settings and content management
 │   ├── resident/          # Resident portal routes
 │   │   ├── dashboard/     # Resident dashboard
@@ -31,6 +32,9 @@ loftsdesarts/
 │   │   ├── packages/      # Package management endpoints
 │   │   ├── messages/      # Messaging API endpoints
 │   │   ├── roles/         # RBAC API endpoints
+│   │   ├── settings/      # Settings API endpoints
+│   │   │   ├── theme/     # Theme preferences endpoints
+│   │   │   └── ui/        # UI preferences endpoints 
 │   │   └── uploads/       # File upload endpoints
 │   ├── layout.tsx         # Root layout
 │   └── page.tsx           # Root page
@@ -40,9 +44,11 @@ loftsdesarts/
 │   ├── forms/             # Form components
 │   ├── layout/            # Layout components
 │   ├── ui/                # UI components (Shadcn)
+│   │   ├── ThemeToggle.tsx # Theme toggle component (admin-only)
 │   ├── gallery/           # Gallery components
 │   ├── messaging/         # Messaging components
 │   ├── packages/          # Package management components
+│   ├── theme/             # Theme-related components
 │   └── rbac/              # Role-based access components
 ├── lib/                   # Utility functions and shared code
 │   ├── actions/           # Server actions
@@ -51,7 +57,9 @@ loftsdesarts/
 │   │   ├── usePermission.ts  # Permission checking hook
 │   │   ├── useRole.ts     # Role checking hook
 │   │   ├── useRealtime.ts # WebSocket hook
+│   │   ├── useTheme.ts    # Theme management hook
 │   │   └── usePackage.ts  # Package management hook
+│   ├── theme-provider.tsx # Theme context provider
 │   ├── types/             # TypeScript types
 │   ├── utils/             # Utility functions
 │   ├── validators/        # Zod schemas
@@ -61,6 +69,7 @@ loftsdesarts/
 │   ├── images/            # Image assets
 │   └── videos/            # Video assets
 ├── styles/                # Global styles
+│   ├── globals.css        # Global CSS including theme variables
 ├── docs/                  # Project documentation
 │   ├── api/               # API documentation
 │   ├── architecture/      # Architecture documentation
@@ -70,6 +79,8 @@ loftsdesarts/
 │   │   ├── package-system.md # Package system documentation
 │   │   └── rbac-system.md # RBAC system documentation
 │   ├── design/            # Design documentation
+│   │   ├── design.md      # Design system documentation
+│   │   └── theme/         # Theme system design documentation
 │   └── project-management/ # Project management documentation
 └── .env                   # Environment variables
 ```
@@ -85,6 +96,7 @@ loftsdesarts/
 - Role and permission icons
 - Message status indicators
 - QR code templates
+- Theme-specific icons and assets
 
 ### External Services
 - Supabase Project: [Setup pending]
@@ -106,6 +118,8 @@ loftsdesarts/
 - Message reads (read receipts)
 - Content (website content blocks)
 - Gallery (building images and descriptions)
+- User preferences (theme/UI settings)
+- Site settings (system-wide configuration)
 
 ### API Endpoints
 - `/api/auth/*` - Authentication endpoints
@@ -120,6 +134,12 @@ loftsdesarts/
 - `/api/uploads/*` - File upload handling
 - `/api/content/*` - Content management
 - `/api/residents/*` - Resident information
+- `/api/settings/theme/*` - Theme system preferences
+  - `GET /api/settings/theme` - Get current user's theme preference
+  - `PATCH /api/settings/theme` - Update theme preference
+  - `GET /api/settings/theme/default` - Get system default theme
+  - `PATCH /api/settings/theme/default` - Update system default (admin only)
+- `/api/settings/ui/*` - User interface preferences
 
 ### Components to Adapt
 - Hero section (replace film content with condominium content)
@@ -129,37 +149,59 @@ loftsdesarts/
 - Gallery grid (replace portfolio with building photos)
 - Permission guards for all admin components
 
-### New Components to Create
+### Theme System
+- **Theme Provider**: Context provider for theme state management
+- **Theme Toggle Component**: Admin-only toggle with role-based access
+- **Theme Classes**: Standardized theme-aware class naming:
+  - `bg-background` - Page background
+  - `bg-card` - Card and container backgrounds
+  - `bg-muted` - Secondary or muted backgrounds
+  - `text-primary` - Primary text content
+  - `text-muted-foreground` - Secondary or less important text
+  - `border-border` - Border elements
+  - `theme-transition` - Smooth theme transition elements
+- **CSS Variables**:
+  - Light mode variables defined at root level
+  - Dark mode variables applied via .dark class selector
+- **User Preferences**: 
+  - Theme preferences stored in database
+  - Preferences synced across devices via API
+  - Default preference detection from system
+
+### New Components Created
 - Package management interface
   - Package listing with filtering
-  - Package detail view
+  - Package detail view with theme-aware styling
   - Package logging form
-  - QR code generator
+  - QR code generator with theme-aware display
   - QR code scanner
-  - Package status editor
-  - Notification history
+  - Theme-aware package status editor
+  - Notification history with theme-aware alerts
   
 - Messaging system
-  - Conversation list
-  - Message thread
-  - Message composer
+  - Theme-aware conversation list
+  - Message thread with theme-aware bubbles
+  - Message composer with theme transitions
   - Attachment uploader
-  - Read receipt indicator
+  - Read receipt indicator with theme-aware status
   - Typing indicator
   - Notification badges
 
 - RBAC system
-  - Role management interface
+  - Role management interface with theme support
   - Permission assignment interface
-  - Role badges
+  - Role badges with theme-aware styling
   - Permission indicators
   - Role-based navigation
   - Permission guards
 
-- Building information sections
-- Amenities showcase
-- Board member profiles
-- Resident announcements module
+- Theme system components
+  - ThemeProvider context component
+  - ThemeToggle admin-only button
+  - Theme transition wrapper
+  - useTheme hook with role checking
+  - ThemeAwareCard component
+  - AdminThemeSettings component
 
 ## External Dependencies
 - Next.js 14
@@ -190,6 +232,11 @@ loftsdesarts/
 - `resident:{id}:packages` - Updates for a resident's packages
 - `building:packages` - All package updates for building staff
 
+### Theme Channels
+- `user:{id}:preferences` - User preference updates
+- `system:theme` - System-wide theme default changes
+- `realtime/theme` - Theme preference updates for synchronization
+
 ## Permission Structure
 
 ### User Roles
@@ -211,6 +258,9 @@ loftsdesarts/
 - `packages:*` - Package management
 - `messages:*` - Messaging system
 - `settings:*` - System settings
+  - `settings:theme:*` - Theme system settings
+  - `settings:theme:default` - Change default theme (admin only)
+  - `settings:ui:*` - UI preferences
 - `announcements:*` - Building announcements
 
 ## Reference Documentation
@@ -232,6 +282,7 @@ loftsdesarts/
 - `/sql/functions/` - PostgreSQL functions
 - `/sql/permissions/` - RLS policy definitions
 - `/sql/triggers/` - Database triggers
+- `/sql/theme/` - Theme system tables and functions
 
 ### Testing Resources
 - `/cypress/` - End-to-end tests
@@ -239,6 +290,7 @@ loftsdesarts/
 - Test users with various roles
 - Test package data generator
 - Test message generator
+- Theme testing utilities
 
 ### Project Boards
 - Feature development board
