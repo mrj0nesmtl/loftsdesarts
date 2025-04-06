@@ -1,3 +1,7 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+
+/* Import Tailwind and other CSS */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -125,7 +129,7 @@
 
 /* Add custom font classes */
 .font-title {
-  font-family: var(--font-poiret-one), Georgia, serif;
+  font-family: 'Poiret One', var(--font-poiret-one) !important;
   font-weight: 400;
   letter-spacing: 0.02em;
 }

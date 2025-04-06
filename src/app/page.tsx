@@ -40,7 +40,7 @@ export default function Home() {
   const heroImage = getSettingValue(settings, 'hero.image', '/lda_bg.png');
   const heroTitle = getSettingValue(settings, 'hero.title', 'Condominiums de Luxe');
   const heroSubtitle = getSettingValue(settings, 'hero.subtitle', 'au Cœur de Montréal');
-  const bannerEnabled = getSettingValue(settings, 'banner.enabled', 'false') === 'true';
+  const bannerEnabled = getSettingValue(settings, 'banner.enabled', 'false').toLowerCase() === 'true';
   const bannerText = getSettingValue(settings, 'banner.text', '');
   const bannerColor = getSettingValue(settings, 'banner.color', '#1e40af');
   
@@ -77,10 +77,12 @@ export default function Home() {
         
         <div className="relative z-20 text-center px-4 max-w-3xl mx-auto">
           <div className="mb-8">
-            <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title">
+            <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title"
+               style={{ fontFamily: "'Poiret One', cursive !important" }}>
               {heroTitle}
             </p>
-            <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title mt-2">
+            <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title mt-2"
+               style={{ fontFamily: "'Poiret One', cursive !important" }}>
               {heroSubtitle}
             </p>
           </div>
@@ -97,7 +99,10 @@ export default function Home() {
       <section className="py-16 bg-black">
         <div className="container px-4 mx-auto md:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center font-title">Découvrez un Mode de Vie Luxueux</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center font-title"
+                style={{ fontFamily: "'Poiret One', cursive !important" }}>
+              Découvrez un Mode de Vie Luxueux
+            </h2>
             
             <div className="space-y-6 text-zinc-300">
               <p className="leading-relaxed">
@@ -132,7 +137,10 @@ export default function Home() {
       {/* Map Section */}
       <section className="py-16 bg-zinc-900">
         <div className="container px-4 mx-auto md:px-6">
-          <h2 className="text-3xl font-bold mb-8 text-center font-title">Notre Emplacement</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center font-title"
+              style={{ fontFamily: "'Poiret One', cursive !important" }}>
+            Notre Emplacement
+          </h2>
           
           <div className="aspect-video w-full max-w-4xl mx-auto overflow-hidden rounded-lg">
             <iframe 
