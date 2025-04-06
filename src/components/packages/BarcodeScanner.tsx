@@ -20,18 +20,41 @@ export default function BarcodeScanner({
   const [error, setError] = useState<string | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const scannerRef = useRef<Html5Qrcode | null>(null);
-  const scannerContainerId = 'barcode-scanner-container';
+  // Use a unique ID for each scanner instance to prevent conflicts
+  const scannerContainerId = useRef(`barcode-scanner-container-${Math.random().toString(36).substring(2, 11)}`).current;
+  const isMountedRef = useRef(true);
 
   // Clean up scanner on unmount
   useEffect(() => {
+    // Set mounted ref
+    isMountedRef.current = true;
+    
     return () => {
-      if (scannerRef.current && isScanning) {
-        stopScanner();
+      // Mark component as unmounted
+      isMountedRef.current = false;
+      
+      // Clean up scanner if it exists
+      if (scannerRef.current) {
+        try {
+          // Check if scanner is running before attempting to stop
+          if (scannerRef.current.isScanning) {
+            scannerRef.current.stop().catch(error => {
+              console.error('Error stopping scanner during cleanup:', error);
+            });
+          }
+        } catch (error) {
+          console.error('Error during scanner cleanup:', error);
+        }
+        
+        // Clear the reference
+        scannerRef.current = null;
       }
     };
-  }, [isScanning]);
+  }, []);
 
   const startScanner = async () => {
+    if (!isMountedRef.current) return;
+    
     setError(null);
     setIsScanning(true);
     
@@ -39,7 +62,15 @@ export default function BarcodeScanner({
       // Ensure we have camera permission
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       stream.getTracks().forEach(track => track.stop()); // Stop stream after permission check
+      
+      if (!isMountedRef.current) return;
       setPermissionGranted(true);
+      
+      // Make sure the container exists before initializing
+      const container = document.getElementById(scannerContainerId);
+      if (!container) {
+        throw new Error('Scanner container not found');
+      }
       
       const html5QrCode = new Html5Qrcode(scannerContainerId);
       scannerRef.current = html5QrCode;
@@ -50,40 +81,67 @@ export default function BarcodeScanner({
         aspectRatio: 1.0,
       };
       
+      // Ensure the component is still mounted before continuing
+      if (!isMountedRef.current) {
+        if (html5QrCode.isScanning) {
+          await html5QrCode.stop();
+        }
+        return;
+      }
+      
       await html5QrCode.start(
         { facingMode: 'environment' }, 
         qrConfig,
-        handleScanSuccess,
-        handleScanError
+        (decodedText) => {
+          // Only process scan if component is mounted
+          if (isMountedRef.current) {
+            handleScanSuccess(decodedText);
+          }
+        },
+        (errorMessage) => {
+          // Only process error if component is mounted
+          if (isMountedRef.current) {
+            handleScanError(errorMessage);
+          }
+        }
       );
     } catch (err) {
       console.error('Error starting scanner:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Failed to access camera';
-      setError(errorMessage);
-      setIsScanning(false);
-      if (onScanError) onScanError(errorMessage);
+      // Only update state if component is mounted
+      if (isMountedRef.current) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to access camera';
+        setError(errorMessage);
+        setIsScanning(false);
+        if (onScanError) onScanError(errorMessage);
+      }
     }
   };
 
   const stopScanner = async () => {
+    if (!isMountedRef.current) return;
+    
     if (scannerRef.current) {
       try {
         // Check if the scanner is truly running before trying to stop it
-        const isScanning = scannerRef.current.isScanning;
-        
-        if (isScanning) {
+        if (scannerRef.current.isScanning) {
           await scannerRef.current.stop();
         }
-        // Always update the UI state regardless of whether stop succeeded
-        setIsScanning(false);
+        // Only update state if component is mounted
+        if (isMountedRef.current) {
+          setIsScanning(false);
+        }
       } catch (err) {
         console.error('Error stopping scanner:', err);
-        // Force update the UI state even if the stop failed
-        setIsScanning(false);
+        // Only update state if component is mounted
+        if (isMountedRef.current) {
+          setIsScanning(false);
+        }
       }
     } else {
-      // If scanner reference doesn't exist, just update UI state
-      setIsScanning(false);
+      // If scanner reference doesn't exist, just update UI state if mounted
+      if (isMountedRef.current) {
+        setIsScanning(false);
+      }
     }
   };
 

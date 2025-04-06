@@ -5,7 +5,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const navItems = [
   { name: "Accueil", path: "/" },
@@ -76,8 +75,6 @@ export function Header() {
             </Link>
           ))}
           
-          <ThemeToggle />
-          
           {/* Login Button */}
           <Link
             href="/admin"
@@ -89,7 +86,6 @@ export function Header() {
         
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-2">
-          <ThemeToggle />
           <button 
             className="z-50 text-zinc-400 hover:text-white transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

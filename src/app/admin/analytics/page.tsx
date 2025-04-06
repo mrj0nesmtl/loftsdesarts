@@ -162,7 +162,7 @@ export default function AnalyticsPage() {
       </div>
       
       {/* System Status */}
-      <div className="bg-zinc-800 rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-card rounded-lg shadow-md p-6 mb-8 theme-transition">
         <h2 className="text-xl font-semibold mb-4">System Status</h2>
         <div className="space-y-4">
           <StatusIndicator 
@@ -181,12 +181,12 @@ export default function AnalyticsPage() {
       </div>
       
       {/* Place for future charts */}
-      <div className="bg-zinc-800 rounded-lg shadow-md p-6">
+      <div className="bg-card rounded-lg shadow-md p-6 theme-transition">
         <h2 className="text-xl font-semibold mb-4">Inquiry Trends</h2>
-        <div className="bg-zinc-900 rounded p-6 flex items-center justify-center h-64">
-          <p className="text-zinc-400">Charts will be available in a future update</p>
+        <div className="bg-muted rounded p-6 flex items-center justify-center h-64">
+          <p className="text-muted-foreground">Charts will be available in a future update</p>
         </div>
-        <p className="mt-4 text-zinc-400 text-sm">This section will include charts to visualize inquiry trends over time.</p>
+        <p className="mt-4 text-muted-foreground text-sm">This section will include charts to visualize inquiry trends over time.</p>
       </div>
     </div>
   );
@@ -194,9 +194,9 @@ export default function AnalyticsPage() {
 
 function MetricCard({ title, value, icon }: { title: string, value: string, icon: React.ReactNode }) {
   return (
-    <div className="bg-zinc-800 p-6 rounded-lg shadow-md">
+    <div className="bg-card p-6 rounded-lg shadow-md theme-transition">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium text-zinc-400">{title}</h3>
+        <h3 className="text-lg font-medium text-muted-foreground">{title}</h3>
         {icon}
       </div>
       <p className="text-3xl font-bold">{value}</p>
@@ -235,7 +235,7 @@ function StatusIndicator({ name, status }: { name: string, status: string }) {
         <div className={`w-3 h-3 ${statusColor} rounded-full mr-3`}></div>
         <span className="font-medium">{name}</span>
       </div>
-      <span className="text-sm text-zinc-400">{statusText}</span>
+      <span className="text-sm text-muted-foreground">{statusText}</span>
     </div>
   );
 } 

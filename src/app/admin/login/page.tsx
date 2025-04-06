@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
         </Link>
         
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-white">Syndicate Lofts des Arts</h1>
+          <h1 className="text-2xl font-bold text-white font-title">Syndicate Lofts des Arts</h1>
           <p className="text-zinc-400 mt-2">Portail d'Administration</p>
         </div>
         

@@ -1,46 +1,87 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { RootLayout } from "@/components/layout/RootLayout";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
+import { SiteSetting, getPublicSettings, getSettingValue } from "@/services/websiteService";
 
 export default function Home() {
+  const [settings, setSettings] = useState<SiteSetting[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
+  
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const data = await getPublicSettings();
+        setSettings(data);
+        console.log("Loaded public settings:", data);
+      } catch (error) {
+        console.error("Error loading public settings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadSettings();
+    
+    // Add scroll event listener for parallax effect
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  // Get settings values with defaults
+  const heroImage = getSettingValue(settings, 'hero.image', '/lda_bg.png');
+  const heroTitle = getSettingValue(settings, 'hero.title', 'Condominiums de Luxe');
+  const heroSubtitle = getSettingValue(settings, 'hero.subtitle', 'au Cœur de Montréal');
+  const bannerEnabled = getSettingValue(settings, 'banner.enabled', 'false') === 'true';
+  const bannerText = getSettingValue(settings, 'banner.text', '');
+  const bannerColor = getSettingValue(settings, 'banner.color', '#1e40af');
+  
   return (
     <RootLayout>
-      {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Static Background Image instead of Video */}
-        <Image
-          src="/lda_bg.png"
-          alt="Lofts des Arts"
-          fill
-          className="absolute inset-0 object-cover z-0"
-          priority
-        />
-        
-        {/* Video Background - Commented out for future use
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
+      {/* Banner if enabled */}
+      {bannerEnabled && bannerText && (
+        <div 
+          className="py-2 px-4 text-white text-center font-medium"
+          style={{ backgroundColor: bannerColor }}
         >
-          <source src="/STTS_2.mp4" type="video/mp4" />
-        </video>
-        */}
+          {bannerText}
+        </div>
+      )}
+      
+      {/* Hero Section - Reduced height with parallax */}
+      <section className="relative h-[60vh] md:h-[65vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image with parallax effect */}
+        {loading ? (
+          <div className="absolute inset-0 bg-zinc-900" />
+        ) : (
+          <div 
+            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{ 
+              backgroundImage: `url(${heroImage})`,
+              transform: `translateY(${scrollY * 0.3}px)`,
+              backgroundSize: 'cover'
+            }}
+          />
+        )}
         
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/50 z-10" />
         
         <div className="relative z-20 text-center px-4 max-w-3xl mx-auto">
           <div className="mb-8">
-            <p className="text-3xl md:text-5xl text-zinc-100 font-medium">
-              Condominiums de Luxe
+            <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title">
+              {heroTitle}
             </p>
-            <p className="text-3xl md:text-5xl text-zinc-100 font-medium mt-2">
-              au Cœur de Montréal
+            <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title mt-2">
+              {heroSubtitle}
             </p>
           </div>
           <Link 
@@ -52,14 +93,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <NewsletterSection />
-
       {/* About Section */}
       <section className="py-16 bg-black">
         <div className="container px-4 mx-auto md:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">Découvrez un Mode de Vie Luxueux</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center font-title">Découvrez un Mode de Vie Luxueux</h2>
             
             <div className="space-y-6 text-zinc-300">
               <p className="leading-relaxed">
@@ -94,7 +132,7 @@ export default function Home() {
       {/* Map Section */}
       <section className="py-16 bg-zinc-900">
         <div className="container px-4 mx-auto md:px-6">
-          <h2 className="text-3xl font-bold mb-8 text-center">Notre Emplacement</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center font-title">Notre Emplacement</h2>
           
           <div className="aspect-video w-full max-w-4xl mx-auto overflow-hidden rounded-lg">
             <iframe 
@@ -120,6 +158,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+      {/* Newsletter Section - Moved to bottom */}
+      <NewsletterSection />
     </RootLayout>
   );
 }

@@ -11,7 +11,7 @@ export const metadata: Metadata = generateMetadata(
 export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:px-6">
-      <h1 className="text-4xl font-bold text-center mb-12">À Propos des Lofts des Arts</h1>
+      <h1 className="text-4xl font-bold text-center mb-12 font-title">À Propos des Lofts des Arts</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
         <div className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-lg">
@@ -26,7 +26,7 @@ export default function AboutPage() {
         
         <div className="space-y-6">
           <div>
-            <h2 className="text-3xl font-semibold mb-4">Notre Immeuble</h2>
+            <h2 className="text-3xl font-semibold mb-4 font-title">Notre Immeuble</h2>
             <div className="space-y-4">
               <p className="text-zinc-300 leading-relaxed">
                 Le plus beau projet immobilier avec vue sur le Quartier des Spectacles. Des beaux matériaux à l'intérieur d'une bâtisse en béton et acier, comme on n'en fait plus. C'est ça les Lofts des Arts : un bout d'histoire de Montréal.
@@ -38,7 +38,7 @@ export default function AboutPage() {
           </div>
           
           <div>
-            <h2 className="text-3xl font-semibold mb-4">Luxe et Prestige</h2>
+            <h2 className="text-3xl font-semibold mb-4 font-title">Luxe et Prestige</h2>
             <div className="space-y-4">
               <p className="text-zinc-300 leading-relaxed">
                 Luxe et Prestige : énormes fenêtres sur le cœur de Montréal et son formidable renouvellement, finitions de luxe, plafonds de près de 11 pieds en béton, comptoirs en granit, planchers en bois franc et insonorisés, cuisines semi-professionnelles, salles de bain spacieuses, air climatisé et eau chaude indépendants.
@@ -54,7 +54,7 @@ export default function AboutPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
         <div className="space-y-6 order-2 lg:order-1">
           <div>
-            <h2 className="text-3xl font-semibold mb-4">Installations Spectaculaires</h2>
+            <h2 className="text-3xl font-semibold mb-4 font-title">Installations Spectaculaires</h2>
             <div className="space-y-4">
               <p className="text-zinc-300 leading-relaxed">
                 Sans oublier la terrasse commune avec vue spectaculaire sur le centre-ville et jusqu'à l'horizon, comprenant piscine, Gym-Cardio et un espace barbecue avec tables et gazebos pour vos plus belles journées au soleil, directement chez vous.
@@ -66,7 +66,7 @@ export default function AboutPage() {
           </div>
           
           <div>
-            <h2 className="text-3xl font-semibold mb-4">Sécurité et Tranquillité d'Esprit</h2>
+            <h2 className="text-3xl font-semibold mb-4 font-title">Sécurité et Tranquillité d'Esprit</h2>
             <div className="space-y-4">
               <p className="text-zinc-300 leading-relaxed">
                 Et en tout temps, votre tranquillité personnelle sera garantie par un Service de Sécurité 24h/7, caméras de surveillance, interphones et carte-clés de sécurité. Lofts des Arts : des condos de prestige dans le quartier du glamour.
@@ -89,7 +89,7 @@ export default function AboutPage() {
       </div>
       
       <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl font-semibold mb-6">Emplacement</h2>
+        <h2 className="text-3xl font-semibold mb-6 font-title">Emplacement</h2>
         <p className="text-zinc-300 mb-8">
           Situé au 1625 rue Clark, Montréal, Québec, Canada H2X 2R5, Lofts des Arts est au cœur du quartier des spectacles, à quelques pas de la Place des Arts, des restaurants, des boutiques et de la scène culturelle vibrante du centre-ville de Montréal.
         </p>

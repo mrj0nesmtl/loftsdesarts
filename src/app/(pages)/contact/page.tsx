@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { NewsletterSection } from "@/components/sections/NewsletterSection";
 import { Metadata } from 'next';
 import { generateMetadata } from '@/lib/seo';
 
@@ -12,12 +13,12 @@ export const metadata: Metadata = generateMetadata(
 export default function ContactPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:px-6">
-      <h1 className="text-4xl font-bold text-center mb-12">Contact & Informations</h1>
+      <h1 className="text-4xl font-bold text-center mb-12 font-title">Contact & Informations</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* About Lofts des Arts */}
         <div>
-          <h2 className="text-2xl font-semibold mb-6">À Propos des Lofts des Arts</h2>
+          <h2 className="text-2xl font-semibold mb-6 font-title">À Propos des Lofts des Arts</h2>
           
           <div className="mb-6 relative w-full aspect-video max-w-md mx-auto lg:mx-0 overflow-hidden rounded-lg">
             <Image
@@ -38,14 +39,14 @@ export default function ContactPage() {
               Notre immeuble propose des lofts spacieux avec de hauts plafonds en béton, des planchers en bois franc, des comptoirs en granit et de grandes fenêtres offrant des vues spectaculaires sur la ville.
             </p>
             
-            <h3 className="text-xl font-semibold mt-8 mb-4">Installations</h3>
+            <h3 className="text-xl font-semibold mt-8 mb-4 font-title">Installations</h3>
             
             <p className="text-zinc-300 mb-4">
               Les résidents bénéficient d'une terrasse sur le toit avec piscine, installations de gym et cardio, espace barbecue avec tables et gazebos, service de sécurité 24h/7, caméras de surveillance, systèmes d'interphone et accès sécurisé par carte-clé.
             </p>
             
             <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4">Adresse</h3>
+              <h3 className="text-xl font-semibold mb-4 font-title">Adresse</h3>
               <p className="text-zinc-300 mb-4">
                 1625 rue Clark<br />
                 Montréal, Québec<br />
@@ -75,6 +76,11 @@ export default function ContactPage() {
         
         {/* Contact Form */}
         <ContactForm />
+      </div>
+      
+      {/* Newsletter Section */}
+      <div className="mt-20">
+        <NewsletterSection />
       </div>
     </div>
   );

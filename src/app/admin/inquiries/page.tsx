@@ -112,29 +112,29 @@ export default function InquiriesPage() {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Inquiries List */}
-        <div className="bg-zinc-800 rounded-lg shadow-md overflow-hidden">
-          <div className="p-4 bg-zinc-700/50 border-b border-zinc-600">
+        <div className="bg-card rounded-lg shadow-md overflow-hidden theme-transition">
+          <div className="p-4 bg-muted/50 border-b border-border">
             <h2 className="text-lg font-medium">All Inquiries</h2>
           </div>
           <div className="overflow-auto max-h-[70vh]">
-            <table className="min-w-full divide-y divide-zinc-700">
-              <thead className="bg-zinc-800">
+            <table className="min-w-full divide-y divide-border">
+              <thead className="bg-card">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Name
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Date
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Status
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-700">
+              <tbody className="divide-y divide-border">
                 {inquiries.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="px-6 py-4 text-center text-zinc-400">
+                    <td colSpan={3} className="px-6 py-4 text-center text-muted-foreground">
                       No inquiries found
                     </td>
                   </tr>
@@ -143,13 +143,13 @@ export default function InquiriesPage() {
                     <tr 
                       key={inquiry.id} 
                       onClick={() => handleViewInquiry(inquiry)}
-                      className={`cursor-pointer hover:bg-zinc-700 transition-colors ${selectedInquiry?.id === inquiry.id ? 'bg-zinc-700' : ''}`}
+                      className={`cursor-pointer hover:bg-muted transition-colors ${selectedInquiry?.id === inquiry.id ? 'bg-muted' : ''}`}
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium">{inquiry.name}</div>
-                        <div className="text-sm text-zinc-400">{inquiry.email}</div>
+                        <div className="text-sm text-muted-foreground">{inquiry.email}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                         {new Date(inquiry.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -166,8 +166,8 @@ export default function InquiriesPage() {
         </div>
         
         {/* Inquiry Details */}
-        <div className="bg-zinc-800 rounded-lg shadow-md">
-          <div className="p-4 bg-zinc-700/50 border-b border-zinc-600">
+        <div className="bg-card rounded-lg shadow-md theme-transition">
+          <div className="p-4 bg-muted/50 border-b border-border">
             <h2 className="text-lg font-medium">Inquiry Details</h2>
           </div>
           
@@ -182,25 +182,25 @@ export default function InquiriesPage() {
               
               <div className="space-y-6">
                 <div>
-                  <p className="text-sm text-zinc-400 mb-1">Email:</p>
-                  <p className="text-zinc-200">{selectedInquiry.email}</p>
+                  <p className="text-sm text-muted-foreground mb-1">Email:</p>
+                  <p>{selectedInquiry.email}</p>
                 </div>
                 
                 {selectedInquiry.phone && (
                   <div>
-                    <p className="text-sm text-zinc-400 mb-1">Phone:</p>
-                    <p className="text-zinc-200">{selectedInquiry.phone}</p>
+                    <p className="text-sm text-muted-foreground mb-1">Phone:</p>
+                    <p>{selectedInquiry.phone}</p>
                   </div>
                 )}
                 
                 <div>
-                  <p className="text-sm text-zinc-400 mb-1">Date:</p>
-                  <p className="text-zinc-200">{new Date(selectedInquiry.created_at).toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground mb-1">Date:</p>
+                  <p>{new Date(selectedInquiry.created_at).toLocaleString()}</p>
                 </div>
                 
                 <div>
-                  <p className="text-sm text-zinc-400 mb-1">Message:</p>
-                  <p className="text-zinc-200 whitespace-pre-wrap">{selectedInquiry.message}</p>
+                  <p className="text-sm text-muted-foreground mb-1">Message:</p>
+                  <p className="whitespace-pre-wrap">{selectedInquiry.message}</p>
                 </div>
               </div>
               
@@ -215,7 +215,7 @@ export default function InquiriesPage() {
                 {!selectedInquiry.viewed && (
                   <button
                     onClick={() => markAsViewed(selectedInquiry.id)}
-                    className="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-md transition-colors"
+                    className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-md transition-colors"
                   >
                     Mark as Viewed
                   </button>
@@ -224,7 +224,7 @@ export default function InquiriesPage() {
             </div>
           ) : (
             <div className="p-6 h-64 flex items-center justify-center">
-              <p className="text-zinc-400">Select an inquiry to view details</p>
+              <p className="text-muted-foreground">Select an inquiry to view details</p>
             </div>
           )}
         </div>

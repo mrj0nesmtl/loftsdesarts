@@ -29,6 +29,8 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
   const canAccessSettings = userRole === 'ADMIN';
   const canAccessDocuments = userRole === 'ADMIN' || userRole === 'SYNDIC' || userRole === 'USER';
   const canAccessResidents = userRole === 'ADMIN';
+  const canAccessMessaging = userRole === 'ADMIN' || userRole === 'DOORMAN';
+  const canAccessDropBox = userRole === 'ADMIN' || userRole === 'DOORMAN' || userRole === 'SYNDIC' || userRole === 'USER';
 
   return (
     <nav className="py-4 px-2">
@@ -54,28 +56,15 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
       </button>
       
       <div className="space-y-6">
+        {/* Main Navigation - Primary Actions */}
         <div className="space-y-1">
-          {/* Public Site Link - Always visible to all users */}
-          <NavLink 
-            href="/"
-            isActive={false}
-            isExpanded={isExpanded}
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            }
-            external={true}
-          >
-            LDA Site Public
-          </NavLink>
-
+          {/* Dashboard - Always at the top */}
           {canAccessDashboard && (
             <NavLink 
               href="/admin/dashboard"
               isActive={isActive("/admin/dashboard")}
               isExpanded={isExpanded}
+              iconColor="#4f46e5" // Indigo
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7"></rect>
@@ -89,79 +78,13 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             </NavLink>
           )}
           
-          {canAccessDocuments && (
-            <NavLink 
-              href="/admin/documents"
-              isActive={isActive("/admin/documents")}
-              isExpanded={isExpanded}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-              }
-            >
-              Documents
-            </NavLink>
-          )}
-          
-          {canAccessAnalytics && (
-            <NavLink 
-              href="/admin/analytics"
-              isActive={isActive("/admin/analytics")}
-              isExpanded={isExpanded}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 20V10"></path>
-                  <path d="M18 20V4"></path>
-                  <path d="M6 20v-4"></path>
-                </svg>
-              }
-            >
-              Analytique
-            </NavLink>
-          )}
-          
-          {canAccessInquiries && (
-            <NavLink 
-              href="/admin/inquiries"
-              isActive={isActive("/admin/inquiries")}
-              isExpanded={isExpanded}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-              }
-            >
-              Demandes
-            </NavLink>
-          )}
-
-          {canAccessPackages && (
-            <NavLink 
-              href="/admin/packages"
-              isActive={isActive("/admin/packages")}
-              isExpanded={isExpanded}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-              }
-            >
-              Colis
-            </NavLink>
-          )}
-          
+          {/* Residents */}
           {canAccessResidents && (
             <NavLink 
               href="/admin/residents"
               isActive={isActive("/admin/residents")}
               isExpanded={isExpanded}
+              iconColor="#0ea5e9" // Sky blue
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -175,11 +98,126 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             </NavLink>
           )}
           
+          {/* Messaging */}
+          {canAccessMessaging && (
+            <NavLink 
+              href="/admin/messaging"
+              isActive={isActive("/admin/messaging")}
+              isExpanded={isExpanded}
+              iconColor="#ec4899" // Pink
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              }
+            >
+              Messagerie
+            </NavLink>
+          )}
+          
+          {/* Inquiries */}
+          {canAccessInquiries && (
+            <NavLink 
+              href="/admin/inquiries"
+              isActive={isActive("/admin/inquiries")}
+              isExpanded={isExpanded}
+              iconColor="#f59e0b" // Amber
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              }
+            >
+              Demandes
+            </NavLink>
+          )}
+        </div>
+        
+        {/* Document Management Section */}
+        {(canAccessPackages || canAccessDocuments || canAccessDropBox) && (
+          <div className="space-y-1 pt-4 border-t border-border">
+            {isExpanded && (
+              <div className="pl-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Gestion
+              </div>
+            )}
+            
+            {/* Packages */}
+            {canAccessPackages && (
+              <NavLink 
+                href="/admin/packages"
+                isActive={isActive("/admin/packages")}
+                isExpanded={isExpanded}
+                iconColor="#10b981" // Emerald
+                icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                  </svg>
+                }
+              >
+                Colis
+              </NavLink>
+            )}
+            
+            {/* Documents */}
+            {canAccessDocuments && (
+              <NavLink 
+                href="/admin/documents"
+                isActive={isActive("/admin/documents")}
+                isExpanded={isExpanded}
+                iconColor="#0284c7" // Light blue
+                icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                }
+              >
+                Documents
+              </NavLink>
+            )}
+            
+            {/* Drop Box - New Item */}
+            {canAccessDropBox && (
+              <NavLink 
+                href="/admin/dropbox"
+                isActive={isActive("/admin/dropbox")}
+                isExpanded={isExpanded}
+                iconColor="#8b5cf6" // Violet
+                icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                }
+              >
+                Drop Box
+              </NavLink>
+            )}
+          </div>
+        )}
+        
+        {/* System Section */}
+        <div className="space-y-1 pt-4 border-t border-border">
+          {isExpanded && (
+            <div className="pl-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Système
+            </div>
+          )}
+          
+          {/* Settings */}
           {canAccessSettings && (
             <NavLink 
               href="/admin/settings"
               isActive={isActive("/admin/settings")}
               isExpanded={isExpanded}
+              iconColor="#64748b" // Slate
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="3"></circle>
@@ -190,6 +228,61 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
               Paramètres
             </NavLink>
           )}
+          
+          {/* Analytics */}
+          {canAccessAnalytics && (
+            <NavLink 
+              href="/admin/analytics"
+              isActive={isActive("/admin/analytics")}
+              isExpanded={isExpanded}
+              iconColor="#ef4444" // Red
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20V10"></path>
+                  <path d="M18 20V4"></path>
+                  <path d="M6 20v-4"></path>
+                </svg>
+              }
+            >
+              Analytique
+            </NavLink>
+          )}
+          
+          {/* Website Modifications */}
+          {canAccessSettings && (
+            <NavLink 
+              href="/admin/website"
+              isActive={isActive("/admin/website")}
+              isExpanded={isExpanded}
+              iconColor="#3b82f6" // Blue
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+              }
+            >
+              Modifications
+            </NavLink>
+          )}
+          
+          {/* Public Site Link - Moved to the bottom section */}
+          <NavLink 
+            href="/"
+            isActive={false}
+            isExpanded={isExpanded}
+            iconColor="#a3a3a3" // Gray
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            }
+            external={true}
+          >
+            Site Public
+          </NavLink>
         </div>
         
         {isExpanded && (
@@ -236,24 +329,30 @@ type NavLinkProps = {
   isActive: boolean;
   isExpanded: boolean;
   icon: React.ReactNode;
+  iconColor?: string;
   children: React.ReactNode;
   external?: boolean;
 };
 
-function NavLink({ href, isActive, isExpanded, icon, children, external }: NavLinkProps) {
+function NavLink({ href, isActive, isExpanded, icon, iconColor = 'currentColor', children, external }: NavLinkProps) {
   return (
     <Link 
       href={href}
-      className={`flex items-center ${isExpanded ? 'space-x-3' : 'justify-center'} px-4 py-3 rounded-md transition-colors ${
+      className={`flex items-center ${isExpanded ? 'space-x-3' : 'justify-center'} px-4 py-3 rounded-md transition-all duration-200 ${
         isActive 
-          ? "bg-primary text-primary-foreground" 
-          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+          ? "bg-primary/10 font-medium" 
+          : "hover:bg-muted"
       }`}
       title={isExpanded ? undefined : String(children)}
       target={external ? "_blank" : undefined}
     >
-      {icon}
-      {isExpanded && <span className="font-medium">{children}</span>}
+      <div className="relative transition-transform duration-200 hover:scale-110" style={{ color: isActive ? iconColor : 'currentColor' }}>
+        {icon}
+        {!isActive && (
+          <span className="absolute inset-0 bg-gradient-to-tr from-transparent to-transparent hover:from-transparent hover:to-[color:var(--hover-color)] opacity-0 hover:opacity-30 transition-opacity duration-300" style={{"--hover-color": iconColor} as any}></span>
+        )}
+      </div>
+      {isExpanded && <span className="font-medium text-muted-foreground">{children}</span>}
     </Link>
   );
 } 

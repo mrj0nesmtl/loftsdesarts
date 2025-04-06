@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "@/context/ThemeProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Footer } from "@/components/layout/Footer";
 
 // Public Site Banner component that can be used across admin pages - 
 // REMOVED FROM LAYOUT, KEEPING FOR REFERENCE
@@ -155,6 +156,9 @@ export default function ClientAdminLayout({
           {children}
         </main>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 } 
