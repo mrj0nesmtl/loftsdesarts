@@ -29,6 +29,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
   const canAccessSettings = userRole === 'ADMIN';
   const canAccessDocuments = userRole === 'ADMIN' || userRole === 'SYNDIC' || userRole === 'USER';
   const canAccessResidents = userRole === 'ADMIN';
+  const canAccessMessaging = userRole === 'ADMIN' || userRole === 'DOORMAN';
 
   return (
     <nav className="py-4 px-2">
@@ -172,6 +173,21 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
               }
             >
               Résidents
+            </NavLink>
+          )}
+          
+          {canAccessMessaging && (
+            <NavLink 
+              href="/admin/messaging"
+              isActive={isActive("/admin/messaging")}
+              isExpanded={isExpanded}
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              }
+            >
+              Messagerie
             </NavLink>
           )}
           
