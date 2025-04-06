@@ -7,11 +7,57 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "Accueil", path: "/" },
-  { name: "Galerie", path: "/gallery" },
-  { name: "À Propos", path: "/about" },
-  { name: "Contact", path: "/contact" },
+  { 
+    name: "Accueil", 
+    path: "/", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    )
+  },
+  { 
+    name: "Galerie", 
+    path: "/gallery", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+    )
+  },
+  { 
+    name: "À Propos", 
+    path: "/about", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    )
+  },
+  { 
+    name: "Contact", 
+    path: "/contact", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
+    )
+  },
 ];
+
+// Login icon
+const loginIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+    <polyline points="10 17 15 12 10 7"></polyline>
+    <line x1="15" y1="12" x2="3" y2="12"></line>
+  </svg>
+);
 
 export function Header() {
   const pathname = usePathname();
@@ -125,7 +171,7 @@ export function Header() {
           )}
         >
           <div className="flex flex-col h-full pt-20 px-6">
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center mb-8">
               <Image 
                 src="/lda_logo.png" 
                 alt="Lofts des Arts" 
@@ -134,17 +180,20 @@ export function Header() {
                 className="h-7 w-auto"
               />
             </div>
-            <nav className="flex flex-col gap-6">
+            <nav className="flex flex-col gap-5">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
                   href={item.path}
                   className={cn(
-                    "text-lg font-medium transition-colors hover:text-zinc-300",
-                    pathname === item.path ? "text-white" : "text-zinc-200"
+                    "flex items-center gap-3 text-base font-medium transition-colors hover:text-white py-2 px-3 rounded-md",
+                    pathname === item.path 
+                      ? "text-white bg-zinc-800" 
+                      : "text-zinc-400 hover:bg-zinc-900"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
+                  <span className="text-zinc-300">{item.icon}</span>
                   {item.name}
                 </Link>
               ))}
@@ -152,15 +201,16 @@ export function Header() {
               {/* Mobile Login Link */}
               <Link
                 href="/admin"
-                className="text-lg font-medium transition-colors hover:text-zinc-300 text-zinc-200 mt-4"
+                className="flex items-center gap-3 text-base font-medium transition-colors hover:text-white py-2 px-3 rounded-md mt-4 text-zinc-400 hover:bg-zinc-900"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
+                <span className="text-zinc-300">{loginIcon}</span>
                 Connexion
               </Link>
             </nav>
             
-            <div className="mt-auto mb-8">
-              <div className="text-sm text-zinc-500">
+            <div className="mt-auto mb-8 pt-6 border-t border-zinc-800">
+              <div className="text-xs text-zinc-500">
                 &copy; {new Date().getFullYear()} Lofts des Arts
               </div>
             </div>

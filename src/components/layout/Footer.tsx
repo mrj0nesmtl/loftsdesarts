@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -34,6 +36,18 @@ const socialLinks = [
   },
 ];
 
+// Add error handling wrapper for links that might be blocked by ad blockers
+const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+  try {
+    // Attempt to open in new tab
+    window.open(url, "_blank", "noopener,noreferrer");
+    e.preventDefault();
+  } catch (error) {
+    // Fallback to default link behavior
+    console.info("Link may be blocked by an ad blocker, using default behavior");
+  }
+};
+
 export function Footer() {
   return (
     <footer className="w-full bg-black border-t border-zinc-800 py-8">
@@ -46,7 +60,8 @@ export function Footer() {
               alt="Lofts des Arts"
               width={140}
               height={40}
-              className="h-10 w-auto"
+              className="h-10 w-auto object-contain"
+              style={{ width: 'auto', height: 'auto' }}
               priority
             />
           </div>
@@ -71,6 +86,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-zinc-300 transition-colors"
                 title={link.name}
+                onClick={(e) => handleLinkClick(e, link.url)}
               >
                 {link.icon}
               </Link>
