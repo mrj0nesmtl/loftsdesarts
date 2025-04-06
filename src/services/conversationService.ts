@@ -16,28 +16,49 @@ import { supabase } from '@/lib/supabase';
  */
 export const fetchConversations = async (userId: string): Promise<Conversation[]> => {
   try {
-    const { data, error } = await supabase
+    // Check if the conversations table has all required columns
+    const { data: tableInfo, error: tableError } = await supabase
+      .from('conversations')
+      .select('*')
+      .limit(1);
+    
+    if (tableError) {
+      console.error('Error checking table schema:', tableError);
+      return [];
+    }
+    
+    // Build the query based on available columns
+    let query = supabase
       .from('conversations')
       .select(`
         id, 
         title, 
         created_at, 
         updated_at,
-        last_message,
-        is_group,
-        metadata,
+        ${tableInfo[0]?.last_message !== undefined ? 'last_message,' : ''}
+        ${tableInfo[0]?.is_group !== undefined ? 'is_group,' : ''}
+        ${tableInfo[0]?.metadata !== undefined ? 'metadata,' : ''}
         conversation_participants!inner (
           id,
           user_id,
-          last_read_message_id,
-          joined_at,
-          left_at,
-          role
+          ${tableInfo[0]?.last_read_message_id !== undefined ? 'last_read_message_id,' : ''}
+          ${tableInfo[0]?.joined_at !== undefined ? 'joined_at,' : ''}
+          ${tableInfo[0]?.left_at !== undefined ? 'left_at,' : ''}
+          ${tableInfo[0]?.role !== undefined ? 'role' : 'user_id'}
         )
-      `)
+      `);
+    
+    // Add filter and ordering
+    query = query
       .eq('conversation_participants.user_id', userId)
-      .is('conversation_participants.left_at', null) // Only active conversations
       .order('updated_at', { ascending: false });
+    
+    // Add left_at filter if column exists
+    if (tableInfo[0]?.left_at !== undefined) {
+      query = query.is('conversation_participants.left_at', null);
+    }
+    
+    const { data, error } = await query;
     
     if (error) throw error;
 
@@ -48,14 +69,17 @@ export const fetchConversations = async (userId: string): Promise<Conversation[]
       
       if (
         conversation.last_message &&
-        (!participant.last_read_message_id || 
-         participant.last_read_message_id !== conversation.last_message.id)
+        participant.last_read_message_id &&
+        participant.last_read_message_id !== conversation.last_message.id
       ) {
         unreadCount = 1; // Simplified, in reality we would count all unread messages
       }
       
       return {
         ...conversation,
+        // Set defaults for possibly missing columns
+        is_group: conversation.is_group ?? false,
+        metadata: conversation.metadata ?? {},
         participants: conversation.conversation_participants,
         unreadCount,
         // Remove the raw participants array to avoid duplication
@@ -66,7 +90,7 @@ export const fetchConversations = async (userId: string): Promise<Conversation[]
     return conversationsWithUnread;
   } catch (error) {
     console.error('Error fetching conversations:', error);
-    throw error;
+    return []; // Return empty array instead of throwing to prevent UI breaking
   }
 };
 
@@ -113,8 +137,13 @@ export const fetchConversation = async (conversationId: string): Promise<Convers
     // Transform the data to match our types
     const transformedData = {
       ...data,
+      // Set defaults for possibly missing columns
+      is_group: data.is_group ?? false,
+      metadata: data.metadata ?? {},
       participants: data.conversation_participants.map((participant: any) => ({
         ...participant,
+        joined_at: participant.joined_at || new Date().toISOString(),
+        role: participant.role || 'member',
         user: participant.profiles
       })),
       // Remove the raw participants array

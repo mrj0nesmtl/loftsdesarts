@@ -49,53 +49,83 @@ export const useMessages = (conversationId: string | null) => {
   useEffect(() => {
     if (!conversationId || !user?.id) return;
     
-    // Create a channel subscription for new messages
-    const channel = supabase
-      .channel(`conversation-${conversationId}`)
-      .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'messages',
-        filter: `conversation_id=eq.${conversationId}`,
-      }, (payload) => {
-        // Fetch the complete message to get all relations
-        const fetchNewMessage = async () => {
-          try {
-            const newMessage = await fetchMessages(conversationId, 1, 0);
-            
-            // Only add if it's not a duplicate
-            setMessages(prev => {
-              if (prev.some(msg => msg.id === newMessage[0].id)) {
-                return prev;
-              }
-              return [...prev, newMessage[0]];
-            });
-            
-            // Mark as read if it's not from the current user
-            if (newMessage[0].user_id !== user.id) {
-              await markMessageAsRead(newMessage[0].id, user.id);
-            }
-          } catch (err) {
-            console.error('Error fetching new message:', err);
-          }
-        };
-        
-        fetchNewMessage();
-      })
-      .subscribe((status) => {
-        if (status === 'SUBSCRIBED') {
-          setConnectionStatus('connected');
-        } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
-          setConnectionStatus('disconnected');
-        } else {
-          setConnectionStatus('connecting');
-        }
-      });
-    
-    // Cleanup subscription on unmount or conversation change
-    return () => {
-      channel.unsubscribe();
+    // Check if realtime is enabled before setting up subscription
+    const checkRealtimeEnabled = async () => {
+      // Check if the required publication exists
+      const { data, error } = await supabase
+        .rpc('is_realtime_enabled')
+        .select();
+      
+      if (error || !data) {
+        console.warn('Realtime not enabled or could not check status:', error);
+        setConnectionStatus('disconnected');
+        return false;
+      }
+      
+      return true;
     };
+    
+    // Create a channel subscription for new messages
+    const setupSubscription = async () => {
+      if (!(await checkRealtimeEnabled())) return;
+      
+      const channel = supabase
+        .channel(`conversation-${conversationId}`)
+        .on('postgres_changes', {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `conversation_id=eq.${conversationId}`,
+        }, (payload) => {
+          // Handle the new message
+          const handleNewMessage = async () => {
+            try {
+              // Get the new message's ID from the payload
+              const messageId = payload.new.id;
+              
+              // Fetch the complete message with all relationships
+              const newMessages = await fetchMessages(conversationId, 1, 0);
+              if (newMessages.length === 0) return;
+              
+              const newMessage = newMessages[0];
+              
+              // Only add if it's not a duplicate
+              setMessages(prev => {
+                if (prev.some(msg => msg.id === newMessage.id)) {
+                  return prev;
+                }
+                return [...prev, newMessage];
+              });
+              
+              // Mark as read if it's not from the current user
+              if (newMessage.user_id !== user.id) {
+                await markMessageAsRead(newMessage.id, user.id);
+              }
+            } catch (err) {
+              console.error('Error handling new message:', err);
+            }
+          };
+          
+          handleNewMessage();
+        })
+        .subscribe((status) => {
+          console.log('Realtime subscription status:', status);
+          if (status === 'SUBSCRIBED') {
+            setConnectionStatus('connected');
+          } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
+            setConnectionStatus('disconnected');
+          } else {
+            setConnectionStatus('connecting');
+          }
+        });
+      
+      // Cleanup subscription on unmount or conversation change
+      return () => {
+        channel.unsubscribe();
+      };
+    };
+    
+    setupSubscription();
   }, [conversationId, user?.id]);
   
   // Send a new message
@@ -116,7 +146,14 @@ export const useMessages = (conversationId: string | null) => {
         attachments
       );
       
-      // We don't need to update the state here since the real-time subscription will handle it
+      // Add optimistic update since Realtime might not be working
+      setMessages(prev => {
+        if (prev.some(msg => msg.id === newMessage.id)) {
+          return prev;
+        }
+        return [...prev, newMessage];
+      });
+      
       return newMessage;
     } catch (err) {
       console.error('Error sending message:', err);
