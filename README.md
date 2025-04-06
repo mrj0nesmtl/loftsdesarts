@@ -1,5 +1,17 @@
 # Lofts des Arts Web Platform
 
+[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](https://github.com/your-username/loftsdesarts)
+[![Next.js](https://img.shields.io/badge/Next.js-14.0-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-2.0-3ECF8E?logo=supabase&logoColor=white)](https://supabase.io/)
+[![Shadcn/UI](https://img.shields.io/badge/Shadcn%2FUI-Latest-000000)](https://ui.shadcn.com/)
+[![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/your-username/loftsdesarts/actions)
+[![Deployment](https://img.shields.io/badge/deployment-Replit-orange?logo=replit&logoColor=white)](https://replit.com/)
+[![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/your-username/loftsdesarts/pulls)
+[![Last Commit](https://img.shields.io/badge/last%20commit-April%202025-yellowgreen)](https://github.com/your-username/loftsdesarts/commits/main)
+
 ![Lofts des Arts](public/logo.png)
 
 ## Overview
@@ -8,9 +20,9 @@ The Lofts des Arts Web Platform is a comprehensive management system for luxury 
 
 ## Current Status
 
-- **Phase 1 (Foundation)**: ✅ Complete (April 7, 2025)
-- **Phase 2 (Admin Features)**: 🔄 90% Complete - In Progress
-- **Phase 3 (Resident Portal)**: 📅 Scheduled (April 15-21, 2025)
+- **Phase 1 (Foundation)**: ✅ Complete (April 1, 2025)
+- **Phase 2 (Admin Features)**: ✅ Complete (April 5, 2025)
+- **Phase 3 (Resident Portal)**: 🔄 15% Complete - In Progress
 
 ## Key Features
 
@@ -55,21 +67,34 @@ The Lofts des Arts Web Platform is a comprehensive management system for luxury 
   - Package registration with barcode scanning
   - QR code generation for package tracking
   - Notification preference settings
+  - Package status tracking workflow
 
 - **Multilingual Support**
   - English and French language options
   - Language toggle throughout interface
   - Localized content and notifications
 
+- **Theme System**
+  - Consistent light/dark mode across all admin pages
+  - Theme-aware UI components
+  - Smooth theme transitions
+  - Admin-only theme controls
+
+- **Analytics Dashboard**
+  - Visitor metrics and reporting
+  - Inquiry tracking statistics
+  - System status monitoring
+  - Visual data presentation
+
 ### In Progress Features
 
-- Messaging system interface
-- Package management workflow
-- Enhanced analytics dashboard
+- Resident portal authentication
+- Profile management for residents
+- Enhanced messaging system interface
 - Board announcement system
-- Email notification system
-- Emergency notification center
-- Audit logging visualization
+- Real-time notification center
+- Maintenance request system
+- Building information repository
 
 ## Technology Stack
 
@@ -202,12 +227,69 @@ This script will populate your database with the building structure for Lofts de
 
 ## Documentation
 
-- [Project Roadmap](docs/project-management/ROADMAP.md)
-- [Project Status](docs/project-management/STATUS.md)
-- [Changelog](CHANGELOG.md)
-- [API Documentation](docs/api/api.md)
-- [Component Documentation](docs/components/components.md)
-- [Database Schema](docs/database/database.md)
+Our comprehensive documentation is organized into the following sections:
+
+### Project Management
+- [Project Roadmap](docs/project-management/ROADMAP.md) - Development timeline and milestones
+- [Project Status](docs/project-management/STATUS.md) - Current project status and progress tracking
+- [Statement of Work](docs/project-management/SOW.md) - Detailed project scope and deliverables
+- [Session 6 Resources](docs/project-management/session-6/session-6-resources.md) - Current session resources
+
+### Technical Documentation
+- [Architecture](docs/architecture/architecture.md) - System architecture and design
+- [API Documentation](docs/api/api.md) - API endpoints and usage
+- [Component Documentation](docs/components/components.md) - React component library
+- [Design System](docs/design/design.md) - Design guidelines and UI principles
+
+### Database Documentation
+- [Database Schema](docs/database/database.md) - Main database structure
+- [Messaging System](docs/database/messaging-system.md) - Messaging database schema
+- [Package System](docs/database/package-system.md) - Package management database schema
+- [RBAC System](docs/database/rbac-system.md) - Role-based access control documentation
+
+### User Guides
+- [User Guides](docs/user-guides/README.md) - End-user documentation
+- [Admin Guides](docs/user-guides/admin/README.md) - Administrator documentation
+- [Resident Guides](docs/user-guides/resident/README.md) - Resident portal documentation
+- [Feature Guides](docs/user-guides/features/) - Feature-specific documentation
+
+### Development
+- [Development Guidelines](docs/development/README.md) - Development standards and practices
+- [Setup Instructions](docs/development/setup/) - Project setup documentation
+- [Testing Guidelines](docs/development/testing/) - Testing strategies and procedures
+
+### Project Structure
+- [Documentation Index](docs/README.md) - Complete documentation index
+- [Project Structure](docs/project-structure/) - Generated project structure documentation (after running `npm run generate-trees`)
+
+### Changelog
+- [Changelog](CHANGELOG.md) - Record of all notable changes to the project
+
+## Project Documentation
+
+### Project Structure Documentation
+
+To help keep track of the project's structure, we've included a script that automatically generates directory tree documentation. This is especially useful for maintaining documentation as the project evolves.
+
+To generate the project structure documentation:
+
+```bash
+npm run generate-trees
+```
+
+This will:
+1. Create a `/docs/project-structure/` directory if it doesn't exist
+2. Generate Markdown files with tree representations of key project sections
+3. Create an index file that links to all tree structure documentation
+
+The generated documentation includes:
+- App structure (Next.js routes and pages)
+- Components structure
+- Library structure (utilities and hooks)
+- Documentation structure
+- Overall project structure
+
+Run this script at the end of each development session to keep the documentation up to date.
 
 ## License
 

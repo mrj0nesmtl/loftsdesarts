@@ -3,7 +3,7 @@
 
 **Effective Date:** April 1, 2025  
 **Project End Date:** May 1, 2025  
-**Last Updated:** April 5, 2025 | Version: 0.2.0
+**Last Updated:** April 6, 2025 | Version: 0.4.0
 
 ## 1. Project Overview
 
@@ -40,13 +40,17 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - Responsive layout functioning on mobile, tablet, and desktop
 - Google Lighthouse score of 90+ on all public pages
 
-### 3.2 Phase 2: Extended Admin Capabilities (April 8-14, 2025)
+### 3.2 Phase 2: Extended Admin Capabilities (April 8-12, 2025)
 - Document management system for administrative documents
   - Folder organization with hierarchical structure
   - File upload with progress indicators
   - Document preview and sharing capabilities 
   - Permission-based access controls
 - Enhanced analytics dashboard
+  - Theme-aware data visualizations
+  - System status monitoring with alerts
+  - Performance metric tracking
+  - Visitor analytics with geographic data
 - Announcement publishing system
 - Notification center development
 - Administrative logging and user management
@@ -59,6 +63,17 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
   - Access control auditing and reporting
   - Visual role hierarchy representation
   - Dynamic UI adaptation based on permissions
+- Theme System Implementation
+  - Light/dark mode consistency across all admin interfaces
+  - Theme-aware UI components with standardized classes
+  - Admin-only theme toggle with role-based restrictions
+  - Smooth theme transitions with animation classes
+  - Theme variable implementation in CSS
+  - Role-based access to theme controls
+  - Theme preference persistence across sessions
+  - Theme synchronization across devices
+  - Default theme management for administrators
+  - Theme-aware component documentation
 
 **Success Criteria:**
 - Document upload, categorization, and retrieval working
@@ -71,8 +86,13 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - RBAC system correctly enforcing permissions across all interfaces
 - Role management interface allowing for permission adjustments
 - Access control logs providing detailed audit capabilities
+- Theme system successfully implemented with role-based restrictions
+- All UI components displaying correctly in both light and dark modes
+- Theme preferences correctly saved and applied across sessions
+- Admin-only theme toggle visible only to authorized roles
+- Theme transitions executing smoothly between states
 
-### 3.3 Phase 3: Resident Portal (April 15-21, 2025)
+### 3.3 Phase 3: Resident Portal (April 12-21, 2025)
 - Resident authentication system
 - Profile management functionality
 - Building information repository
@@ -187,17 +207,25 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
   - Role-based access control system with permission management
   - Administrative document management with version control
   - User management interface with role assignment
+  - Theme system with admin-only controls
+    - Standardized theme-aware component library
+    - Dark/light mode with proper contrast
+    - Theme preference synchronization
+    - Role-restricted theme settings
+    - Theme-aware data visualizations
 - Resident services portal with community features
   - Real-time messaging system with comprehensive feature set
     - One-to-one and group messaging capabilities
     - Message status tracking and delivery confirmation
     - File attachment support with preview capabilities
     - Searchable message archive with advanced filters
+    - Theme-aware message bubbles and UI elements
   - Package tracking and notification system
     - QR-based package identification and tracking
     - Status monitoring through delivery lifecycle
     - Automated notification system with delivery alerts
     - Package history and reporting capabilities
+    - Theme-aware UI for package management
   - Maintenance request system
   - Document access portal
 - Native mobile applications for iOS and Android
@@ -219,10 +247,16 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
     - Role definitions and hierarchies
     - Permission mappings and inheritance
     - User-role assignments and audit trails
+  - Theme system architecture
+    - Theme preferences storage
+    - Role-based access restrictions
+    - Theme variable structure
+    - Component theming guidelines
 - API documentation with endpoint specifications
 - Security implementation details
 - Deployment and infrastructure configuration
 - Development standards and conventions
+- Theme system implementation guide
 
 ### 4.3 User Resources
 - Administrative user manual
@@ -246,6 +280,10 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 - **Framework**: Next.js 14 with App Router architecture
 - **Language**: TypeScript 5.0 with strict mode enabled
 - **Styling**: Tailwind CSS with custom theme configuration
+  - Theme variables for light/dark mode
+  - Component-level theming support
+  - Theme transition animations
+  - Standardized theme-aware class structure
 - **Components**: Shadcn/ui component library
 - **State Management**: Zustand for global state
 - **Form Handling**: React Hook Form with Zod validation
@@ -267,8 +305,14 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
   - Real-time message delivery and status updates
   - Live package status notifications
   - Dynamic permission and role updates
+  - Theme preference synchronization
 - **QR Code Generation**: QRCode.react library
 - **Permission System**: Custom RBAC implementation with Supabase RLS
+- **Theme System**: Custom implementation with role-based access
+  - Database-stored preferences
+  - Default theme management
+  - User-specific overrides
+  - Role-based restrictions
 
 ### 5.3 Infrastructure
 - **Hosting**: Replit with continuous deployment
@@ -281,7 +325,12 @@ This Statement of Work (SOW) outlines the development of a comprehensive website
 
 ### 5.4 Quality Standards
 - **Accessibility**: WCAG 2.1 AA compliance required
+  - Proper color contrast in both themes
+  - Focus indicators in both light and dark mode
+  - Screen reader compatibility with theme changes
 - **Performance**: Google PageSpeed score of 90+ on all pages
+  - Theme transitions below 300ms
+  - No FOUC (Flash of Unstyled Content) during theme changes
 - **Security**: OWASP Top 10 vulnerabilities addressed
 - **Code Quality**: 90%+ test coverage for critical paths
 - **Browser Support**: Latest 2 versions of major browsers
@@ -354,6 +403,18 @@ Each phase will proceed through the following quality gates:
 
 ### 7.3 Specific Feature Acceptance Criteria
 
+#### Theme System
+- All UI components correctly display in both light and dark modes
+- Theme toggle only appears for users with administrative roles
+- Theme preferences persist across sessions and devices
+- No visual artifacts occur during theme transitions
+- All text maintains proper contrast ratios in both themes
+- Data visualizations remain clear and readable in both themes
+- External embedded content respects theme settings
+- Theme system API correctly enforces role-based permissions
+- Theme preferences successfully synchronize across devices
+- Default theme can only be changed by administrators
+
 #### Messaging System
 - Messages deliver in real-time with no more than 2-second latency
 - File attachments up to 10MB upload successfully with progress indication
@@ -362,6 +423,7 @@ Each phase will proceed through the following quality gates:
 - Search returns accurate results across message content and metadata
 - Message threading correctly maintains context and relationships
 - All messages properly encrypted at rest and in transit
+- Message UI adapts correctly to theme changes without layout shifts
 
 #### Package Management System
 - Package entry form captures all required metadata in under 30 seconds
@@ -371,6 +433,7 @@ Each phase will proceed through the following quality gates:
 - Reports accurately reflect package volume, delivery times, and pickup patterns
 - Integration with carrier APIs successfully retrieves tracking data
 - User interface adapts appropriately for staff vs. resident views
+- Package status indicators display with proper contrast in both themes
 
 #### Role-Based Access Control System
 - Role definitions correctly enforce access restrictions across all interfaces
@@ -380,6 +443,7 @@ Each phase will proceed through the following quality gates:
 - Audit logs capture all permission-related changes with accurate timestamps
 - User interface elements correctly show/hide based on permission context
 - API endpoints correctly enforce permission requirements
+- Theme system permissions integrate correctly with RBAC system
 
 ## 8. Timeline
 
@@ -388,8 +452,8 @@ The project will follow the six-phase approach detailed in the project roadmap:
 | Phase | Dates | Key Deliverables |
 |-------|-------|-----------------|
 | 1: Foundation | April 1-7, 2025 | Core website, admin authentication, contact system |
-| 2: Admin Capabilities | April 8-14, 2025 | Document system, analytics, announcements |
-| 3: Resident Portal | April 15-21, 2025 | Resident access, messaging system, package management |
+| 2: Admin Capabilities | April 8-12, 2025 | Document system, analytics, theme system, RBAC |
+| 3: Resident Portal | April 12-21, 2025 | Resident access, messaging system, package management |
 | 4: Community Features | April 22-28, 2025 | Events, bookings, forums, voting |
 | 5: Advanced Features | April 29-May 5, 2025 | Mobile app, integrations, payments |
 | 6: Refinement | May 6-12, 2025 | Optimization, security, documentation |

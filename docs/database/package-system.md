@@ -1,6 +1,6 @@
 # Package Management System Database Documentation
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 This document provides comprehensive documentation for the Lofts des Arts package management system database schema, including table structures, relationships, security policies, and usage patterns.
 

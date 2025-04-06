@@ -2,7 +2,7 @@
 
 This directory contains comprehensive documentation for the Lofts des Arts platform design system, visual language, and user experience principles.
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 ## Directory Structure
 
@@ -19,6 +19,7 @@ This directory contains comprehensive documentation for the Lofts des Arts platf
 - `/messaging/` - Messaging system design
 - `/package-management/` - Package management system design
 - `/rbac/` - Role-based access control design
+- `/theme/` - Theme system design and implementation
 
 ## Design System
 
@@ -84,21 +85,66 @@ Design tokens are the foundational variables that drive the visual design:
   --color-message-read: #3b82f6;   /* Blue 500 */
   --color-message-error: #ef4444;  /* Red 500 */
   
-  /* Theme colors - dynamically applied */
+  /* Theme colors - dynamically applied via CSS variables */
   --background: 255 255 255; /* white - light mode */
   --foreground: 34 34 34; /* dark gray for text - light mode */
+  --card: 255 255 255; /* white - light mode */
+  --card-foreground: 34 34 34; /* dark gray - light mode */
+  --popover: 255 255 255; /* white - light mode */
+  --popover-foreground: 34 34 34; /* dark gray - light mode */
+  --primary: 127 29 29; /* Red 900 - light mode */
+  --primary-foreground: 250 250 250; /* very light gray - light mode */
+  --secondary: 244 244 245; /* Zinc 100 - light mode */
+  --secondary-foreground: 24 24 27; /* Zinc 900 - light mode */
+  --muted: 244 244 245; /* Zinc 100 - light mode */
+  --muted-foreground: 113 113 122; /* Zinc 500 - light mode */
+  --accent: 244 244 245; /* Zinc 100 - light mode */
+  --accent-foreground: 24 24 27; /* Zinc 900 - light mode */
+  --destructive: 220 38 38; /* Red 600 - light mode */
+  --destructive-foreground: 250 250 250; /* very light gray - light mode */
+  --border: 228 228 231; /* Zinc 200 - light mode */
+  --input: 228 228 231; /* Zinc 200 - light mode */
+  --ring: 127 29 29; /* Red 900 - light mode */
   
   /* Dark mode variables are applied via .dark class selector */
 }
 
 .dark {
-  --background: 0 0 0; /* black - dark mode */
-  --foreground: 255 255 255; /* white text - dark mode */
+  --background: 10 10 10; /* nearly black - dark mode */
+  --foreground: 250 250 250; /* very light gray - dark mode */
+  --card: 24 24 27; /* Zinc 900 - dark mode */
+  --card-foreground: 250 250 250; /* very light gray - dark mode */
+  --popover: 24 24 27; /* Zinc 900 - dark mode */
+  --popover-foreground: 250 250 250; /* very light gray - dark mode */
+  --primary: 127 29 29; /* Red 900 - dark mode */
+  --primary-foreground: 250 250 250; /* very light gray - dark mode */
+  --secondary: 39 39 42; /* Zinc 800 - dark mode */
+  --secondary-foreground: 250 250 250; /* very light gray - dark mode */
+  --muted: 39 39 42; /* Zinc 800 - dark mode */
+  --muted-foreground: 161 161 170; /* Zinc 400 - dark mode */
+  --accent: 39 39 42; /* Zinc 800 - dark mode */
+  --accent-foreground: 250 250 250; /* very light gray - dark mode */
+  --destructive: 248 113 113; /* Red 400 - dark mode */
+  --destructive-foreground: 0 0 0; /* black - dark mode */
+  --border: 39 39 42; /* Zinc 800 - dark mode */
+  --input: 39 39 42; /* Zinc 800 - dark mode */
+  --ring: 212 126 126; /* Red 300 - dark mode */
+  
   --color-status-pending: #b45309; /* Amber 700 - dark mode */
   --color-status-received: #2563eb; /* Blue 600 - dark mode */
   --color-status-notified: #7c3aed; /* Violet 600 - dark mode */
   --color-status-delivered: #059669; /* Emerald 600 - dark mode */
   --color-status-returned: #dc2626; /* Red 600 - dark mode */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }
 ```
 
@@ -195,7 +241,7 @@ The design system supports multiple themes and appearance modes:
 
 - **Light Theme**: Default theme for public-facing pages
 - **Dark Theme**: Dark mode option with appropriate contrast and color adjustments
-- **High Contrast Theme**: Enhanced contrast option for accessibility
+- **High Contrast Theme**: Enhanced contrast option for accessibility (planned)
 
 The theming system is implemented with:
 - CSS variables for dynamic value updates
@@ -203,6 +249,53 @@ The theming system is implemented with:
 - Local storage persistence of user preferences
 - System preference detection as default
 - Smooth transitions between theme modes
+- Admin-only theme controls for consistent branding
+- Standardized theme-aware class naming
+
+#### Theme Implementation Architecture
+
+```mermaid
+flowchart TD
+    A[ThemeProvider Component] --> B[User Preference Detection]
+    B --> C[Theme State Management]
+    C --> D[LocalStorage Persistence]
+    C --> E[CSS Variable Application]
+    E --> F[.dark Class Toggle]
+    G[RBAC System] --> H[Admin ThemeToggle Visibility]
+    H --> C
+```
+
+#### Theme-Aware Component Design
+
+Components follow consistent design patterns for theme compatibility:
+
+1. **Background Hierarchy**:
+   - `bg-background`: Page-level backgrounds
+   - `bg-card`: Container and card backgrounds
+   - `bg-muted`: Secondary or less prominent areas
+   - `bg-popover`: Floating elements like tooltips
+
+2. **Text Hierarchy**:
+   - `text-foreground`: Primary text content
+   - `text-muted-foreground`: Secondary or less important text
+   - `text-accent-foreground`: Accent text elements
+
+3. **Border Treatment**:
+   - `border-border`: Standard borders
+   - `border-input`: Form input borders
+
+4. **Transition Effects**:
+   - All theme-aware elements use a standardized transition: `transition-colors duration-200`
+   - Applied via the utility class `theme-transition`
+
+#### Admin-Only Theme Controls
+
+The theme toggle is restricted to administrative interfaces to maintain consistent branding for the public-facing portions of the site. This is implemented through:
+
+- Role-based conditional rendering of theme toggle components
+- Permission checks before allowing theme changes
+- Administrative panel for default theme configuration
+- Separate design specifications for admin vs. public interfaces
 
 ## Responsive Design
 

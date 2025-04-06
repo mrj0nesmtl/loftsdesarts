@@ -2,7 +2,7 @@
 
 This directory contains comprehensive documentation for all React components used in the Lofts des Arts platform, including usage guidelines, props, and examples.
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 ## Directory Structure
 
@@ -15,6 +15,7 @@ This directory contains comprehensive documentation for all React components use
 - `/auth/` - Authentication and RBAC components
 - `/patterns/` - Component pattern documentation
 - `/examples/` - Example component usage
+- `/theme/` - Theme system components
 
 ## Component Overview
 
@@ -28,6 +29,7 @@ The Lofts des Arts platform uses a modular component architecture based on:
 - **Messaging Components**: Real-time communication components
 - **Package Components**: Package tracking and management components
 - **Permission Components**: Role-based access control components
+- **Theme Components**: Theme management with admin-only controls
 
 ## Component Categories
 
@@ -49,14 +51,14 @@ Layout components define the overall structure of pages and sections:
 UI components are the building blocks of the interface:
 
 - `Button`: Action triggers in various styles
-- `Card`: Content containers
+- `Card`: Content containers with theme-aware backgrounds
 - `Modal`: Dialog overlays
 - `Tabs`: Tabbed interface sections
 - `Accordion`: Collapsible content sections
 - `Carousel`: Image and content sliders
 - `Alert`: User notifications
 - `Avatar`: User profile images
-- `ThemeToggle`: Theme switching button with appropriate icons for light/dark modes
+- `ThemeToggle`: Admin-only theme switching button with appropriate icons for light/dark modes
 - `Badge`: Status indicators and labels
 - `QRCode`: QR code generation for package tracking
 - `Scanner`: QR code scanning component
@@ -68,8 +70,11 @@ UI components are the building blocks of the interface:
 Theme components manage the site-wide theming system:
 
 - `ThemeProvider`: Context provider for theme state management
-- `ThemeToggle`: User-facing toggle button for switching themes
+- `ThemeToggle`: Admin-only toggle button for switching themes
+- `ThemeTransition`: Wrapper component for smooth theme transitions
 - `useTheme`: Custom hook for consuming theme context in components
+- `AdminThemeSettings`: Admin panel for theme configuration
+- `ThemeAwareCard`: Card component with theme-aware styling
 
 #### ThemeProvider Usage
 
@@ -96,14 +101,18 @@ export default function RootLayout({
 
 ```tsx
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { useAuth } from "@/hooks/useAuth";
 
 export function Header() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN" || user?.role === "SUPER_ADMIN";
+  
   return (
     <header>
       <nav>
         {/* Navigation items */}
       </nav>
-      <ThemeToggle />
+      {isAdmin && <ThemeToggle />}
     </header>
   );
 }
@@ -118,11 +127,30 @@ export function ThemeAwareComponent() {
   const { theme, toggleTheme } = useTheme();
   
   return (
-    <div>
-      <p>Current theme: {theme}</p>
-      <button onClick={toggleTheme}>
+    <div className="theme-transition">
+      <p className="text-primary">Current theme: {theme}</p>
+      <button 
+        onClick={toggleTheme}
+        className="bg-card text-muted-foreground px-4 py-2 rounded"
+      >
         Switch to {theme === 'dark' ? 'light' : 'dark'} mode
       </button>
+    </div>
+  );
+}
+```
+
+#### Theme-Aware Component Example
+
+```tsx
+// A card component using theme-aware classes
+export function ThemeAwareCard({ children, title }) {
+  return (
+    <div className="bg-card rounded-lg shadow-md p-6 theme-transition">
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <div className="text-muted-foreground">
+        {children}
+      </div>
     </div>
   );
 }
@@ -159,6 +187,7 @@ Admin components are specific to the administrative interface:
 - `RoleManager`: Role assignment interface
 - `PermissionManager`: Permission management interface
 - `AuditLog`: Activity logging display
+- `AdminThemeToggle`: Admin-only theme toggle component
 
 [View Admin Components](./admin/README.md)
 
@@ -412,8 +441,34 @@ Components use Tailwind CSS for styling with consistent patterns:
 
 - Utility-first approach
 - CSS variables for theming
+- Theme-aware class naming
 - Responsive design with mobile-first approach
 - Accessibility considerations built-in
+- Smooth transitions between themes
+
+### Theme-Aware Class Structure
+
+Components follow a theme-aware class structure for consistent styling across themes:
+
+```tsx
+// Theme-aware class naming pattern
+<div className="bg-card text-card-foreground p-6 rounded-lg theme-transition">
+  <h2 className="text-2xl font-bold">Card Title</h2>
+  <p className="text-muted-foreground mt-2">Card description text that adapts to theme.</p>
+  <div className="bg-muted p-4 mt-4 rounded">
+    <p>This is a muted background section that works in both themes.</p>
+  </div>
+</div>
+```
+
+Key theme-aware classes include:
+- `bg-background`: Page background
+- `bg-card`: Card and container backgrounds
+- `bg-muted`: Secondary or muted backgrounds
+- `text-primary`: Primary text content
+- `text-muted-foreground`: Secondary or less important text
+- `border-border`: Border elements
+- `theme-transition`: Applied to elements that should transition smoothly
 
 ## Component Composition
 

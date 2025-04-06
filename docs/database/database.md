@@ -2,7 +2,7 @@
 
 This directory contains comprehensive documentation for the Lofts des Arts database architecture, schema design, and data access patterns.
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 ## Directory Structure
 

@@ -2,7 +2,7 @@
 
 This directory contains comprehensive documentation of the Lofts des Arts platform architecture, including system design, infrastructure, and technical decisions.
 
-*Last Updated: April 5, 2025 | Version: 0.2.0*
+*Last Updated: April 6, 2025 | Version: 0.4.0*
 
 ## Directory Structure
 
@@ -11,6 +11,7 @@ This directory contains comprehensive documentation of the Lofts des Arts platfo
   - `/diagrams/data-flow/` - Data flow diagrams for key processes
   - `/diagrams/sequence/` - Sequence diagrams for complex operations
   - `/diagrams/component/` - Component-level architecture diagrams
+  - `/diagrams/theme/` - Theme system architecture diagrams
 - `/decisions/` - Architecture Decision Records (ADRs)
 - `/infrastructure/` - Infrastructure and deployment architecture
 - `/patterns/` - Design patterns and architectural patterns
@@ -21,6 +22,7 @@ This directory contains comprehensive documentation of the Lofts des Arts platfo
   - `/subsystems/package-management/` - Package management architecture
   - `/subsystems/rbac/` - Role-based access control architecture
   - `/subsystems/document-management/` - Document management architecture
+  - `/subsystems/theme/` - Theme system architecture
 
 ## System Overview
 
@@ -35,6 +37,7 @@ The Lofts des Arts platform follows a modern web application architecture with t
 - **WebSocket Communication**: Real-time messaging and notifications
 - **QR Code System**: Package tracking and verification
 - **RBAC System**: Fine-grained access control
+- **Theme System**: Comprehensive light/dark mode with admin-only controls
 
 ## Architecture Diagrams
 
@@ -74,7 +77,7 @@ The architecture follows these core principles:
 - **Shadcn/UI**: Component library built on Radix UI primitives
 - **Tailwind CSS**: Utility-first CSS framework
 - **Zustand**: Lightweight state management
-- **Theme System**: Context-based theme provider with light/dark mode and localStorage persistence
+- **Theme System**: Context-based theme provider with light/dark mode, role-restricted access, and admin-only controls
 - **QR Code Generation/Scanning**: Client-side QR code handling
 - **WebSocket Client**: Real-time communication
 - **Zod**: Runtime type validation and form handling
@@ -330,14 +333,67 @@ The platform implements a comprehensive theming system with the following charac
 - **Context-based Provider**: React context for theme state management
 - **Light/Dark Modes**: Complete design system for both light and dark themes
 - **User Preferences**: Theme selection based on user preference
+- **Role-Based Access**: Theme toggle restricted to administrative interfaces only
 - **Persistence**: Local storage for saved theme preferences
 - **System Detection**: Default theme based on user's system preferences
 - **CSS Variables**: Theme values implemented as CSS variables for consistency
 - **Hydration Safe**: Designed to prevent hydration mismatches between server and client
 - **Transition Effects**: Smooth transitions between theme modes
 - **Component Consistency**: Unified theming across all UI components
+- **Theme-Aware Classes**: Components use standardized class naming for theme compatibility
+- **Admin Dashboard Integration**: Centralized theme controls in admin settings
+- **Public/Admin Separation**: Different theme controls for public and admin interfaces
 
-The theme implementation follows a "dark-by-default" approach with clear visual distinction between modes while maintaining accessibility standards in both themes.
+The theme implementation follows these design principles:
+
+1. **Consistency First**: All UI components use the same theme-aware class structure
+2. **Admin Control**: Theme toggling limited to administrative users
+3. **Transparent Transitions**: Theme changes occur with smooth visual transitions
+4. **Semantic Variables**: Theme values use meaningful CSS variable names
+5. **Fallback Support**: Graceful degradation for browsers without CSS variable support
+6. **Component Isolation**: Components remain functional regardless of theme context
+
+### Theme System Implementation
+
+```mermaid
+flowchart TD
+    A[ThemeProvider] --> B[User Preference Detection]
+    B --> C[Theme State Management]
+    C --> D[LocalStorage Persistence]
+    C --> E[CSS Variable Application]
+    F[Role-Based Access Control] --> G[Theme Toggle Component]
+    G --> C
+    E --> H[Card Components]
+    E --> I[Typography]
+    E --> J[Form Components]
+    E --> K[Navigation Elements]
+    L[Admin Settings] --> M[Default Theme Configuration]
+    M --> C
+```
+
+### Theme Transition System
+
+The transition system ensures smooth visual changes when switching themes:
+
+1. User triggers theme change via admin interface
+2. Theme state updates in React context
+3. CSS variables change with transition properties
+4. Component backgrounds, text, and borders animate to new values
+5. LocalStorage updates for persistence
+6. Theme preference is tied to user profile (planned feature)
+
+### Theme Class Structure
+
+Components follow a consistent class naming pattern:
+
+- `bg-card`: Card and container backgrounds
+- `bg-muted`: Secondary or muted backgrounds
+- `text-primary`: Primary text content
+- `text-muted-foreground`: Secondary or less important text
+- `border-border`: Border elements
+- `theme-transition`: Applied to elements that should transition smoothly
+
+This consistent naming enables all components to respond uniformly to theme changes without individual component modifications.
 
 ## Performance Architecture
 
@@ -381,6 +437,7 @@ Key decisions include:
 - [ADR-006: Real-time Messaging Architecture](./decisions/adr-006-messaging-architecture.md)
 - [ADR-007: Package Management System Design](./decisions/adr-007-package-system.md)
 - [ADR-008: Document Management System](./decisions/adr-008-document-system.md)
+- [ADR-009: Theme System Architecture](./decisions/adr-009-theme-system.md)
 
 ## Messaging System Implementation
 
