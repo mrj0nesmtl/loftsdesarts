@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -80,6 +80,7 @@ export default function PackageRegistrationForm() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [registeredPackage, setRegisteredPackage] = useState<any>(null);
   const [qrCodeValue, setQrCodeValue] = useState('');
+  const scannerMountingRef = useRef(false);
 
   // Initialize react-hook-form
   const form = useForm<PackageFormValues>({
@@ -238,6 +239,31 @@ export default function PackageRegistrationForm() {
     return format(date, 'PPP', { locale: fr });
   };
 
+  // Update the visibility toggle logic by adding safe mounting and unmounting
+  const toggleScannerVisibility = (visible: boolean) => {
+    // If attempting to hide and scanner is already hidden, do nothing
+    if (!visible && !isScannerVisible) return;
+    
+    // If attempting to show and scanner is already visible, do nothing
+    if (visible && isScannerVisible) return;
+    
+    // If hiding the scanner
+    if (!visible && isScannerVisible) {
+      // Mark that we're in the process of unmounting
+      scannerMountingRef.current = true;
+      
+      // Use a small delay to ensure proper cleanup
+      setTimeout(() => {
+        setIsScannerVisible(false);
+        scannerMountingRef.current = false;
+      }, 100);
+      return;
+    }
+    
+    // If showing the scanner
+    setIsScannerVisible(true);
+  };
+
   return (
     <div className="space-y-6">
       {!isRegistered ? (
@@ -259,9 +285,10 @@ export default function PackageRegistrationForm() {
               <CardFooter className="flex justify-between">
                 <Button 
                   variant="outline" 
-                  onClick={() => setIsScannerVisible(false)}
+                  onClick={() => toggleScannerVisibility(false)}
+                  disabled={scannerMountingRef.current}
                 >
-                  Annuler
+                  {scannerMountingRef.current ? 'Fermeture en cours...' : 'Annuler'}
                 </Button>
               </CardFooter>
             </Card>
@@ -283,10 +310,10 @@ export default function PackageRegistrationForm() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => setIsScannerVisible(!isScannerVisible)}
+                      onClick={() => toggleScannerVisibility(!isScannerVisible)}
                       className="text-xs"
                     >
-                      {isScannerVisible ? 'Cacher le scanner' : 'Scanner le code-barres'}
+                      {isScannerVisible ? (scannerMountingRef.current ? 'Fermeture en cours...' : 'Cacher le scanner') : 'Scanner le code-barres'}
                     </Button>
                   </div>
                   <Input

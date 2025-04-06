@@ -1,105 +1,116 @@
 # Changelog
 
-All notable changes to the Lofts des Arts Condominium website will be documented in this file.
+All notable changes to the Lofts des Arts project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- User interface components for messaging system
-- Package management interface with QR code generation
-- Mobile camera integration for QR code scanning
+
+### Added
+- Messaging system components for conversation management
+- Advanced analytics dashboard components
+- Package tracking workflow interface improvements
+
+## [0.3.0] - 2025-04-10
+
+### Added
+- Comprehensive residents management system
+  - Resident profiles with detailed contact information
+  - Unit assignment and tracking capabilities
+  - Owner vs. tenant designation
+  - Primary resident identification
+  - Move-in and move-out date tracking
+  - Preferred language and notification method preferences
+  - Additional notes and custom fields
+  - Search and filtering functionality
+  
+- Complete building units management system
+  - Database schema for 96 units across 9 floors and penthouse level
+  - Commercial units for Goethe Institute and Pikolo Cafe
+  - Unit occupancy status tracking
+  - Unit-resident relationship management
+  - Visual representation of building layout
+  - Search and filtering capabilities
+  
+- Building data structure for multi-building support
+  - Building information model with address details
+  - Relationship mapping between buildings and units
+  - Preparation for multi-building portfolio management
+  
+- Data import/export capabilities
+  - SQL scripts for database setup and verification
+  - Building and unit data population scripts
+  - Sample resident data generation
+  
+- Tab-based management interface for residents section
+  - Separate tabs for residents and units management
+  - Intuitive navigation between related data sets
+  
+- Package management components
+  - Barcode scanner component for package registration
+  - QR code generator for package tracking
+  - Package registration form with resident lookup
+  
+- UI/UX enhancements
+  - Improved sidebar navigation with residents section
+  - Console logging for debugging database connections
+  - Error handling and fallback UI for data loading failures
+
+### Changed
+- Refactored database queries to use hardcoded building ID for improved reliability
+- Enhanced error handling in data fetching operations with detailed console logging
+- Improved TypeScript types for resident and unit data models
+- Updated sidebar navigation to include residents management section
+
+### Fixed
+- Database connection issues in the residents management page
+- Building ID lookup failures in the UnitManagement component
+- Type errors in the PackageRegistrationForm component
+- Fixed export/import issues with the QRCodeGenerator component
+- Resolved TypeScript errors related to unit_number property validation
 
 ## [0.2.0] - 2025-04-05
 
 ### Added
-- Comprehensive role-based access control system with six user roles:
-  - SUPER_ADMIN: IT administration and multi-building management
-  - ADMIN: Board of directors with full building management
-  - MANAGER: Condo management company with operational access
-  - DOORMAN: Package and visitor management capabilities
-  - SECURITY: Building security personnel access
-  - RESIDENT: Unit owner and tenant access
-- Role capabilities documentation with detailed permission matrix
-- Database schema for messaging system:
-  - Conversations and conversation participants tables
-  - Messages and message attachments tables
-  - Message read receipts tracking
-  - Real-time notification system
-- Database schema for package management:
-  - Package logging and tracking tables
-  - Package history for status changes
-  - QR code generation infrastructure
-  - Notification preferences for residents
-- Comprehensive user flow documentation with Mermaid diagrams
-- Building units and residents management system
-- CSV import functionality for resident data
 - Document management system with folder organization
-- File upload functionality with progress indicators
-- Document preview for images and PDFs
-- File sharing capability with expiring links
-- Folder operations (create, delete, duplicate)
-- File operations (download, delete, duplicate, share)
-- Document metadata display with size and creation date
-- Mobile-responsive document interface
+- User management interface with role assignment
+- Enhanced role-based access control (RBAC) system
+- Six distinct user roles with granular permissions
+- Database schema for messaging system
+- Database schema for package management system
+- Admin sidebar navigation with contextual sections
+- French language support for core interface elements
 
 ### Changed
-- Enhanced role-based access control with granular permissions
-- Improved database security with updated RLS policies
-- Updated admin navigation to include document management
-- Enhanced UI components with better accessibility
-- Improved folder navigation with visual hierarchy indicators
-- Added breadcrumb navigation for document browsing
-- Updated project documentation with latest architecture decisions
+- Improved dashboard layout with responsive design
+- Enhanced authentication flow with role-based redirects
+- Refactored form components to use Zod validation
+- Updated UI components to follow design system
+- Optimized database queries for performance
 
 ### Fixed
-- Theme persistence issues across page navigation
-- UI component styling inconsistencies
-- Folder selection and navigation issues
-- RLS policy conflicts in user role management
+- Session persistence issues after page refresh
+- Mobile layout problems in the dashboard
+- Form validation errors in the document upload
+- Dark mode toggle inconsistencies
+- Role permission checks for document access
 
-## [0.1.5] - 2025-04-04
+## [0.1.0] - 2025-04-01
 
 ### Added
-- Light/Dark theme toggle functionality across the site
-- Theme context provider with localStorage persistence
-- Network-accessible development server for mobile testing
-- Mobile testing guide with troubleshooting tips
-- Reusable ThemeToggle component
-
-### Changed
-- Updated admin header layout to match public site for consistency
-- Improved logo sizing and placement for better visual hierarchy
-- Refactored global CSS variables for better theme support
-
-### Fixed
-- Logo 404 error in the admin interface
-- Hydration errors in client components
-- Theme toggle button functionality in admin layout
-- Header element alignment and consistency
-
-## [0.1.0] - 2025-04-04
-
-### Added
-- Initial project setup with Next.js 14, TypeScript, and Tailwind CSS
-- Database configuration with Supabase (profiles and contact_inquiries tables)
-- Admin dashboard with personalized welcome messages for board members
-- Analytics page with system status monitoring
-- Inquiries management system
-- User authentication with Supabase Auth
-- Multi-language support (English/French)
-- Contact form with email notification system
-- Row Level Security policies for database tables
-- Responsive layout for all pages
-
-### Changed
-- Repurposed site from original STTS film industry portfolio to Lofts des Arts condominium website
-- Updated design with condominium-specific branding
-
-### Removed
-- All previous film industry content and assets
-
-### Fixed
-- Form accessibility issues with proper autocomplete attributes
-- Admin layout rendering and component hierarchy
-- Import path resolution for admin components 
+- Initial project setup with Next.js 14 App Router
+- TypeScript configuration with strict mode
+- Tailwind CSS integration with custom theme
+- Shadcn/ui component library setup
+- Supabase authentication implementation
+- Admin dashboard with welcome screen
+- Contact form with database storage
+- Basic role-based access control
+- Light/dark theme toggle
+- Responsive layout system
+- Initial admin navigation sidebar
+- Form validation with React Hook Form and Zod
+- Documentation structure (README, CHANGELOG, etc.)
+- Development and production environment configuration
+- Basic error handling and 404 page 

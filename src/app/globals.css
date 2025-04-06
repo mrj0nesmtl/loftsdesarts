@@ -123,6 +123,13 @@
   }
 }
 
+/* Add custom font classes */
+.font-title {
+  font-family: var(--font-poiret-one), sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
 /* Add smooth transitions for elements that change with theme */
 .theme-transition {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;

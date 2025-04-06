@@ -75,7 +75,7 @@ const categories = Array.from(new Set(galleryItems.map(item => item.category)));
 export default function GalleryPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:px-6">
-      <h1 className="text-4xl font-bold text-center mb-12">Galerie</h1>
+      <h1 className="text-4xl font-bold text-center mb-12 font-title">Galerie</h1>
       
       <div className="flex flex-wrap gap-2 justify-center mb-8">
         <Link 
@@ -110,7 +110,7 @@ export default function GalleryPage() {
               />
             </div>
             <div className="p-4">
-              <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
+              <h3 className="text-xl font-semibold mb-1 font-title">{item.title}</h3>
               <p className="text-zinc-400 text-sm mb-2">{item.category}</p>
               <p className="text-zinc-300">{item.description}</p>
             </div>

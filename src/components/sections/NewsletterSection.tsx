@@ -36,7 +36,7 @@ export function NewsletterSection() {
   return (
     <section className="py-16 bg-zinc-900">
       <div className="container px-4 mx-auto text-center md:px-6">
-        <h2 className="text-3xl font-bold mb-4">Restez Informé</h2>
+        <h2 className="text-3xl font-bold mb-4 font-title">Restez Informé</h2>
         <p className="text-zinc-400 max-w-md mx-auto mb-8">
           Abonnez-vous à notre infolettre pour recevoir les dernières annonces concernant l'immeuble, les événements communautaires et les avis importants.
         </p>

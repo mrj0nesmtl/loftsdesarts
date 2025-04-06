@@ -1,0 +1,50 @@
+id,role,category,capability,description,can_view,can_create,can_edit,can_delete,created_at,updated_at
+00ef085a-13ee-4d18-888e-0d7dbc181d63,RESIDENT,messaging,view_announcements,View building-wide announcements,true,false,false,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+03df6f11-67ba-42ea-aeaa-ed9ada0390d1,RESIDENT,documents,view_public_documents,Access public building documents,true,false,false,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+05a1ae3e-51dd-42ee-ac2f-7568418abe25,MANAGER,residents,export_residents,Export resident data to CSV,true,false,false,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+0c43393c-83ad-4467-ad54-af998358998c,SUPER_ADMIN,users,assign_admin_roles,Assign administrative roles to users,true,true,true,true,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+0e43c6f4-846f-4072-94c3-bc90b31cc01b,ADMIN,users,assign_building_roles,Assign non-admin roles to users within their building,true,true,true,false,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+14677bb0-dd54-4e1b-b8a9-5eb3edf7444b,ADMIN,residents,manage_residents,"Add, edit, and remove residents",true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+176af420-2b5a-4946-b1b0-5cfcccc481c2,SECURITY,packages,view_packages,View package information,true,false,false,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+1b2eae15-ee36-43e9-a60b-6ad1718cf285,RESIDENT,messaging,message_management,Communicate with building management,true,true,true,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+1fa57880-01d8-42d7-9285-1399e1f3d812,SUPER_ADMIN,system,manage_buildings,Add and configure multiple buildings within the system,true,true,true,true,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+2a2a4eee-6966-41dd-84f0-1c59508cf0d3,ADMIN,residents,export_residents,Export resident data to CSV,true,false,false,false,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+2fcb2afa-f2d2-4e90-b1e6-0a728fb86beb,RESIDENT,packages,view_own_packages,View personal package notifications,true,false,false,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+347e30ba-842a-48fc-8597-21a4ccb343cb,SECURITY,messaging,message_management,Communicate with management,true,true,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+34db2532-11aa-4dfe-b2ce-ac54d7dafd17,ADMIN,packages,view_package_reports,Access package reports and analytics,true,false,false,false,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+409212dd-3034-4a0d-9846-a5defd443623,SECURITY,residents,view_residents,View resident information,true,false,false,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+40e0982c-6643-476f-86a6-ad9c63152265,MANAGER,messaging,message_residents,Send messages to residents,true,true,true,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+41893f3b-3966-4c99-a9eb-c0011368d7f9,SUPER_ADMIN,all_features,full_access,Complete access to all system features and data,true,true,true,true,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+4324bca2-1e3f-479c-a17a-da278f429165,MANAGER,packages,manage_packages,Manage package records,true,true,true,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+494acf29-e59f-4e63-b2f0-d42fce9fb6b0,ADMIN,packages,manage_all_packages,Manage all package records,true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+4b523ce0-73e1-4b6a-b760-99c1fff951c9,SECURITY,security,log_incidents,Record security incidents,true,true,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+4cf95cb3-0905-4e5e-aed5-8072304f14b3,MANAGER,messaging,send_announcements,Send building-wide announcements,true,true,true,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+5f6d8b78-8cd8-4980-b658-509b0946af9a,MANAGER,residents,import_residents,Import resident data via CSV,true,true,false,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+66dc64bc-8d7d-42c9-9a41-fb2d77f1f5cf,MANAGER,building,view_building_settings,View building configuration,true,false,false,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+7189bc4b-173a-4743-b4a6-118f15951b99,MANAGER,residents,manage_residents,"Add, edit, and remove residents",true,true,true,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+73ed8d8e-f177-4395-9f15-71a489ca3f0a,ADMIN,messaging,message_all_users,Send messages to any user in the building,true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+7e71afe7-4d1b-4a83-96f1-1321258d1d81,DOORMAN,residents,view_residents,View resident information,true,false,false,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+7f151964-ddad-4a86-8624-3dcb3a707b69,SECURITY,security,visitor_management,Manage visitors and guest access,true,true,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+80831bf8-cc54-4b53-9e75-7de3a7ebcd8a,DOORMAN,packages,process_pickups,Process package pickups,true,false,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+86f8e162-c4f8-4ca9-93c8-7c8bdc09aceb,SUPER_ADMIN,system,manage_system_configuration,"Configure global system settings including database, storage, and authentication",true,true,true,true,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+916487d9-ef81-4ab5-ad4d-0a882736a871,ADMIN,residents,import_residents,Import resident data via CSV,true,true,false,false,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+98675541-6396-470e-b466-9116315bf0b3,DOORMAN,messaging,message_management,Communicate with management,true,true,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+993b83a1-484e-4edd-ae87-f6328280f588,ADMIN,users,manage_building_users,Manage users within their specific building,true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+9cfbba73-27f6-4f1f-835a-1919e09e9782,SUPER_ADMIN,system,view_system_logs,Access system logs and monitor application performance,true,true,false,false,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+a05026b2-b436-41b0-b170-64ac125b545b,RESIDENT,profile,manage_own_profile,Manage personal profile information,true,false,true,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+a35de6a2-4656-4306-b861-2924cbe13e95,ADMIN,messaging,send_announcements,Send building-wide announcements,true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+b2957127-8250-4d22-887a-56ad69d7f0ff,ADMIN,building,manage_building_settings,Configure building-specific settings,true,true,true,false,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+b6ba6852-5c00-43eb-a2ff-52d489c2f4a3,DOORMAN,packages,scan_package_qr,Scan package QR codes,true,false,false,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+be5b73f6-070a-4b35-b157-d41798738f0a,DOORMAN,packages,log_packages,Record incoming packages,true,true,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+c5972b8b-ec28-466c-af23-9f38d7c1cfe5,RESIDENT,packages,package_delivery_preferences,Set package delivery preferences,true,false,true,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+cde8f379-f95a-40c0-b780-b6b71531f34b,SECURITY,messaging,emergency_alerts,Send emergency alerts,true,true,false,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+cebf71ff-88de-4231-8450-c589a07d53d6,MANAGER,packages,view_package_reports,Access package reports and analytics,true,false,false,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+cfcfe7f2-dce2-4938-b2df-ced23847b2e7,MANAGER,documents,manage_documents,Manage building documents,true,true,true,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+ddb4560a-290e-4958-8316-40c1c7178564,MANAGER,building,manage_units,Manage building units/apartments,true,true,true,false,2025-04-05 18:42:13.386124+00,2025-04-05 18:42:13.386124+00
+ec3cfa06-02aa-42dd-aa14-e44420e53ac4,ADMIN,documents,manage_all_documents,Full access to document management,true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+ed3e8827-50da-43b7-8aec-6c4e7f70bc8e,SUPER_ADMIN,users,manage_all_users,"Create, edit, and delete any user account across all buildings",true,true,true,true,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+f0fda5b0-a029-4d0e-88cf-f944e570ad0a,RESIDENT,profile,manage_notification_preferences,Configure notification preferences,true,false,true,false,2025-04-05 18:43:29.226128+00,2025-04-05 18:43:29.226128+00
+f453a97c-fa61-4fb2-b595-31de4b7731ba,SUPER_ADMIN,system,manage_roles,Define and modify role capabilities across the system,true,true,true,true,2025-04-05 18:41:28.794132+00,2025-04-05 18:41:28.794132+00
+f8f2615a-f865-45ec-8f87-ebb2a0cb3a23,ADMIN,building,manage_units,Manage building units/apartments,true,true,true,true,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00
+f92a5655-68f3-4b99-bb3d-c351d19d7727,DOORMAN,messaging,message_residents,Send messages to residents,true,true,true,false,2025-04-05 18:43:13.977578+00,2025-04-05 18:43:13.977578+00
+ff0a0c08-56cf-4704-89ab-0c784bf10091,ADMIN,messaging,view_all_conversations,View all conversations within the building,true,false,false,false,2025-04-05 18:41:48.66363+00,2025-04-05 18:41:48.66363+00

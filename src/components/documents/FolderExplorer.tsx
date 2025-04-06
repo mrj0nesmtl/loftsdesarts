@@ -44,8 +44,18 @@ export default function FolderExplorer({
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const { toast } = useToast();
   
-  // Get root folders
+  // Log the folders prop for debugging
+  useEffect(() => {
+    console.log('FolderExplorer received folders:', folders);
+  }, [folders]);
+  
+  // Get root folders - include all root folders including syndicate ones
   const rootFolders = folders.filter(folder => !folder.parent_id);
+  
+  // Log root folders
+  useEffect(() => {
+    console.log('Root folders:', rootFolders);
+  }, [rootFolders]);
   
   // Auto-expand folders in the path to the current folder
   useEffect(() => {
@@ -249,13 +259,19 @@ export default function FolderExplorer({
     return (
       <div key={folder.id} className="select-none group">
         <div 
-          className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer hover:bg-muted ${
-            isSelected ? 'bg-muted font-medium text-primary' : ''
-          }`}
-          style={{ paddingLeft: `${(depth * 16) + 8}px` }}
+          className={`flex items-center py-1 px-1.5 rounded-md cursor-pointer transition-all duration-150 ease-in-out
+            ${isSelected 
+              ? 'bg-slate-100 dark:bg-slate-800 font-medium text-slate-900 dark:text-slate-100 shadow-sm' 
+              : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
+            } 
+            ${folder.is_syndicate 
+              ? 'text-slate-700 dark:text-slate-300' 
+              : 'text-slate-700 dark:text-slate-300'
+            }`}
+          style={{ paddingLeft: `${(depth * 12) + 4}px` }}
           onClick={handleFolderClick}
         >
-          <div className="flex items-center gap-2 flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 flex-1 min-w-0">
             {hasChildren && (
               <button
                 type="button"
@@ -263,49 +279,68 @@ export default function FolderExplorer({
                   e.stopPropagation();
                   toggleFolder(folder.id);
                 }}
-                className="flex-shrink-0 mr-0.5 w-4 h-4 flex items-center justify-center text-muted-foreground hover:text-foreground"
+                className={`flex-shrink-0 mr-0.5 w-4 h-4 flex items-center justify-center 
+                  ${isSelected 
+                    ? 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100' 
+                    : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                  }`}
               >
-                <ChevronRightIcon className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                <ChevronRightIcon className={`h-3.5 w-3.5 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
               </button>
             )}
-            {!hasChildren && <span className="w-4 h-4 flex-shrink-0" />}
+            {!hasChildren && <span className="w-2.5 h-2.5 flex-shrink-0" />}
             
             {isSelected ? (
-              <FolderOpenIcon className="h-4 w-4 text-primary flex-shrink-0" />
+              <FolderOpenIcon className={`h-4 w-4 flex-shrink-0 
+                ${folder.is_syndicate 
+                  ? 'text-green-600 dark:text-green-500' 
+                  : 'text-green-600 dark:text-green-500'
+                }`} />
             ) : (
-              <FolderIcon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <FolderIcon className={`h-4 w-4 flex-shrink-0 
+                ${folder.is_syndicate 
+                  ? 'text-slate-500 dark:text-slate-400' 
+                  : 'text-slate-500 dark:text-slate-400'
+                }`} />
             )}
-            <span className="truncate">{folder.name}</span>
+            <span className="truncate text-sm" style={{ maxWidth: 'calc(100% - 1.5rem)' }}>
+              {folder.name} 
+              {folder.is_syndicate && (
+                <span className="ml-1 inline-flex items-center text-xs font-medium rounded-sm py-0.5 px-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                  O
+                </span>
+              )}
+            </span>
           </div>
           
           {!folder.is_syndicate && (
-            <div className="opacity-0 group-hover:opacity-100 flex items-center gap-1">
+            <div className="opacity-0 group-hover:opacity-100 flex items-center gap-0.5 transition-opacity duration-150">
               <button 
                 type="button"
                 onClick={(e) => duplicateFolder(folder, e)}
-                className="ml-auto text-muted-foreground hover:text-primary"
+                className="ml-auto text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
                 aria-label={`Dupliquer le dossier ${folder.name}`}
               >
-                <CopyIcon className="h-3.5 w-3.5" />
+                <CopyIcon className="h-3 w-3" />
               </button>
               <button 
                 type="button"
                 onClick={(e) => deleteFolder(folder, e)}
-                className="text-muted-foreground hover:text-destructive"
+                className="text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
                 aria-label={`Supprimer le dossier ${folder.name}`}
               >
-                <Trash2Icon className="h-3.5 w-3.5" />
+                <Trash2Icon className="h-3 w-3" />
               </button>
             </div>
           )}
         </div>
         
         {(isExpanded || isInSelectedPath) && (
-          <div className="pl-4 ml-3 mt-0.5 mb-0.5 relative">
+          <div className="pl-3 ml-2 mt-0.5 mb-0.5 relative">
             {/* Vertical line indicating hierarchy */}
-            <div className="absolute top-0 bottom-0 left-0 w-px bg-muted-foreground/20" />
+            <div className="absolute top-0 bottom-0 left-0 w-px bg-slate-200 dark:bg-slate-700" />
             
-            <div className="space-y-0.5">
+            <div className="space-y-0">
               {folders
                 .filter(f => f.parent_id === folder.id)
                 .sort((a, b) => a.name.localeCompare(b.name))
@@ -320,17 +355,17 @@ export default function FolderExplorer({
   
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium">Mes dossiers</h3>
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">Mes dossiers</h3>
         {canCreateFolder && (
-          <Button variant="ghost" size="icon" className="h-6 w-6">
+          <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600">
             <PlusIcon className="h-4 w-4" />
             <span className="sr-only">Nouveau dossier</span>
           </Button>
         )}
       </div>
       
-      <div className="overflow-auto max-h-[50vh]">
+      <div className="overflow-auto max-h-[70vh] pr-1 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent">
         {/* Root level navigation - Now hidden and handled via breadcrumbs in the parent component */}
         <div 
           className={`flex items-center py-1 px-2 rounded-md cursor-pointer hover:bg-muted mb-2 ${
@@ -343,13 +378,42 @@ export default function FolderExplorer({
         </div>
         
         {rootFolders.length === 0 ? (
-          <p className="text-sm text-muted-foreground py-2 px-2">
-            Aucun dossier trouvé
-          </p>
+          <div>
+            <div className="flex flex-col items-center justify-center py-8 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-dashed border-slate-200 dark:border-slate-700">
+              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
+                <FolderIcon className="h-6 w-6 text-slate-400 dark:text-slate-500" />
+              </div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 text-center px-4">
+                Aucun dossier trouvé
+              </p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 text-center">
+                Créez un dossier pour commencer
+              </p>
+            </div>
+            <div className="text-xs text-slate-400 dark:text-slate-500 p-2 rounded mt-4 border border-slate-100 dark:border-slate-800">
+              <div className="flex justify-between mb-1">
+                <span>Nombre total de dossiers:</span>
+                <span>{folders.length}</span>
+              </div>
+              <div className="flex justify-between mb-1">
+                <span>Dossiers syndic:</span>
+                <span>{folders.filter(f => f.is_syndicate).length}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Racines:</span>
+                <span>{folders.filter(f => !f.parent_id).length}</span>
+              </div>
+            </div>
+          </div>
         ) : (
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {rootFolders
-              .sort((a, b) => a.name.localeCompare(b.name))
+              .sort((a, b) => {
+                // Sort syndicate folders first, then alphabetically
+                if (a.is_syndicate && !b.is_syndicate) return -1;
+                if (!a.is_syndicate && b.is_syndicate) return 1;
+                return a.name.localeCompare(b.name);
+              })
               .map(folder => renderFolder(folder))}
           </div>
         )}

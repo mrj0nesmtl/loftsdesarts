@@ -38,7 +38,7 @@ export default function ConversationList() {
         setConversations(data);
       } catch (err) {
         console.error('Failed to load conversations:', err);
-        toast.error('Failed to load conversations');
+        toast.error('Échec du chargement des conversations');
       } finally {
         setLoading(false);
       }
@@ -87,7 +87,7 @@ export default function ConversationList() {
             size="icon"
             variant="ghost"
             onClick={() => setShowNewModal(true)}
-            title="New Conversation"
+            title="Nouvelle Conversation"
           >
             <Plus className="h-5 w-5" />
           </Button>
@@ -96,7 +96,7 @@ export default function ConversationList() {
         <div className="relative mb-4">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search conversations..."
+            placeholder="Rechercher des conversations..."
             className="pl-8"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -109,14 +109,14 @@ export default function ConversationList() {
             variant={filter === 'all' ? 'default' : 'outline'}
             onClick={() => setFilter('all')}
           >
-            All
+            Tous
           </Button>
           <Button 
             size="sm" 
             variant={filter === 'unread' ? 'default' : 'outline'}
             onClick={() => setFilter('unread')}
           >
-            Unread
+            Non lus
           </Button>
           <Button 
             size="sm" 
@@ -136,8 +136,8 @@ export default function ConversationList() {
         ) : filteredConversations.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             {search || filter !== 'all' 
-              ? 'No conversations match your search or filter' 
-              : 'No conversations yet'}
+              ? 'Aucune conversation ne correspond à votre recherche ou filtre' 
+              : 'Pas encore de conversations'}
           </div>
         ) : (
           <div>
