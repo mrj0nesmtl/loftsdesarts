@@ -125,9 +125,14 @@
 
 /* Add custom font classes */
 .font-title {
-  font-family: var(--font-poiret-one), sans-serif;
+  font-family: var(--font-poiret-one), Georgia, serif;
   font-weight: 400;
   letter-spacing: 0.02em;
+}
+
+/* For elements that should use Inter font explicitly */
+.font-body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 /* Add smooth transitions for elements that change with theme */

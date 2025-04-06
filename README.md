@@ -24,6 +24,118 @@ The Lofts des Arts Web Platform is a comprehensive management system for luxury 
 - **Phase 2 (Admin Features)**: ✅ Complete (April 5, 2025)
 - **Phase 3 (Resident Portal)**: 🔄 15% Complete - In Progress
 
+## Website Flow Chart
+
+```mermaid
+flowchart TD
+    %% Main sections
+    PublicPages[Public Pages]
+    Auth[Authentication]
+    AdminPortal[Admin Portal]
+    ResidentPortal[Resident Portal]
+    
+    %% Public pages
+    PublicPages --> Home[Home Page]
+    PublicPages --> Gallery[Gallery]
+    PublicPages --> About[About Us]
+    PublicPages --> Contact[Contact Form]
+    
+    %% Authentication flow
+    Home --> Auth
+    Auth --> Login[Login Page]
+    Auth --> RoleCheck{Role Check}
+    
+    %% Admin portal section
+    RoleCheck -->|Admin| AdminPortal
+    RoleCheck -->|Doorman| DoormanDashboard[Doorman Dashboard]
+    RoleCheck -->|Resident| ResidentPortal
+    
+    %% Admin portal pages
+    AdminPortal --> AdminDashboard[Admin Dashboard]
+    AdminDashboard --> DocumentMgmt[Document Management]
+    AdminDashboard --> UserMgmt[User Management]
+    AdminDashboard --> ResidentMgmt[Resident Management]
+    AdminDashboard --> BuildingMgmt[Building Management]
+    AdminDashboard --> Analytics[Analytics Dashboard]
+    AdminDashboard --> Settings[System Settings]
+    
+    %% Resident management subsection
+    ResidentMgmt --> ResidentDirectory[Resident Directory]
+    ResidentMgmt --> UnitManagement[Unit Management]
+    
+    %% Document management subsection
+    DocumentMgmt --> DocUpload[Document Upload]
+    DocumentMgmt --> DocCategories[Document Categories]
+    DocumentMgmt --> DocPermissions[Document Permissions]
+    
+    %% Package management
+    DoormanDashboard --> PackageMgmt[Package Management]
+    PackageMgmt --> PackageReg[Package Registration]
+    PackageMgmt --> PackageStatus[Package Status]
+    PackageMgmt --> PackageNotify[Resident Notification]
+    
+    %% Resident portal (in progress)
+    ResidentPortal -->|In Progress| ResidentDash[Resident Dashboard]
+    ResidentDash -->|In Progress| ResidentProfile[Resident Profile]
+    ResidentDash -->|In Progress| BuildingInfo[Building Information]
+    ResidentDash -->|In Progress| Packages[Package Notifications]
+    ResidentDash -->|In Progress| Maintenance[Maintenance Requests]
+    ResidentDash -->|In Progress| CommunityBoard[Community Board]
+    
+    %% Access levels
+    classDef public fill:#black,stroke:#333,stroke-width:1px
+    classDef admin fill:#c33,stroke:#633,stroke-width:1px
+    classDef doorman fill:#36c,stroke:#36c,stroke-width:1px
+    classDef resident fill:#293,stroke:#293,stroke-width:1px
+    classDef inProgress fill:#999,stroke:#666,stroke-width:1px,stroke-dasharray: 5 5
+    
+    class Home,Gallery,About,Contact,Login public
+    class AdminDashboard,DocumentMgmt,UserMgmt,ResidentMgmt,BuildingMgmt,Analytics,Settings,ResidentDirectory,UnitManagement,DocUpload,DocCategories,DocPermissions admin
+    class DoormanDashboard,PackageMgmt,PackageReg,PackageStatus,PackageNotify doorman
+    class ResidentDash,ResidentProfile,BuildingInfo,Packages,Maintenance,CommunityBoard resident
+    class ResidentDash,ResidentProfile,BuildingInfo,Packages,Maintenance,CommunityBoard inProgress
+```
+
+## User Guides
+
+<div align="center">
+<table>
+  <tr>
+    <td align="center">
+      <a href="docs/user-guides/admin/README.md">
+        <img src="https://img.shields.io/badge/Admin-Guide-red?style=for-the-badge" alt="Admin Guide"/>
+        <br/>
+        <b>Admin Guide</b>
+      </a>
+      <p>For building administrators and management</p>
+    </td>
+    <td align="center">
+      <a href="docs/user-guides/resident/README.md">
+        <img src="https://img.shields.io/badge/Resident-Guide-green?style=for-the-badge" alt="Resident Guide"/>
+        <br/>
+        <b>Resident Guide</b>
+      </a>
+      <p>For building residents and owners</p>
+    </td>
+    <td align="center">
+      <a href="docs/user-guides/roles/doorman/README.md">
+        <img src="https://img.shields.io/badge/Doorman-Guide-blue?style=for-the-badge" alt="Doorman Guide"/>
+        <br/>
+        <b>Doorman Guide</b>
+      </a>
+      <p>For building staff and concierge</p>
+    </td>
+  </tr>
+</table>
+</div>
+
+### Feature-Specific Guides
+
+* 📄 [Document Management System](docs/user-guides/features/document-management/overview.md)
+* 📦 [Package Management System](docs/user-guides/features/package-management/overview.md)
+* 💬 [Messaging System](docs/user-guides/features/messaging-system/overview.md)
+* 🔐 [RBAC: Role-Based Access Control](docs/user-guides/features/rbac/overview.md)
+
 ## Key Features
 
 ### Implemented Features
