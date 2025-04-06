@@ -66,6 +66,17 @@ export default function ContactPage() {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-md text-white transition-colors"
+                  onClick={(e) => {
+                    // Add error handling for ad blockers
+                    try {
+                      // Attempt to open the URL in a new tab
+                      window.open("https://maps.app.goo.gl/tz5g4Zq5yGPz949N7", "_blank", "noopener,noreferrer");
+                      e.preventDefault(); // Prevent default link behavior
+                    } catch (error) {
+                      // If blocked by ad blocker, fallback to opening in same tab
+                      console.info("Maps link may be blocked by an ad blocker, attempting fallback.");
+                    }
+                  }}
                 >
                   Google Maps
                 </a>

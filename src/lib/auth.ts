@@ -4,10 +4,27 @@ import { User, createClient } from '@supabase/supabase-js';
 import { createContext, useContext, useEffect, useState, ReactNode, createElement } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Initialize the Supabase client with environment variables
+// Initialize the Supabase client as a singleton to prevent multiple instances
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Create a singleton supabase client
+let supabaseInstance: ReturnType<typeof createClient> | null = null;
+
+function getSupabaseClient() {
+  if (!supabaseInstance) {
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        storageKey: 'lda-auth-token',
+      }
+    });
+  }
+  return supabaseInstance;
+}
+
+// Export a singleton supabase client
+export const supabase = getSupabaseClient();
 
 // User role types
 export type UserRole = 'ADMIN' | 'DOORMAN' | 'USER' | 'SYNDIC';
