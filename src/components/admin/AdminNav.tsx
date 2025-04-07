@@ -31,6 +31,10 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
   const canAccessResidents = userRole === 'ADMIN';
   const canAccessMessaging = userRole === 'ADMIN' || userRole === 'DOORMAN';
   const canAccessDropBox = userRole === 'ADMIN' || userRole === 'DOORMAN' || userRole === 'SYNDIC' || userRole === 'USER';
+  // Access control for new items and modifications
+  const canAccessMods = userRole === 'ADMIN' || userRole === 'SYNDIC';
+  const canAccessCameras = userRole === 'ADMIN' || userRole === 'DOORMAN';
+  const canAccessWiki = userRole === 'ADMIN' || userRole === 'DOORMAN' || userRole === 'SYNDIC' || userRole === 'USER';
 
   return (
     <nav className="py-4 px-2">
@@ -248,8 +252,27 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
             </NavLink>
           )}
           
+          {/* Wiki */}
+          {canAccessWiki && (
+            <NavLink 
+              href="/admin/wiki"
+              isActive={isActive("/admin/wiki")}
+              isExpanded={isExpanded}
+              iconColor="#8b5cf6" // Violet
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+              }
+              badge="Soon"
+            >
+              Wiki
+            </NavLink>
+          )}
+          
           {/* Website Modifications */}
-          {canAccessSettings && (
+          {canAccessMods && (
             <NavLink 
               href="/admin/website"
               isActive={isActive("/admin/website")}
@@ -262,27 +285,30 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                 </svg>
               }
+              badge="Beta"
             >
-              Modifications
+              Mods
             </NavLink>
           )}
           
-          {/* Public Site Link - Moved to the bottom section */}
-          <NavLink 
-            href="/"
-            isActive={false}
-            isExpanded={isExpanded}
-            iconColor="#a3a3a3" // Gray
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            }
-            external={true}
-          >
-            Site Public
-          </NavLink>
+          {/* Cameras */}
+          {canAccessCameras && (
+            <NavLink 
+              href="/admin/cameras"
+              isActive={isActive("/admin/cameras")}
+              isExpanded={isExpanded}
+              iconColor="#10b981" // Emerald
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                  <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+              }
+              badge="Soon"
+            >
+              Cameras
+            </NavLink>
+          )}
         </div>
         
         {isExpanded && (
@@ -332,9 +358,10 @@ type NavLinkProps = {
   iconColor?: string;
   children: React.ReactNode;
   external?: boolean;
+  badge?: string;
 };
 
-function NavLink({ href, isActive, isExpanded, icon, iconColor = 'currentColor', children, external }: NavLinkProps) {
+function NavLink({ href, isActive, isExpanded, icon, iconColor = 'currentColor', children, external, badge }: NavLinkProps) {
   return (
     <Link 
       href={href}
@@ -352,7 +379,18 @@ function NavLink({ href, isActive, isExpanded, icon, iconColor = 'currentColor',
           <span className="absolute inset-0 bg-gradient-to-tr from-transparent to-transparent hover:from-transparent hover:to-[color:var(--hover-color)] opacity-0 hover:opacity-30 transition-opacity duration-300" style={{"--hover-color": iconColor} as any}></span>
         )}
       </div>
-      {isExpanded && <span className="font-medium text-muted-foreground">{children}</span>}
+      {isExpanded && (
+        <div className="flex items-center">
+          <span className="font-medium text-muted-foreground">{children}</span>
+          {badge && (
+            <span className={`ml-2 text-xs px-1.5 py-0.5 rounded-full ${
+              badge === 'Beta' ? 'bg-amber-200 text-amber-800' : 'bg-blue-200 text-blue-800'
+            }`}>
+              {badge}
+            </span>
+          )}
+        </div>
+      )}
     </Link>
   );
 } 
