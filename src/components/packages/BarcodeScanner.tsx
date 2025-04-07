@@ -23,32 +23,38 @@ export default function BarcodeScanner({
   // Use a unique ID for each scanner instance to prevent conflicts
   const scannerContainerId = useRef(`barcode-scanner-container-${Math.random().toString(36).substring(2, 11)}`).current;
   const isMountedRef = useRef(true);
+  const hasCleanedUp = useRef(false);
+
+  // Improved cleanup function that can be called directly
+  const cleanupScanner = async () => {
+    // If already cleaned up, do nothing
+    if (hasCleanedUp.current) return;
+    
+    if (scannerRef.current) {
+      try {
+        // Check if scanner is running before attempting to stop
+        if (scannerRef.current.isScanning) {
+          await scannerRef.current.stop();
+        }
+        // Mark as cleaned up
+        hasCleanedUp.current = true;
+      } catch (error) {
+        console.error('Error during scanner cleanup:', error);
+      }
+    }
+  };
 
   // Clean up scanner on unmount
   useEffect(() => {
     // Set mounted ref
     isMountedRef.current = true;
+    hasCleanedUp.current = false;
     
     return () => {
       // Mark component as unmounted
       isMountedRef.current = false;
-      
-      // Clean up scanner if it exists
-      if (scannerRef.current) {
-        try {
-          // Check if scanner is running before attempting to stop
-          if (scannerRef.current.isScanning) {
-            scannerRef.current.stop().catch(error => {
-              console.error('Error stopping scanner during cleanup:', error);
-            });
-          }
-        } catch (error) {
-          console.error('Error during scanner cleanup:', error);
-        }
-        
-        // Clear the reference
-        scannerRef.current = null;
-      }
+      // Ensure scanner is properly cleaned up
+      cleanupScanner();
     };
   }, []);
 
@@ -57,6 +63,7 @@ export default function BarcodeScanner({
     
     setError(null);
     setIsScanning(true);
+    hasCleanedUp.current = false;
     
     try {
       // Ensure we have camera permission
@@ -77,15 +84,13 @@ export default function BarcodeScanner({
       
       const qrConfig = { 
         fps: 10, 
-        qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0,
+        qrbox: { width: 200, height: 200 },
+        aspectRatio: window.innerWidth < 768 ? 1.7 : 1.0, // Adjust aspect ratio for mobile
       };
       
       // Ensure the component is still mounted before continuing
       if (!isMountedRef.current) {
-        if (html5QrCode.isScanning) {
-          await html5QrCode.stop();
-        }
+        await cleanupScanner();
         return;
       }
       
@@ -120,29 +125,11 @@ export default function BarcodeScanner({
   const stopScanner = async () => {
     if (!isMountedRef.current) return;
     
-    if (scannerRef.current) {
-      try {
-        // Check if the scanner is truly running before trying to stop it
-        if (scannerRef.current.isScanning) {
-          await scannerRef.current.stop();
-        }
-        // Only update state if component is mounted
-        if (isMountedRef.current) {
-          setIsScanning(false);
-        }
-      } catch (err) {
-        console.error('Error stopping scanner:', err);
-        // Only update state if component is mounted
-        if (isMountedRef.current) {
-          setIsScanning(false);
-        }
-      }
-    } else {
-      // If scanner reference doesn't exist, just update UI state if mounted
-      if (isMountedRef.current) {
-        setIsScanning(false);
-      }
-    }
+    // Always set scanning state to false to ensure UI is updated
+    setIsScanning(false);
+    
+    // Then clean up the scanner
+    await cleanupScanner();
   };
 
   const handleScanSuccess = (decodedText: string) => {
@@ -187,12 +174,18 @@ export default function BarcodeScanner({
       <div 
         id={scannerContainerId} 
         className={`relative rounded-lg overflow-hidden ${isScanning ? 'block' : 'hidden'}`} 
-        style={{ width: '100%', maxWidth: '400px', height: '300px' }}
+        style={{ 
+          width: '100%', 
+          maxWidth: '350px', 
+          height: '220px',
+          maxHeight: '40vh',
+          margin: '0 auto'
+        }}
       >
         {isScanning && !permissionGranted && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800">
             <Camera className="h-12 w-12 text-gray-400 animate-pulse" />
-            <p className="text-sm text-gray-500 mt-4">Demande d'accès à la caméra...</p>
+            <p className="text-sm text-gray-500 mt-4 text-center px-4">Demande d'accès à la caméra...</p>
           </div>
         )}
       </div>

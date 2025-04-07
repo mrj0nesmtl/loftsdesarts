@@ -240,7 +240,7 @@ export default function PackageRegistrationForm() {
   };
 
   // Update the visibility toggle logic by adding safe mounting and unmounting
-  const toggleScannerVisibility = (visible: boolean) => {
+  const toggleScannerVisibility = async (visible: boolean) => {
     // If attempting to hide and scanner is already hidden, do nothing
     if (!visible && !isScannerVisible) return;
     
@@ -252,11 +252,16 @@ export default function PackageRegistrationForm() {
       // Mark that we're in the process of unmounting
       scannerMountingRef.current = true;
       
-      // Use a small delay to ensure proper cleanup
-      setTimeout(() => {
+      try {
+        // First set state to trigger UI updates
         setIsScannerVisible(false);
+        
+        // Add a short delay to ensure DOM is updated before further actions
+        await new Promise(resolve => setTimeout(resolve, 300));
+      } finally {
+        // Reset the mounting ref even if there's an error
         scannerMountingRef.current = false;
-      }, 100);
+      }
       return;
     }
     
@@ -269,29 +274,32 @@ export default function PackageRegistrationForm() {
       {!isRegistered ? (
         <>
           {isScannerVisible && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Scanner un code-barres</CardTitle>
-                <CardDescription>
-                  Utilisez la caméra pour scanner le code-barres du colis
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <BarcodeScanner
-                  onScanSuccess={handleScanSuccess}
-                  onScanError={handleScanError}
-                />
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button 
-                  variant="outline" 
-                  onClick={() => toggleScannerVisibility(false)}
-                  disabled={scannerMountingRef.current}
-                >
-                  {scannerMountingRef.current ? 'Fermeture en cours...' : 'Annuler'}
-                </Button>
-              </CardFooter>
-            </Card>
+            <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 overflow-y-auto">
+              <Card className="w-full max-w-md max-h-[95vh] flex flex-col">
+                <CardHeader className="sticky top-0 bg-card z-20">
+                  <CardTitle>Scanner un code-barres</CardTitle>
+                  <CardDescription>
+                    Utilisez la caméra pour scanner le code-barres du colis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow overflow-y-auto">
+                  <BarcodeScanner
+                    onScanSuccess={handleScanSuccess}
+                    onScanError={handleScanError}
+                  />
+                </CardContent>
+                <CardFooter className="sticky bottom-0 bg-card z-20 flex justify-between">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => toggleScannerVisibility(false)}
+                    disabled={scannerMountingRef.current}
+                    className="w-full"
+                  >
+                    {scannerMountingRef.current ? 'Fermeture en cours...' : 'Annuler'}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
           )}
 
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
