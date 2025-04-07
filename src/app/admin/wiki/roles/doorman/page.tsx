@@ -187,6 +187,10 @@ export default function DoormanWikiPage() {
                     <li>Handling general inquiries</li>
                     <li>Monitoring lobby security</li>
                     <li>Supporting resident requests at the front desk</li>
+                    <li>Emptying the waste bin in the basement</li>
+                    <li>Verifying that the garage door is properly closed</li>
+                    <li>Checking both emergency exit doors (St-Laurent and Clark) for security</li>
+                    <li>Taking two photos every hour: one of the reception/security desk and one of the package shelf</li>
                   </>
                 ) : (
                   <>
@@ -198,6 +202,10 @@ export default function DoormanWikiPage() {
                     <li>Traitement des demandes générales</li>
                     <li>Surveillance de la sécurité du hall d'entrée</li>
                     <li>Soutien aux demandes des résidents à la réception</li>
+                    <li>Le bac à déchet au sous-sol à vider</li>
+                    <li>La vérification de la porte de garage pour s'assurer que celle-ci soit bien fermée</li>
+                    <li>La vérification des deux portes de secours (St-Laurent et Clark) pour les mêmes raisons</li>
+                    <li>Ainsi que deux photos à l'heure, une du bureau d'accueil/sécurité et l'autre de l'étagère à colis</li>
                   </>
                 )}
               </ul>
