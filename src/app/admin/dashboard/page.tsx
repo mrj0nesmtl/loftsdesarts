@@ -434,7 +434,27 @@ export default function DashboardPage() {
         <Card className="theme-transition bg-green-500/10 border-green-500/30">
           <CardHeader className="pb-1 pt-3">
             <CardTitle className="text-base flex items-center text-green-500">
-              <Phone className="w-4 h-4 mr-1" />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="w-4 h-4 mr-1" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                <path d="M6 8h.001"></path>
+                <path d="M10 8h.001"></path>
+                <path d="M14 8h.001"></path>
+                <path d="M18 8h.001"></path>
+                <path d="M6 12h.001"></path>
+                <path d="M10 12h.001"></path>
+                <path d="M14 12h.001"></path>
+                <path d="M18 12h.001"></path>
+                <path d="M6 16h12"></path>
+              </svg>
               Tech Urgence
             </CardTitle>
           </CardHeader>
@@ -454,9 +474,6 @@ export default function DashboardPage() {
             </div>
             <p className="text-xs mt-1">
               Fermé ⋅ Ouvre 9h lundi
-            </p>
-            <p className="text-xs mt-1 truncate">
-              5219 Boul Lévesque E, Laval
             </p>
           </CardContent>
         </Card>
