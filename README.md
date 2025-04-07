@@ -416,5 +416,5 @@ Run this script at the end of each development session to keep the documentation
 
 This project is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
 
-© 2025 Joel Yafe, Montreal. @mrjonesmtl All rights reserved.
+© 2025 Annonymous Contractor - AKA Joel Yaffe. All rights reserved.
 
