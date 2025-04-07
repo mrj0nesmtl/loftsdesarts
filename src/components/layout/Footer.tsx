@@ -81,7 +81,7 @@ export function Footer() {
               1625 rue Clark, Montréal, Québec, Canada H2X 2R5
             </p>
             <div className="text-sm text-zinc-500">
-              &copy; {new Date().getFullYear()} Annonymous Contractor. Tous droits réservés.
+              &copy; {new Date().getFullYear()} Anonymous Contractor. Tous droits réservés.
             </div>
           </div>
           
