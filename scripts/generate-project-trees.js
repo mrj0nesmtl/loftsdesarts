@@ -40,34 +40,64 @@ const IGNORED_EXTENSIONS = [
 // Structure categories
 const STRUCTURE_CATEGORIES = [
   {
-    name: 'app-structure',
-    title: 'Application Structure',
-    path: 'app',
-    description: 'Next.js App Router structure with pages and API routes'
-  },
-  {
-    name: 'components-structure',
-    title: 'Components Structure',
-    path: 'components',
-    description: 'React components organized by functionality'
-  },
-  {
-    name: 'lib-structure',
-    title: 'Library Structure',
-    path: 'lib',
-    description: 'Utility functions, hooks, and shared code'
-  },
-  {
-    name: 'styles-structure',
-    title: 'Styles Structure',
-    path: 'styles',
-    description: 'Global styles and CSS files'
+    name: 'src-structure',
+    title: 'Source Code Structure',
+    path: 'src',
+    description: 'Next.js application source code including components, pages, and API routes'
   },
   {
     name: 'docs-structure',
     title: 'Documentation Structure',
     path: 'docs',
     description: 'Project documentation organized by category'
+  },
+  {
+    name: 'project-management-structure',
+    title: 'Project Management Documentation',
+    path: 'docs/project-management',
+    description: 'Project planning documents, timelines, and meeting notes'
+  },
+  {
+    name: 'architecture-structure',
+    title: 'Architecture Documentation',
+    path: 'docs/architecture',
+    description: 'System architecture diagrams and descriptions'
+  },
+  {
+    name: 'api-structure',
+    title: 'API Documentation',
+    path: 'docs/api',
+    description: 'API documentation and endpoints'
+  },
+  {
+    name: 'database-structure',
+    title: 'Database Documentation',
+    path: 'docs/database',
+    description: 'Database schema, relations, and RLS policies'
+  },
+  {
+    name: 'design-structure',
+    title: 'Design Documentation',
+    path: 'docs/design',
+    description: 'Design assets, wireframes, mockups, and style guides'
+  },
+  {
+    name: 'user-guides-structure',
+    title: 'User Guides',
+    path: 'docs/user-guides',
+    description: 'End-user documentation for various roles'
+  },
+  {
+    name: 'development-structure',
+    title: 'Development Documentation',
+    path: 'docs/development',
+    description: 'Development guidelines, workflows, and processes'
+  },
+  {
+    name: 'sql-structure',
+    title: 'SQL Scripts',
+    path: 'sql',
+    description: 'SQL scripts for database setup and management'
   }
 ];
 

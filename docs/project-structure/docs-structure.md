@@ -36,9 +36,12 @@ Project documentation organized by category
 │   ├── STATUS.md
 │   ├── project_resources.md
 │   ├── session-6
-│   │   ├── session-6-checklist.md
-│   │   ├── session-6-kickoff-narrative.md
-│   │   └── session-6-resources.md
+│   │   ├── session-6b-checklist.md
+│   │   ├── session-6b-kickoff-narrative.md
+│   │   ├── session-6b-resources.md
+│   │   ├── session-6c-checklist.md
+│   │   ├── session-6c-kickoff-narrative.md
+│   │   └── session-6c-resources.md
 │   └── session_archive
 │       ├── session-2-checklist.md
 │       ├── session-2-kickoff.md
@@ -61,6 +64,7 @@ Project documentation organized by category
 │   ├── index.md
 │   ├── lib-structure.md
 │   ├── overall-structure.md
+│   ├── src-structure.md
 │   └── styles-structure.md
 ├── specifications
 │   └── README.md
@@ -103,6 +107,6 @@ Project documentation organized by category
         └── super-admin
             └── README.md
 
-36 directories, 61 files
+36 directories, 65 files
 
 ```
