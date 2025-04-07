@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
 import { useTheme } from '@/context/ThemeProvider';
 import Link from 'next/link';
-import { Phone, Package, Users, Home, User, Shield, FileText, Bell, BarChart2 } from 'lucide-react';
+import { Phone, Package, Users, Home, User, Shield, FileText, Bell, BarChart2, Cloud, CloudRain, Sun, Moon } from 'lucide-react';
 
 interface DashboardStats {
   totalInquiries: number;
@@ -22,8 +22,22 @@ interface DashboardStats {
   recentDocuments: any[];
 }
 
+interface WeatherData {
+  temp: number;
+  condition: string;
+  icon: string;
+  loaded: boolean;
+}
+
 export default function DashboardPage() {
   const { theme } = useTheme();
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [weather, setWeather] = useState<WeatherData>({
+    temp: 0,
+    condition: '',
+    icon: '',
+    loaded: false
+  });
   const [stats, setStats] = useState<DashboardStats>({
     totalInquiries: 0,
     newInquiries: 0,
@@ -102,6 +116,83 @@ export default function DashboardPage() {
     loadStats();
   }, []);
 
+  useEffect(() => {
+    // Update time every minute
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    // Fetch weather data
+    const fetchWeather = async () => {
+      try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Montreal,ca&units=metric&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY || 'demo'}`);
+        if (response.ok) {
+          const data = await response.json();
+          setWeather({
+            temp: Math.round(data.main.temp),
+            condition: data.weather[0].description,
+            icon: data.weather[0].icon,
+            loaded: true
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching weather:", error);
+        // Set demo data if API call fails
+        setWeather({
+          temp: 2,
+          condition: "peu nuageux",
+          icon: "02d",
+          loaded: true
+        });
+      }
+    };
+
+    fetchWeather();
+    return () => clearInterval(timer);
+  }, []);
+
+  // Weather icon component
+  const WeatherIcon = () => {
+    if (!weather.loaded) return <Cloud className="w-6 h-6 text-blue-500" />;
+    
+    // Basic icon mapping
+    const iconId = weather.icon;
+    if (iconId.includes("01")) return <Sun className="w-6 h-6 text-amber-500" />;
+    if (iconId.includes("02") || iconId.includes("03") || iconId.includes("04")) 
+      return <Cloud className="w-6 h-6 text-blue-400" />;
+    if (iconId.includes("09") || iconId.includes("10")) 
+      return <CloudRain className="w-6 h-6 text-blue-500" />;
+    if (iconId.includes("13")) 
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25" />
+          <path d="M8 16h.01" />
+          <path d="M8 20h.01" />
+          <path d="M12 18h.01" />
+          <path d="M12 22h.01" />
+          <path d="M16 16h.01" />
+          <path d="M16 20h.01" />
+        </svg>
+      );
+    
+    // Default icon
+    return <Cloud className="w-6 h-6 text-blue-500" />;
+  };
+
+  // Format the date in French
+  const formattedDate = currentTime.toLocaleDateString('fr-CA', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  
+  // Format the time
+  const formattedTime = currentTime.toLocaleTimeString('fr-CA', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   // Calculate occupancy rate
   const occupancyRate = stats.totalUnits > 0 
     ? Math.round((stats.occupiedUnits / stats.totalUnits) * 100) 
@@ -110,6 +201,25 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <WelcomeMessage />
+      
+      {/* Weather and Time Widget */}
+      <Card className="theme-transition bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20">
+        <CardContent className="pt-4 pb-3">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-medium">{formattedDate}</h3>
+              <p className="text-2xl font-bold mt-1">{formattedTime}</p>
+            </div>
+            <div className="flex items-center bg-card rounded-lg px-4 py-2 shadow-sm">
+              <WeatherIcon />
+              <div className="ml-3">
+                <p className="text-lg font-bold">{weather.temp}°C</p>
+                <p className="text-sm capitalize">Montréal, QC</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
       
       {/* Main Stats Grid */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -269,78 +379,152 @@ export default function DashboardPage() {
       </div>
       
       {/* Emergency Contacts */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-5">
         <Card className="theme-transition bg-red-500/10 border-red-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center text-red-500">
-              <Phone className="w-4 h-4 mr-2" />
-              Urgence Gestion Sentinel
+          <CardHeader className="pb-1 pt-3">
+            <CardTitle className="text-base flex items-center text-red-500">
+              <Phone className="w-4 h-4 mr-1" />
+              Urgence Gestion
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-1">
             <div className="flex items-center justify-between">
-              <div className="text-xl font-bold">514-281-2811</div>
+              <div className="text-lg font-bold">514-281-2811</div>
               <a 
                 href="tel:5142812811" 
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-red-500 text-white px-3 py-2 text-sm font-medium hover:bg-red-600 transition-colors"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-red-500 text-white px-2 py-1 text-xs font-medium hover:bg-red-600 transition-colors"
               >
-                <Phone className="h-4 w-4 mr-2" />
+                <Phone className="h-3 w-3 mr-1" />
                 Appeler
               </a>
             </div>
-            <p className="text-sm mt-2">
-              Pour toute urgence dans l'immeuble (sécurité, dégât d'eau, etc.)
+            <p className="text-xs mt-1">
+              Urgences immeuble (sécurité, dégât d'eau)
             </p>
           </CardContent>
         </Card>
         
         <Card className="theme-transition bg-blue-500/10 border-blue-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center text-blue-500">
-              <User className="w-4 h-4 mr-2" />
-              Gestionnaire d'immeuble
+          <CardHeader className="pb-1 pt-3">
+            <CardTitle className="text-base flex items-center text-blue-500">
+              <User className="w-4 h-4 mr-1" />
+              Gestionnaire
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-1">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xl font-bold">Marie Tremblay</div>
-                <div className="text-sm">514-555-1234</div>
+                <div className="text-lg font-bold">Marie Tremblay</div>
+                <div className="text-xs">514-555-1234</div>
               </div>
               <a 
                 href="tel:5145551234" 
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-blue-500 text-white px-3 py-2 text-sm font-medium hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-blue-500 text-white px-2 py-1 text-xs font-medium hover:bg-blue-600 transition-colors"
               >
-                <Phone className="h-4 w-4 mr-2" />
+                <Phone className="h-3 w-3 mr-1" />
                 Appeler
               </a>
             </div>
-            <p className="text-sm mt-2">
+            <p className="text-xs mt-1">
               Heures: Lun-Ven 9h-17h
             </p>
           </CardContent>
         </Card>
         
-        <Card className="theme-transition bg-amber-500/10 border-amber-500/30 lg:col-span-1 md:col-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center text-amber-500">
-              <Shield className="w-4 h-4 mr-2" />
-              Services d'urgence
+        <Card className="theme-transition bg-green-500/10 border-green-500/30">
+          <CardHeader className="pb-1 pt-3">
+            <CardTitle className="text-base flex items-center text-green-500">
+              <Phone className="w-4 h-4 mr-1" />
+              Tech Urgence
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-1">
             <div className="flex items-center justify-between">
-              <div className="text-xl font-bold">9-1-1</div>
+              <div>
+                <div className="text-lg font-bold">AJ Sécurité</div>
+                <div className="text-xs">514-679-4873</div>
+              </div>
               <a 
-                href="tel:911" 
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-amber-500 text-white px-3 py-2 text-sm font-medium hover:bg-amber-600 transition-colors"
+                href="tel:5146794873" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-green-500 text-white px-2 py-1 text-xs font-medium hover:bg-green-600 transition-colors"
               >
-                <Phone className="h-4 w-4 mr-2" />
+                <Phone className="h-3 w-3 mr-1" />
                 Appeler
               </a>
             </div>
-            <p className="text-sm mt-2">
+            <p className="text-xs mt-1">
+              Fermé ⋅ Ouvre 9h lundi
+            </p>
+            <p className="text-xs mt-1 truncate">
+              5219 Boul Lévesque E, Laval
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card className="theme-transition bg-amber-500/10 border-amber-500/30">
+          <CardHeader className="pb-1 pt-3">
+            <CardTitle className="text-base flex items-center text-amber-500">
+              <Shield className="w-4 h-4 mr-1" />
+              Services d'urgence
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-1">
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-bold">9-1-1</div>
+              <a 
+                href="tel:911" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-amber-500 text-white px-2 py-1 text-xs font-medium hover:bg-amber-600 transition-colors"
+              >
+                <Phone className="h-3 w-3 mr-1" />
+                Appeler
+              </a>
+            </div>
+            <p className="text-xs mt-1">
               Police, Ambulance, Pompiers
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card className="theme-transition bg-sky-500/10 border-sky-500/30">
+          <CardHeader className="pb-1 pt-3">
+            <CardTitle className="text-base flex items-center text-sky-500">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="w-4 h-4 mr-1" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M2 12h1"></path>
+                <path d="M21 12h1"></path>
+                <path d="M12 2v1"></path>
+                <path d="M12 21v1"></path>
+                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                <path d="M16 12a4 4 0 0 0-8 0"></path>
+                <path d="M18 12a6 6 0 0 0-12 0"></path>
+              </svg>
+              Urgence Piscine
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-1">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-lg font-bold">Aqua Services</div>
+                <div className="text-xs">514-888-7777</div>
+              </div>
+              <a 
+                href="tel:5148887777" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-sky-500 text-white px-2 py-1 text-xs font-medium hover:bg-sky-600 transition-colors"
+              >
+                <Phone className="h-3 w-3 mr-1" />
+                Appeler
+              </a>
+            </div>
+            <p className="text-xs mt-1">
+              Entretien et urgences piscine
             </p>
           </CardContent>
         </Card>

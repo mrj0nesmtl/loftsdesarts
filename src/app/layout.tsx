@@ -4,23 +4,20 @@ import { ThemeProvider } from '@/context/ThemeProvider'
 import { AuthProvider } from '@/lib/auth'
 import { Toaster } from '@/components/ui/toaster'
 
-// Configure Inter font with better fallback and preload settings
+// Configure Inter font
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
-  preload: true,
-  fallback: ['system-ui', 'Arial', 'sans-serif'],
   variable: '--font-inter',
 })
 
-// Configure Poiret One font with better fallback and preload settings
+// Configure Poiret One font - FORCE LOAD WITH NO FALLBACKS
 const poiretOne = Poiret_One({ 
   weight: ['400'],
   subsets: ['latin'],
   variable: '--font-poiret-one',
-  display: 'swap',
+  display: 'block', // Changed from 'swap' to 'block' to ensure it displays only when loaded
   preload: true,
-  fallback: ['Georgia', 'serif'],
 })
 
 export const metadata = {
@@ -35,11 +32,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning className={`${inter.variable} ${poiretOne.variable}`}>
+    <html lang="fr" suppressHydrationWarning className={`${poiretOne.variable} ${inter.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className={inter.className}>
         <ThemeProvider>

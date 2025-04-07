@@ -11,6 +11,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resident portal authentication and profile management
 - Maintenance request submission and tracking system
 - Building information repository for residents
+- Weather and time widget on admin dashboard showing Montreal conditions
+- Emergency contact card for Technology Urgence (AJ Sécurité Inc.)
+- Emergency contact card for Pool Services (Aqua Services)
+- Complete resident data import with 179 residents across all building units
+- Messaging system UI framework:
+  - Conversation list component with search and filtering
+  - New conversation modal
+  - Messaging layout with responsive sidebar
+  - Conversation item component
+  - Message component blueprint
+  - TypeScript interfaces for messaging data types
+
+### Changed
+- Reorganized emergency contact cards with improved responsive layout
+- Optimized emergency contact display with condensed information
+- Enhanced dashboard layout with five emergency contacts in a single row
+- Improved SQL structure with consolidated directory organization
+
+### Fixed
+- Visual spacing and alignment issues in the emergency contacts section
+- Font size consistency across cards for better mobile responsiveness
+
+### Known Issues
+- 404 error when clicking on "Message a Resident" link in the messaging interface
+- Missing route handler for resident messaging feature
+- Incomplete backend implementation for message sending and receiving
 
 ## [0.4.0] - 2025-04-06
 
