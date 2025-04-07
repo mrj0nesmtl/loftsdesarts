@@ -67,7 +67,8 @@ export default function Home() {
             style={{ 
               backgroundImage: `url(${heroImage})`,
               transform: `translateY(${scrollY * 0.3}px)`,
-              backgroundSize: 'cover'
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
             }}
           />
         )}

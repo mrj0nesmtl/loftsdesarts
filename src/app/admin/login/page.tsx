@@ -36,6 +36,7 @@ export default function AdminLoginPage() {
           fill
           className="object-cover"
           priority
+          quality={100}
         />
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
       </div>
