@@ -169,13 +169,19 @@ export const createConversation = async (
   participantIds: string[],
   isGroup: boolean = false
 ): Promise<Conversation> => {
+  // Get the current user's ID (first participant is assumed to be the creator)
+  const creatorId = participantIds[0];
+  if (!creatorId) {
+    throw new Error('At least one participant (the creator) is required');
+  }
+  
   // Start a transaction
   const { data: conversation, error: conversationError } = await supabase
     .from('conversations')
     .insert({
       title: title || (isGroup ? 'New Group' : 'New Conversation'),
-      is_group: isGroup,
-      metadata: {}
+      created_by: creatorId
+      // is_group and metadata fields are not in our schema
     })
     .select()
     .single();
@@ -203,6 +209,8 @@ export const createConversation = async (
   
   return {
     ...conversation,
+    is_group: isGroup, // Add this for our frontend to use
+    metadata: {}, // Add this for our frontend to use
     participants: participants as unknown as ConversationParticipant[]
   };
 };

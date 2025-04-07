@@ -104,8 +104,13 @@ export const getConversationDisplayName = (
     return conversation.title;
   }
   
-  // If it's not a group chat, use the other participant's name
-  if (!conversation.is_group && conversation.participants?.length) {
+  // Check if it's a group conversation (might be undefined in database)
+  if (conversation.is_group) {
+    return 'Group Conversation';
+  }
+  
+  // For non-group chats, use the other participant's name
+  if (conversation.participants?.length) {
     const otherParticipants = conversation.participants.filter(
       (p: any) => p.user_id !== currentUserId
     );
@@ -122,6 +127,6 @@ export const getConversationDisplayName = (
     }
   }
   
-  // For group chats or if we can't determine a name
-  return conversation.is_group ? 'Group Conversation' : 'Conversation';
+  // Fallback for any other case
+  return 'Conversation';
 }; 
