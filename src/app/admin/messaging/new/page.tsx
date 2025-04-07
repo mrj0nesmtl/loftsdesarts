@@ -146,28 +146,54 @@ export default function NewConversationPage() {
       return;
     }
     
+    if (!user?.id) {
+      toast.error('You must be logged in to create a conversation');
+      return;
+    }
+    
     setCreating(true);
     try {
-      // If current user is not included, add them
-      const participants = [user?.id as string, ...selectedResidents.filter(id => id !== user?.id)];
+      // Create the participants list
+      const participants = [
+        ...selectedResidents.filter(id => id !== user.id)
+      ];
+      
+      console.log('Current user:', user);
+      console.log('Creating conversation with:', {
+        creator: user.id,
+        participants,
+        selectedResidents
+      });
       
       const title = isGroup 
         ? groupName.trim() 
         : ''; // For direct messages, the UI will show the other person's name
       
+      // Explicitly pass the admin's user ID as the creator
       const conversation = await createConversation(
         title,
         participants,
-        isGroup
+        isGroup,
+        user.id // Explicitly pass the creator ID
       );
       
+      if (!conversation || !conversation.id) {
+        throw new Error('Failed to create conversation - no ID returned');
+      }
+      
+      console.log('Conversation created:', conversation);
       toast.success('Conversation created');
       
-      // Navigate to the new conversation
-      router.push(`/admin/messaging/${conversation.id}`);
+      // Add a delay to ensure state is updated before navigation
+      setTimeout(() => {
+        // Navigate to the new conversation
+        const url = `/admin/messaging/${conversation.id}`;
+        console.log('Redirecting to:', url);
+        router.push(url);
+      }, 500);
     } catch (error) {
       console.error('Error creating conversation:', error);
-      toast.error('Failed to create conversation');
+      toast.error(`Failed to create conversation: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setCreating(false);
     }

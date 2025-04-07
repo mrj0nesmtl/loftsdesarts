@@ -29,8 +29,12 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
+    detectSessionInUrl: true
   },
   global: {
+    headers: {
+      'X-Client-Info': 'supabase-js-web'
+    },
     // Only add webhook handlers if we have a valid webhook URL
     fetch: webhookUrl && isValidUrl(webhookUrl) ? undefined : undefined,
     // Note: The webhook integration should be configured in Supabase dashboard
