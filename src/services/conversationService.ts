@@ -3,11 +3,29 @@
  * Functions for interacting with conversations in the messaging system
  */
 
-import { createClient } from '@supabase/supabase-js';
 import { Conversation, ConversationParticipant } from '@/types/messaging';
-
-// Use the existing supabase client
 import { supabase } from '@/lib/supabase';
+
+interface ConversationWithParticipants {
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  is_group: boolean;
+  metadata: any;
+  conversation_participants: Array<{
+    id: string;
+    conversation_id: string;
+    user_id: string;
+    role: string;
+    joined_at: string;
+    profiles?: {
+      id: string;
+      email: string;
+      display_name: string;
+    };
+  }>;
+}
 
 /**
  * Fetch conversations for a user
@@ -16,81 +34,50 @@ import { supabase } from '@/lib/supabase';
  */
 export const fetchConversations = async (userId: string): Promise<Conversation[]> => {
   try {
-    // Check if the conversations table has all required columns
-    const { data: tableInfo, error: tableError } = await supabase
-      .from('conversations')
-      .select('*')
-      .limit(1);
+    // Get conversation IDs where the user is a participant
+    const { data: participantData, error: participantError } = await supabase
+      .from('conversation_participants')
+      .select('conversation_id')
+      .eq('user_id', userId);
     
-    if (tableError) {
-      console.error('Error checking table schema:', tableError);
+    if (participantError) {
+      console.error('Error fetching participant data:', participantError);
       return [];
     }
     
-    // Build the query based on available columns
-    let query = supabase
-      .from('conversations')
-      .select(`
-        id, 
-        title, 
-        created_at, 
-        updated_at,
-        ${tableInfo[0]?.last_message !== undefined ? 'last_message,' : ''}
-        ${tableInfo[0]?.is_group !== undefined ? 'is_group,' : ''}
-        ${tableInfo[0]?.metadata !== undefined ? 'metadata,' : ''}
-        conversation_participants!inner (
-          id,
-          user_id,
-          ${tableInfo[0]?.last_read_message_id !== undefined ? 'last_read_message_id,' : ''}
-          ${tableInfo[0]?.joined_at !== undefined ? 'joined_at,' : ''}
-          ${tableInfo[0]?.left_at !== undefined ? 'left_at,' : ''}
-          ${tableInfo[0]?.role !== undefined ? 'role' : 'user_id'}
-        )
-      `);
-    
-    // Add filter and ordering
-    query = query
-      .eq('conversation_participants.user_id', userId)
-      .order('updated_at', { ascending: false });
-    
-    // Add left_at filter if column exists
-    if (tableInfo[0]?.left_at !== undefined) {
-      query = query.is('conversation_participants.left_at', null);
+    if (!participantData || participantData.length === 0) {
+      return [];
     }
     
-    const { data, error } = await query;
+    // Extract conversation IDs
+    const conversationIds = participantData.map(p => p.conversation_id);
     
-    if (error) throw error;
-
-    // Calculate unread messages by comparing last_message with last_read_message_id
-    const conversationsWithUnread = data.map((conversation: any) => {
-      const participant = conversation.conversation_participants[0];
-      let unreadCount = 0;
-      
-      if (
-        conversation.last_message &&
-        participant.last_read_message_id &&
-        participant.last_read_message_id !== conversation.last_message.id
-      ) {
-        unreadCount = 1; // Simplified, in reality we would count all unread messages
-      }
-      
-      return {
-        ...conversation,
-        // Set defaults for possibly missing columns
-        is_group: conversation.is_group ?? false,
-        metadata: conversation.metadata ?? {},
-        participants: conversation.conversation_participants,
-        unreadCount,
-        // Remove the raw participants array to avoid duplication
-        conversation_participants: undefined
-      };
-    });
+    // Get the actual conversations
+    const { data: conversationsData, error: conversationsError } = await supabase
+      .from('conversations')
+      .select('*')
+      .in('id', conversationIds);
     
-    return conversationsWithUnread;
+    if (conversationsError) {
+      console.error('Error fetching conversations:', conversationsError);
+      return [];
+    }
+    
+    // Map to expected format
+    const conversations = (conversationsData || []).map(c => ({
+      id: c.id,
+      title: c.title || '',
+      created_at: c.created_at,
+      updated_at: c.updated_at,
+      is_group: false, // Default value, can be computed later
+      metadata: {},    // Default value
+      participants: [] // Will be populated later if needed
+    }));
+    
+    return conversations;
   } catch (error) {
-    console.error('Error fetching conversations:', error);
-    return []; // Return empty array instead of throwing to prevent UI breaking
+    console.error('Error in fetchConversations:', error);
+    return [];
   }
 };
 
@@ -101,117 +88,183 @@ export const fetchConversations = async (userId: string): Promise<Conversation[]
  */
 export const fetchConversation = async (conversationId: string): Promise<Conversation | null> => {
   try {
-    const { data, error } = await supabase
+    console.log('Fetching conversation:', conversationId);
+    
+    // First get the conversation with a simple query
+    const { data: conversation, error: conversationError } = await supabase
       .from('conversations')
-      .select(`
-        id, 
-        title, 
-        created_at, 
-        updated_at,
-        last_message,
-        is_group,
-        metadata,
-        conversation_participants (
-          id,
-          user_id,
-          last_read_message_id,
-          joined_at,
-          left_at,
-          role,
-          profiles:user_id (
-            id,
-            email,
-            display_name,
-            avatar_url
-          )
-        )
-      `)
+      .select('*')
       .eq('id', conversationId)
       .single();
     
-    if (error) {
-      if (error.code === 'PGRST116') return null; // Not found
-      throw error;
+    if (conversationError) {
+      console.error('Error fetching conversation:', conversationError);
+      return null;
+    }
+
+    if (!conversation) {
+      console.error('Conversation not found:', conversationId);
+      return null;
     }
     
-    // Transform the data to match our types
-    const transformedData = {
-      ...data,
-      // Set defaults for possibly missing columns
-      is_group: data.is_group ?? false,
-      metadata: data.metadata ?? {},
-      participants: data.conversation_participants.map((participant: any) => ({
-        ...participant,
-        joined_at: participant.joined_at || new Date().toISOString(),
-        role: participant.role || 'member',
-        user: participant.profiles
-      })),
-      // Remove the raw participants array
-      conversation_participants: undefined
-    };
+    // Now get participants in a separate query
+    const { data: participants, error: participantsError } = await supabase
+      .from('conversation_participants')
+      .select('*')
+      .eq('conversation_id', conversationId);
+      
+    if (participantsError) {
+      console.error('Error fetching participants:', participantsError);
+      // Continue with empty participants
+    }
     
-    return transformedData;
+    // Get user IDs for profile lookup
+    const userIds = (participants || []).map(p => p.user_id);
+    
+    // Get profiles for participants
+    const { data: profiles, error: profilesError } = await supabase
+      .from('profiles')
+      .select('*')
+      .in('id', userIds);
+      
+    if (profilesError) {
+      console.error('Error fetching profiles:', profilesError);
+      // Continue with default profiles
+    }
+    
+    // Create a map for quick profile lookup
+    const profileMap = (profiles || []).reduce((map, profile) => {
+      map[profile.id] = profile;
+      return map;
+    }, {} as Record<string, any>);
+    
+    // Build participants with profile info
+    const participantsWithProfiles = (participants || []).map(participant => ({
+      ...participant,
+      user: profileMap[participant.user_id] || {
+        id: participant.user_id,
+        email: 'unknown@example.com',
+        display_name: `User ${participant.user_id.slice(0, 8)}`
+      }
+    }));
+    
+    // Return the fully assembled conversation
+    return {
+      id: conversation.id,
+      title: conversation.title || '',
+      created_at: conversation.created_at,
+      updated_at: conversation.updated_at,
+      is_group: conversation.is_group,
+      metadata: conversation.metadata || {},
+      participants: participantsWithProfiles
+    };
   } catch (error) {
-    console.error('Error fetching conversation:', error);
-    throw error;
+    console.error('Error in fetchConversation:', error);
+    return null;
   }
 };
 
 /**
- * Create a new conversation
- * @param title The conversation title
- * @param participantIds Array of user IDs to include in the conversation
- * @param isGroup Whether this is a group conversation
- * @returns The created conversation
+ * Create a new conversation - SIMPLE VERSION
  */
 export const createConversation = async (
   title: string,
   participantIds: string[],
-  isGroup: boolean = false
+  isGroup: boolean = false,
+  creatorId: string
 ): Promise<Conversation> => {
-  // Start a transaction
-  const { data: conversation, error: conversationError } = await supabase
-    .from('conversations')
-    .insert({
-      title: title || (isGroup ? 'New Group' : 'New Conversation'),
+  try {
+    console.log('Creating conversation with:', { title, participantIds, isGroup, creatorId });
+    
+    // Use the provided creatorId directly instead of trying to get from auth
+    console.log('Using provided creator ID:', creatorId);
+    
+    // Step 1: Insert the conversation directly
+    const { data: newConversation, error: conversationError } = await supabase
+      .from('conversations')
+      .insert([{ 
+        title: title || (isGroup ? 'New Group' : 'New Conversation'),
+        created_by: creatorId,
+        is_group: isGroup
+      }])
+      .select()
+      .single();
+      
+    if (conversationError || !newConversation) {
+      console.error('Error creating conversation:', conversationError);
+      throw new Error(conversationError?.message || 'Failed to create conversation');
+    }
+    
+    console.log('Created conversation:', newConversation);
+    
+    // Step 2: Add creator as owner
+    const { data: creatorParticipant, error: creatorError } = await supabase
+      .from('conversation_participants')
+      .insert([{
+        conversation_id: newConversation.id,
+        user_id: creatorId,
+        role: 'owner',
+        joined_at: new Date().toISOString()
+      }])
+      .select()
+      .single();
+      
+    if (creatorError) {
+      console.error('Error adding creator as participant:', creatorError);
+      // Continue anyway - conversation was created
+    } else {
+      console.log('Added creator as participant:', creatorParticipant);
+    }
+    
+    const addedParticipants: ConversationParticipant[] = [];
+    if (creatorParticipant) {
+      addedParticipants.push(creatorParticipant as ConversationParticipant);
+    }
+    
+    // Step 3: Add other participants (skip creator if already present)
+    for (const userId of participantIds.filter(id => id !== creatorId)) {
+      console.log(`Adding participant ${userId} to conversation ${newConversation.id}`);
+      
+      const { data: participant, error } = await supabase
+        .from('conversation_participants')
+        .insert([{
+          conversation_id: newConversation.id,
+          user_id: userId,
+          role: 'member',
+          joined_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error(`Error adding participant ${userId}:`, error);
+        // Continue anyway, don't throw here
+      } else {
+        console.log(`Successfully added participant ${userId}:`, participant);
+        if (participant) {
+          addedParticipants.push(participant as ConversationParticipant);
+        }
+      }
+    }
+    
+    // Return the conversation structure
+    return {
+      id: newConversation.id,
+      title: newConversation.title,
+      created_at: newConversation.created_at,
+      updated_at: newConversation.updated_at,
       is_group: isGroup,
-      metadata: {}
-    })
-    .select()
-    .single();
-  
-  if (conversationError) {
-    console.error('Error creating conversation:', conversationError);
-    throw conversationError;
+      metadata: {},
+      participants: addedParticipants
+    };
+  } catch (error) {
+    console.error('Error in createConversation:', error);
+    throw new Error('Failed to create conversation: ' + (error as Error).message);
   }
-  
-  // Add participants
-  const participants = participantIds.map(userId => ({
-    conversation_id: conversation.id,
-    user_id: userId,
-    role: 'member'
-  }));
-  
-  const { error: participantsError } = await supabase
-    .from('conversation_participants')
-    .insert(participants);
-  
-  if (participantsError) {
-    console.error('Error adding participants:', participantsError);
-    throw participantsError;
-  }
-  
-  return {
-    ...conversation,
-    participants: participants as unknown as ConversationParticipant[]
-  };
 };
 
 /**
  * Update the last read message for a user in a conversation
- * @param conversationId The conversation ID
- * @param userId The user ID
- * @param messageId The ID of the last read message
  */
 export const markConversationAsRead = async (
   conversationId: string,
@@ -225,9 +278,10 @@ export const markConversationAsRead = async (
       .eq('conversation_id', conversationId)
       .eq('user_id', userId);
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error marking conversation as read:', error);
+    }
   } catch (error) {
-    console.error('Error marking conversation as read:', error);
-    throw error;
+    console.error('Error in markConversationAsRead:', error);
   }
 }; 

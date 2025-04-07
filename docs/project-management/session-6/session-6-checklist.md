@@ -1,6 +1,6 @@
 # Session 6 Development Checklist: Resident Portal
 
-*Last Updated: April 6, 2025*
+*Last Updated: April 7, 2025*
 
 ## Resident Authentication System
 
@@ -49,20 +49,26 @@
 
 ### Database & Backend
 - [x] Database schema design and implementation
+- [x] Permissive RLS policies for conversation tables
+- [x] Conversation participant management
+- [ ] Message schema adjustments (add is_system, user_id columns)
 - [ ] Real-time WebSocket configuration
 - [ ] Message status tracking
 - [ ] Message delivery confirmation
 - [ ] File attachment handling
 - [ ] Message notification system
 - [ ] Conversation archiving functionality
-- [ ] API endpoints for messaging operations
+- [x] API endpoints for conversation operations
 
 ### Frontend
 - [x] Conversation list interface
 - [x] Conversation item component
 - [x] Responsive messaging layout
-- [ ] Message thread component
-- [ ] Message composition UI
+- [x] Conversation creation workflow
+- [x] Conversation detail view component
+- [x] Message input field component
+- [ ] Message thread display component
+- [ ] Message display UI
 - [ ] File attachment upload UI
 - [ ] Emoji selection
 - [ ] Read receipts display
@@ -70,6 +76,8 @@
 - [ ] New message notifications
 - [x] Mobile-responsive messaging UI
 - [x] Theme-aware messaging components
+- [x] Error handling with feedback messages
+- [x] Loading states with spinner component
 
 ## Inquiry System Improvements
 
@@ -188,7 +196,7 @@
 |--------------|-----------------|-------------------|------------------|---------------|
 | Authentication | 0% | 0% | 0% | 0% |
 | Profile Management | 0% | 0% | 0% | 0% |
-| Messaging System | 35% | 40% | 0% | 10% |
+| Messaging System | 45% | 65% | 5% | 15% |
 | Inquiry System | 5% | 0% | 0% | 0% |
 | Newsletter System | 0% | 0% | 0% | 0% |
 | Package Notification | 10% | 5% | 0% | 0% |

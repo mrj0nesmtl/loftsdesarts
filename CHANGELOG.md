@@ -15,28 +15,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Emergency contact card for Technology Urgence (AJ Sécurité Inc.)
 - Emergency contact card for Pool Services (Aqua Services)
 - Complete resident data import with 179 residents across all building units
-- Messaging system UI framework:
-  - Conversation list component with search and filtering
-  - New conversation modal
-  - Messaging layout with responsive sidebar
-  - Conversation item component
-  - Message component blueprint
-  - TypeScript interfaces for messaging data types
+- Messaging system with functional conversation capabilities:
+  - Working conversation creation with selected recipients
+  - Conversation list view showing all created conversations
+  - Conversation detail view with message composition field
+  - Proper redirection to conversation after creation
+  - Spinner component for improved loading state display
+  - Error handling with clear feedback messages
+  - Data persistence in Supabase backend
 
 ### Changed
 - Reorganized emergency contact cards with improved responsive layout
 - Optimized emergency contact display with condensed information
 - Enhanced dashboard layout with five emergency contacts in a single row
 - Improved SQL structure with consolidated directory organization
+- Updated RLS policies for the conversations table to be more permissive
+- Modified conversation creation workflow for better user experience
+- Improved error handling throughout the messaging system
+- Enhanced the Supabase client to properly handle auth headers
 
 ### Fixed
 - Visual spacing and alignment issues in the emergency contacts section
 - Font size consistency across cards for better mobile responsiveness
+- Row-Level Security (RLS) issues that prevented conversation creation
+- Supabase client authentication issues with conversation creation
+- Redirects after conversation creation now function correctly
+- Conversation loading issues on the conversation detail page
 
 ### Known Issues
-- 404 error when clicking on "Message a Resident" link in the messaging interface
-- Missing route handler for resident messaging feature
-- Incomplete backend implementation for message sending and receiving
+- Message sending functionality not fully implemented - errors with `is_system` column
+- Real-time updates for new messages not implemented yet
+- Error when fetching messages: `column messages.user_id does not exist`
+- RLS policies for the messaging system need to be refined for production
+- Missing message thread component for displaying conversation history
+- Incomplete typing indicators and read receipts
 
 ## [0.4.0] - 2025-04-06
 
