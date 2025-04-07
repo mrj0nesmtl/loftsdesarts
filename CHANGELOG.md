@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-04-07
+
 ### Added
 - Resident portal authentication and profile management
 - Maintenance request submission and tracking system
@@ -33,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modified conversation creation workflow for better user experience
 - Improved error handling throughout the messaging system
 - Enhanced the Supabase client to properly handle auth headers
+- Improved homepage layout with better visual hierarchy and component spacing
+- Brightened hero image for better visibility
+- Enhanced visual consistency across all sections
 
 ### Fixed
 - Visual spacing and alignment issues in the emergency contacts section
@@ -41,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Supabase client authentication issues with conversation creation
 - Redirects after conversation creation now function correctly
 - Conversation loading issues on the conversation detail page
+- Login page navigation issues requiring page refresh
+- Reduced excessive spacing between homepage sections
 
 ### Known Issues
 - Message sending functionality not fully implemented - errors with `is_system` column

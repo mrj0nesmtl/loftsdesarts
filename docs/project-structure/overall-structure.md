@@ -32,10 +32,15 @@ Top-level directories and files in the Lofts des Arts project.
 ├── package.json
 ├── postcss.config.mjs
 ├── sql
+│   ├── add_is_group_column.sql
+│   ├── add_rls_to_conversations.sql
+│   ├── add_role_column.sql
 │   ├── add_syndic_role.sql
 │   ├── building_data_setup.sql
 │   ├── contact_form_rls_fix.sql
+│   ├── create_conversation_functions.sql
 │   ├── create_file_storage_system.sql
+│   ├── create_messaging_rpc.sql
 │   ├── create_messaging_system.sql
 │   ├── create_package_system.sql
 │   ├── create_packages_table.sql
@@ -45,6 +50,9 @@ Top-level directories and files in the Lofts des Arts project.
 │   ├── dropbox.sql
 │   ├── enable_realtime.sql
 │   ├── exports
+│   ├── fix_conversation_functions.sql
+│   ├── fix_conversation_rls.sql
+│   ├── fix_foreign_keys.sql
 │   ├── fix_profiles_role.sql
 │   ├── fix_residents_recursive_policy.sql
 │   ├── insert_board_profiles.sql
@@ -52,7 +60,9 @@ Top-level directories and files in the Lofts des Arts project.
 │   ├── messaging_tables.sql
 │   ├── resident_data_setup.sql
 │   ├── residents_rls_policies.sql
+│   ├── simple_rls_policy.sql
 │   ├── site_settings.sql
+│   ├── ultimate_simple_rls.sql
 │   ├── update_contact_inquiries.sql
 │   ├── update_profiles_roles.sql
 │   ├── user_roles_rls_policies.sql
@@ -71,6 +81,6 @@ Top-level directories and files in the Lofts des Arts project.
 ├── tsconfig.json
 └── tsconfig.tsbuildinfo
 
-25 directories, 40 files
+25 directories, 50 files
 
 ```

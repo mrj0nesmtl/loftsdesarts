@@ -60,11 +60,11 @@ function PublicSiteHeader() {
           <Link href="/" className="text-white hover:text-gray-300 transition-colors" target="_blank">
             Accueil
           </Link>
-          <Link href="/galerie" className="text-white hover:text-gray-300 transition-colors" target="_blank">
-            Galerie
-          </Link>
           <Link href="/a-propos" className="text-white hover:text-gray-300 transition-colors" target="_blank">
             À Propos
+          </Link>
+          <Link href="/galerie" className="text-white hover:text-gray-300 transition-colors" target="_blank">
+            Galerie
           </Link>
           <Link href="/contact" className="text-white hover:text-gray-300 transition-colors" target="_blank">
             Contact

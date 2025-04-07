@@ -34,38 +34,41 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 bg-zinc-900">
-      <div className="container px-4 mx-auto text-center md:px-6">
-        <h2 className="text-3xl font-bold mb-4 font-title">Restez Informé</h2>
-        <p className="text-zinc-400 max-w-md mx-auto mb-8">
-          Abonnez-vous à notre infolettre pour recevoir les dernières annonces concernant l'immeuble, les événements communautaires et les avis importants.
-        </p>
-        
-        {isSuccess ? (
-          <div className="bg-zinc-800 text-green-400 p-4 rounded-md inline-block">
-            Merci de vous être abonné!
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Entrez votre e-mail"
-              className="flex-1 px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-zinc-600"
-              disabled={isSubmitting}
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-zinc-700 hover:bg-zinc-600 text-white font-medium rounded-md transition-colors disabled:opacity-70"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "En cours..." : "S'abonner"}
-            </button>
-          </form>
-        )}
-        
-        {error && <p className="mt-3 text-red-400">{error}</p>}
+    <section className="pt-4 pb-12 bg-zinc-900">
+      <div className="container px-4 mx-auto md:px-6">
+        <div className="max-w-4xl mx-auto bg-zinc-800/50 border border-zinc-700 rounded-lg p-8 md:p-10 shadow-lg">
+          <h2 className="text-3xl font-bold mb-4 font-title text-center">Restez Informé</h2>
+          <p className="text-zinc-300 max-w-2xl mx-auto mb-8 text-center">
+            Abonnez-vous à notre infolettre pour recevoir les dernières annonces concernant l'immeuble, les événements communautaires et les avis importants.
+          </p>
+          
+          {isSuccess ? (
+            <div className="bg-zinc-800 text-green-400 p-6 rounded-md max-w-md mx-auto text-center border border-green-700/30 shadow-md">
+              <p className="font-medium">Merci de vous être abonné!</p>
+              <p className="text-sm mt-1 text-green-300">Vous recevrez bientôt notre newsletter.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Entrez votre e-mail"
+                className="flex-1 px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-zinc-500 transition-all shadow-inner"
+                disabled={isSubmitting}
+              />
+              <button
+                type="submit"
+                className="px-6 py-3 bg-zinc-700 hover:bg-zinc-600 text-white font-medium rounded-md transition-colors disabled:opacity-70 shadow-md border border-zinc-700/50"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "En cours..." : "S'abonner"}
+              </button>
+            </form>
+          )}
+          
+          {error && <p className="mt-3 text-red-400 text-center">{error}</p>}
+        </div>
       </div>
     </section>
   );

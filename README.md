@@ -407,36 +407,5 @@ Run this script at the end of each development session to keep the documentation
 
 This project is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
 
-© 2025 Lofts des Arts. All rights reserved.
+© 2025 Syndicate Lofts des Arts. All rights reserved.
 
-## Fixing RLS Issues
-
-### Fixing Residents RLS Infinite Recursion
-
-If you encounter an infinite recursion error with the residents table, run the SQL in `src/lib/sql/fix_residents_recursive_policy.sql` in the Supabase SQL Editor.
-
-### Fixing Building Units RLS Policies
-
-If you encounter RLS errors when trying to create or manage building units, run the SQL in `src/lib/sql/building_units_rls_policy.sql` in the Supabase SQL Editor.
-
-This will:
-1. Enable RLS for the building_units table
-2. Create appropriate policies for different user roles:
-   - Admins can manage all units
-   - Building managers can manage units in their assigned buildings
-   - Doormen can view all units
-   - Regular users can only view units in their building
-
-### Importing Real Resident Data
-
-To import the real residents from the Lofts des Arts resident list:
-
-1. Ensure you've applied the RLS policy fixes above
-2. Go to the Admin > Residents page
-3. Click the "Importer Données Réelles" button (green)
-4. Confirm if you want to replace existing residents
-
-The import process will:
-- Create any missing building units
-- Import all residents with proper unit associations
-- Associate multiple residents with the same unit when needed

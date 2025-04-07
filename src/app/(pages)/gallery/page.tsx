@@ -60,13 +60,6 @@ const galleryItems = [
     imageSrc: '/lda_bg.png',
     description: 'Espace de vie spacieux avec hauts plafonds et grandes fenêtres',
   },
-  {
-    id: 'kitchen',
-    title: 'Cuisine',
-    category: 'Intérieurs',
-    imageSrc: '/lda_bg.png',
-    description: 'Cuisine semi-professionnelle avec comptoirs en granit',
-  },
 ];
 
 // Unique categories for filtering
