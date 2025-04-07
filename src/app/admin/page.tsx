@@ -10,14 +10,11 @@ export default function AdminRootPage() {
   const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (user) {
-        router.push('/admin/dashboard');
-      } else {
-        router.push('/admin/login');
-      }
-    }
-  }, [user, isLoading, router]);
+    // Immediately redirect without waiting for auth to finish loading
+    // To solve the double-click issue, we'll directly go to login page 
+    // and let that page handle redirection to dashboard if user is already logged in
+    router.push('/admin/login');
+  }, [router]);
 
   return (
     <div className="flex items-center justify-center h-screen">
