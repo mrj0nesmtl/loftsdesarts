@@ -414,8 +414,8 @@ export default function DashboardPage() {
           <CardContent className="pt-1">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-lg font-bold">Marie Tremblay</div>
-                <div className="text-xs">514-555-1234</div>
+                <div className="text-lg font-bold">Karim Khelfaoui</div>
+                <div className="text-xs">514-576-7483</div>
               </div>
               <a 
                 href="tel:5145551234" 
