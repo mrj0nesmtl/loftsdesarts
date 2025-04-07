@@ -404,9 +404,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
         
-        <Card className="theme-transition bg-blue-500/10 border-blue-500/30">
+        <Card className="theme-transition bg-purple-500/10 border-purple-500/30">
           <CardHeader className="pb-1 pt-3">
-            <CardTitle className="text-base flex items-center text-blue-500">
+            <CardTitle className="text-base flex items-center text-purple-500">
               <User className="w-4 h-4 mr-1" />
               Gestionnaire
             </CardTitle>
@@ -419,7 +419,7 @@ export default function DashboardPage() {
               </div>
               <a 
                 href="tel:5145551234" 
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-blue-500 text-white px-2 py-1 text-xs font-medium hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-purple-500 text-white px-2 py-1 text-xs font-medium hover:bg-purple-600 transition-colors"
               >
                 <Phone className="h-3 w-3 mr-1" />
                 Appeler
