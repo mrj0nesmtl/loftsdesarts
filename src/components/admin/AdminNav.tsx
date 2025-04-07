@@ -61,7 +61,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
       
       <div className="space-y-6">
         {/* Main Navigation - Primary Actions */}
-        <div className="space-y-1">
+        <div className="space-y-1 pb-4">
           {/* Dashboard - Always at the top */}
           {canAccessDashboard && (
             <NavLink 
@@ -139,7 +139,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
         
         {/* Document Management Section */}
         {(canAccessPackages || canAccessDocuments || canAccessDropBox) && (
-          <div className="space-y-1 pt-4 border-t border-border">
+          <div className="space-y-1 pt-4 border-t border-border border-opacity-40">
             {isExpanded && (
               <div className="pl-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 Gestion
@@ -208,7 +208,7 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
         )}
         
         {/* System Section */}
-        <div className="space-y-1 pt-4 border-t border-border">
+        <div className="space-y-1 pt-4 border-t border-border border-opacity-40">
           {isExpanded && (
             <div className="pl-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Système
@@ -311,8 +311,8 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
           )}
         </div>
         
-        {isExpanded && (
-          <div className="pt-6 border-t border-border">
+        {isExpanded ? (
+          <div className="pt-6 border-t border-border border-opacity-40">
             <div className="mb-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Compte
             </div>
@@ -329,6 +329,8 @@ export default function AdminNav({ isExpanded, onToggle, signOut }: AdminNavProp
               </div>
             )}
           </div>
+        ) : (
+          <div className="mt-4 pt-4 border-t border-border border-opacity-40"></div>
         )}
         
         <div className={`${isExpanded ? 'px-4' : ''} mt-4`}>
