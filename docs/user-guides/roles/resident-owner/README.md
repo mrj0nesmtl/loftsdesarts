@@ -1,6 +1,6 @@
 # Resident Owner User Guide
 
-> **Last Updated:** April 5, 2025 | **Role:** RESIDENT_OWNER
+> **Last Updated:** April 7, 2025 | **Role:** RESIDENT_OWNER
 
 ## Role Overview
 

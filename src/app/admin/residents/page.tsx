@@ -64,7 +64,13 @@ async function get_user_role(userId: string | undefined) {
       .single();
       
     if (error) {
-      console.error("Error fetching role:", error);
+      // Only log an error message if there's actually an error object with properties
+      if (error.message || error.details) {
+        console.error("Error fetching role:", error);
+      } else {
+        // This handles empty error objects {} which can happen with some Supabase responses
+        console.log("No user profile found for ID:", userId);
+      }
       return null;
     }
     

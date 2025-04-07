@@ -1,6 +1,5 @@
 # Messaging System Overview
-
-> **Last Updated:** April 5, 2025 | **Version:** 0.2.0
+**Last Updated:** April 7, 2025 | **App Version:** 0.5.0
 
 The Lofts des Arts messaging system enables real-time communication between residents, management, and staff. This centralized platform facilitates efficient communication while maintaining proper access controls based on user roles.
 

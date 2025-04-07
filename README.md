@@ -1,6 +1,6 @@
 # Lofts des Arts Web Platform
 
-[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](https://github.com/your-username/loftsdesarts)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](https://github.com/your-username/loftsdesarts)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -11,8 +11,17 @@
 [![Deployment](https://img.shields.io/badge/deployment-Replit-orange?logo=replit&logoColor=white)](https://replit.com/)
 [![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/your-username/loftsdesarts/pulls)
 [![Last Commit](https://img.shields.io/badge/last%20commit-April%202025-yellowgreen)](https://github.com/your-username/loftsdesarts/commits/main)
+[![Made in Quebec](https://img.shields.io/badge/Made_in-Quebec%2C_Canada-blue?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDEyMDB2NjAwSDB6Ii8+PHBhdGggZmlsbD0iI2QyMjQzMCIgZD0iTTAgMGgzMDB2NjAwSDB6TTkwMCAwaDMwMHY2MDBIOTAweiIvPjxwYXRoIGZpbGw9IiNkMjI0MzAiIGQ9Ik02MDAgMzAwbDU2LjQtMTcuNCAxNy40LTU2LjQgMTcuNCA1Ni40IDU2LjQgMTcuNC01Ni40IDE3LjQtMTcuNCA1Ni40LTE3LjQtNTYuNC01Ni40LTE3LjR6Ii8+PC9zdmc+)](https://en.wikipedia.org/wiki/Quebec)
 
 ![Lofts des Arts](public/logo.png)
+
+<div align="center">
+  <a href="docs/user-guides/README_FR.md">
+    <img src="https://img.shields.io/badge/Documentation_Française-Disponible-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDEyMDB2NjAwSDB6Ii8+PHBhdGggZmlsbD0iI2QyMjQzMCIgZD0iTTAgMGgzMDB2NjAwSDB6TTkwMCAwaDMwMHY2MDBIOTAweiIvPjxwYXRoIGZpbGw9IiNkMjI0MzAiIGQ9Ik02MDAgMzAwbDU2LjQtMTcuNCAxNy40LTU2LjQgMTcuNCA1Ni40IDU2LjQgMTcuNC01Ni40IDE3LjQtMTcuNCA1Ni40LTE3LjQtNTYuNC01Ni40LTE3LjR6Ii8+PC9zdmc+" alt="Documentation Française"/>
+    <br/>
+    <h3>Documentation Française Disponible</h3>
+  </a>
+</div>
 
 ## Overview
 
@@ -407,5 +416,5 @@ Run this script at the end of each development session to keep the documentation
 
 This project is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
 
-© 2025 Syndicate Lofts des Arts. All rights reserved.
+© 2025 Joel Yafe, Montreal. @mrjonesmtl All rights reserved.
 

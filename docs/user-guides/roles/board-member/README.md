@@ -1,6 +1,6 @@
 # Board Member User Guide
 
-> **Last Updated:** April 5, 2025 | **Role:** BOARD_MEMBER
+> **Last Updated:** April 7, 2025 | **App Version:** 0.5.0 | **Role:** BOARD_MEMBER
 
 ## Role Overview
 

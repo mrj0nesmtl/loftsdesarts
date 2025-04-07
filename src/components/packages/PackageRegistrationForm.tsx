@@ -76,11 +76,13 @@ export default function PackageRegistrationForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isScannerVisible, setIsScannerVisible] = useState(false);
+  const [isScannerMounted, setIsScannerMounted] = useState(false);
   const [residents, setResidents] = useState<Resident[]>([]);
   const [isRegistered, setIsRegistered] = useState(false);
   const [registeredPackage, setRegisteredPackage] = useState<any>(null);
   const [qrCodeValue, setQrCodeValue] = useState('');
   const scannerMountingRef = useRef(false);
+  const scannerModalRef = useRef<HTMLDivElement>(null);
 
   // Initialize react-hook-form
   const form = useForm<PackageFormValues>({
@@ -141,23 +143,72 @@ export default function PackageRegistrationForm() {
     fetchResidents();
   }, [toast]);
 
+  // Update the visibility toggle logic by adding safe mounting and unmounting
+  const toggleScannerVisibility = async (visible: boolean) => {
+    // If attempting to hide and scanner is already hidden, do nothing
+    if (!visible && !isScannerVisible) return;
+    
+    // If attempting to show and scanner is already visible, do nothing
+    if (visible && isScannerVisible) return;
+    
+    // If hiding the scanner
+    if (!visible && isScannerVisible) {
+      // Mark that we're in the process of unmounting
+      scannerMountingRef.current = true;
+      
+      try {
+        // First set state to trigger UI updates
+        setIsScannerVisible(false);
+        
+        // Give the DOM time to update before unmounting the scanner
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Then unmount the actual scanner component
+        setIsScannerMounted(false);
+        
+        // Additional delay to ensure unmounting is complete
+        await new Promise(resolve => setTimeout(resolve, 300));
+      } finally {
+        // Reset the mounting ref even if there's an error
+        scannerMountingRef.current = false;
+      }
+      return;
+    }
+    
+    // If showing the scanner, mount it first, then show it
+    setIsScannerMounted(true);
+    
+    // Give a brief delay to ensure component is mounted
+    setTimeout(() => {
+      setIsScannerVisible(true);
+    }, 100);
+  };
+
   // Handle successful barcode scan
   const handleScanSuccess = (barcode: string) => {
-    form.setValue('tracking_number', barcode);
-    setIsScannerVisible(false);
-    toast({
-      title: 'Code-barres scanné',
-      description: `Numéro de suivi: ${barcode}`,
-    });
+    // First hide the scanner
+    toggleScannerVisibility(false);
+    
+    // Then update the form after a short delay to ensure cleanup is complete
+    setTimeout(() => {
+      form.setValue('tracking_number', barcode);
+      toast({
+        title: 'Code-barres scanné',
+        description: `Numéro de suivi: ${barcode}`,
+      });
+    }, 600);
   };
 
   // Handle scan error
   const handleScanError = (error: string) => {
-    toast({
-      title: 'Erreur de scan',
-      description: error,
-      variant: 'destructive',
-    });
+    // Only show toast if scanner is still visible
+    if (isScannerVisible) {
+      toast({
+        title: 'Erreur de scan',
+        description: error,
+        variant: 'destructive',
+      });
+    }
   };
 
   // Generate a unique tracking ID for the package
@@ -239,59 +290,43 @@ export default function PackageRegistrationForm() {
     return format(date, 'PPP', { locale: fr });
   };
 
-  // Update the visibility toggle logic by adding safe mounting and unmounting
-  const toggleScannerVisibility = (visible: boolean) => {
-    // If attempting to hide and scanner is already hidden, do nothing
-    if (!visible && !isScannerVisible) return;
-    
-    // If attempting to show and scanner is already visible, do nothing
-    if (visible && isScannerVisible) return;
-    
-    // If hiding the scanner
-    if (!visible && isScannerVisible) {
-      // Mark that we're in the process of unmounting
-      scannerMountingRef.current = true;
-      
-      // Use a small delay to ensure proper cleanup
-      setTimeout(() => {
-        setIsScannerVisible(false);
-        scannerMountingRef.current = false;
-      }, 100);
-      return;
-    }
-    
-    // If showing the scanner
-    setIsScannerVisible(true);
-  };
-
   return (
     <div className="space-y-6">
       {!isRegistered ? (
         <>
-          {isScannerVisible && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Scanner un code-barres</CardTitle>
-                <CardDescription>
-                  Utilisez la caméra pour scanner le code-barres du colis
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <BarcodeScanner
-                  onScanSuccess={handleScanSuccess}
-                  onScanError={handleScanError}
-                />
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button 
-                  variant="outline" 
-                  onClick={() => toggleScannerVisibility(false)}
-                  disabled={scannerMountingRef.current}
-                >
-                  {scannerMountingRef.current ? 'Fermeture en cours...' : 'Annuler'}
-                </Button>
-              </CardFooter>
-            </Card>
+          {isScannerMounted && (
+            <div 
+              ref={scannerModalRef}
+              className={`fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 overflow-y-auto transition-opacity duration-300 ${isScannerVisible ? 'opacity-100' : 'opacity-0'}`}
+              style={{ pointerEvents: isScannerVisible ? 'auto' : 'none' }}
+            >
+              <Card className="w-full max-w-md max-h-[95vh] flex flex-col">
+                <CardHeader className="sticky top-0 bg-card z-20">
+                  <CardTitle>Scanner un code-barres</CardTitle>
+                  <CardDescription>
+                    Utilisez la caméra pour scanner le code-barres du colis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow overflow-y-auto relative">
+                  {isScannerVisible && (
+                    <BarcodeScanner
+                      onScanSuccess={handleScanSuccess}
+                      onScanError={handleScanError}
+                    />
+                  )}
+                </CardContent>
+                <CardFooter className="sticky bottom-0 bg-card z-20 flex justify-between">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => toggleScannerVisibility(false)}
+                    disabled={scannerMountingRef.current}
+                    className="w-full"
+                  >
+                    {scannerMountingRef.current ? 'Fermeture en cours...' : 'Annuler'}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
           )}
 
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

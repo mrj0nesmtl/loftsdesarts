@@ -1,6 +1,6 @@
 # Super Administrator User Guide
 
-> **Last Updated:** April 5, 2025 | **Role:** SUPER_ADMIN
+> **Last Updated:** April 7, 2025 | **App Version:** 0.5.0 | **Role:** SUPER_ADMIN
 
 ## Role Overview
 

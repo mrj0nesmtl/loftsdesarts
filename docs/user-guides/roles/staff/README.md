@@ -1,6 +1,6 @@
 # Staff User Guide
 
-> **Last Updated:** April 5, 2025 | **Role:** STAFF
+> **Last Updated:** April 7, 2025 | **App Version:** 0.5.0 | **Role:** STAFF
 
 ## Role Overview
 
