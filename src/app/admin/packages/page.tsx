@@ -125,7 +125,7 @@ export default function PackagesPage() {
   
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Gestion des colis</h1>
           <p className="text-muted-foreground mt-2">
@@ -133,9 +133,9 @@ export default function PackagesPage() {
           </p>
         </div>
         
-        <Button onClick={() => setShowRegisterDialog(true)} className="flex items-center">
-          <Package className="mr-2 h-4 w-4" />
-          Enregistrer un nouveau colis
+        <Button onClick={() => setShowRegisterDialog(true)} className="flex items-center whitespace-normal text-xs sm:text-sm py-2 h-auto sm:py-2 sm:h-10">
+          <Package className="mr-2 h-4 w-4 flex-shrink-0" />
+          <span>Enregistrer un nouveau colis</span>
         </Button>
       </div>
       

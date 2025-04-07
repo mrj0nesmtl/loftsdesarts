@@ -1,6 +1,6 @@
 # Role-Based Access Control (RBAC) System Overview
 
-> **Last Updated:** April 5, 2025 | **Version:** 0.2.0
+**Last Updated:** April 7, 2025 | **App Version:** 0.5.0
 
 The Lofts des Arts platform implements a comprehensive Role-Based Access Control (RBAC) system that manages user permissions throughout the application. This system ensures that users have appropriate access to features and data based on their role within the condominium community.
 

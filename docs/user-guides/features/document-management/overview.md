@@ -1,6 +1,6 @@
 # Document Management System
 
-> **Last Updated:** April 5, 2025 | **Version:** 0.2.0
+**Last Updated:** April 7, 2025 | **App Version:** 0.5.0
 
 ## Overview
 

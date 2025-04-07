@@ -2,7 +2,7 @@
 
 This directory contains comprehensive user guides for different user roles interacting with the Lofts des Arts platform.
 
-> **Last Updated:** April 5, 2025
+> **Last Updated:** April 7, 2025
 
 ## Directory Structure
 
