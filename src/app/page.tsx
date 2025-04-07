@@ -56,8 +56,8 @@ export default function Home() {
         </div>
       )}
       
-      {/* Hero Section - Reduced height with parallax */}
-      <section className="relative h-[60vh] md:h-[65vh] flex items-center justify-center overflow-hidden">
+      {/* Hero Section with enhanced styling */}
+      <section className="relative h-[65vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Background Image with parallax effect */}
         {loading ? (
           <div className="absolute inset-0 bg-zinc-900" />
@@ -74,10 +74,11 @@ export default function Home() {
         )}
         
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        <div className="absolute inset-0 bg-black/45 z-10" />
         
-        <div className="relative z-20 text-center px-4 max-w-3xl mx-auto mt-10 md:mt-14">
-          <div className="mb-8">
+        {/* Hero Content */}
+        <div className="relative z-20 text-center px-4 max-w-3xl mx-auto">
+          <div className="backdrop-blur-sm bg-black/30 p-8 rounded-lg border border-zinc-700/50 shadow-2xl">
             <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title"
                style={{ fontFamily: "'Poiret One', cursive !important" }}>
               {heroTitle}
@@ -86,18 +87,23 @@ export default function Home() {
                style={{ fontFamily: "'Poiret One', cursive !important" }}>
               {heroSubtitle}
             </p>
+            <div className="mt-8">
+              <Link 
+                href="/gallery" 
+                className="inline-block bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 px-8 rounded-md transition-colors shadow-md border border-zinc-700/50"
+              >
+                Voir la Galerie
+              </Link>
+            </div>
           </div>
-          <Link 
-            href="/gallery" 
-            className="inline-block bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 px-8 rounded-md transition-colors"
-          >
-            Voir la Galerie
-          </Link>
         </div>
       </section>
 
+      {/* Decorative Divider */}
+      <div className="relative h-8 bg-gradient-to-b from-black to-zinc-900 -mt-2"></div>
+
       {/* About Section */}
-      <section className="py-16 bg-black">
+      <section className="py-12 bg-black">
         <div className="container px-4 mx-auto md:px-6">
           <div className="max-w-4xl mx-auto bg-zinc-900/70 border border-zinc-800 rounded-lg p-8 md:p-10 shadow-lg">
             <h2 className="text-3xl font-bold mb-8 text-center font-title"
@@ -126,7 +132,7 @@ export default function Home() {
             <div className="mt-8 text-center">
               <Link
                 href="/about"
-                className="inline-block bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 px-8 rounded-md transition-colors shadow-sm"
+                className="inline-block bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 px-8 rounded-md transition-colors shadow-md border border-zinc-700/50"
               >
                 En Savoir Plus
               </Link>
@@ -135,8 +141,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Decorative Divider */}
+      <div className="relative h-8 bg-gradient-to-b from-black to-zinc-900"></div>
+
       {/* Map Section */}
-      <section className="py-16 bg-zinc-900">
+      <section className="py-12 bg-zinc-900">
         <div className="container px-4 mx-auto md:px-6">
           <div className="max-w-4xl mx-auto bg-zinc-800/50 border border-zinc-700 rounded-lg p-8 md:p-10 shadow-lg">
             <h2 className="text-3xl font-bold mb-8 text-center font-title"
@@ -164,7 +173,7 @@ export default function Home() {
                 href="https://maps.app.goo.gl/tz5g4Zq5yGPz949N7"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white font-medium py-2 px-6 rounded-md transition-colors shadow-sm"
+                className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white font-medium py-3 px-8 rounded-md transition-colors shadow-md border border-zinc-700/50"
               >
                 Itinéraire
               </Link>
@@ -173,8 +182,11 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Newsletter Section - Moved to bottom */}
+      {/* Newsletter Section */}
       <NewsletterSection />
+      
+      {/* Footer Spacer */}
+      <div className="h-12 bg-zinc-900"></div>
     </RootLayout>
   );
 }

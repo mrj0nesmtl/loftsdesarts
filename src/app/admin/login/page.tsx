@@ -18,14 +18,7 @@ export default function AdminLoginPage() {
     }
   }, [user, isLoading, router]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-zinc-500"></div>
-      </div>
-    );
-  }
-
+  // Force immediate rendering regardless of loading state
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen">
       {/* Background image with overlay */}
@@ -58,7 +51,15 @@ export default function AdminLoginPage() {
           <p className="text-zinc-400 mt-2">Portail d'Administration</p>
         </div>
         
-        <LoginForm />
+        <div className="bg-zinc-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+          {isLoading ? (
+            <div className="flex items-center justify-center h-40">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-zinc-500"></div>
+            </div>
+          ) : (
+            <LoginForm />
+          )}
+        </div>
       </div>
     </div>
   );
