@@ -1,5 +1,7 @@
 # Lofts des Arts Web Platform
 
+<div align="center">
+
 [![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](https://github.com/your-username/loftsdesarts)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
@@ -14,6 +16,8 @@
 [![Made in Quebec](https://img.shields.io/badge/Made_in-Quebec%2C_Canada-blue?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDEyMDB2NjAwSDB6Ii8+PHBhdGggZmlsbD0iI2QyMjQzMCIgZD0iTTAgMGgzMDB2NjAwSDB6TTkwMCAwaDMwMHY2MDBIOTAweiIvPjxwYXRoIGZpbGw9IiNkMjI0MzAiIGQ9Ik02MDAgMzAwbDU2LjQtMTcuNCAxNy40LTU2LjQgMTcuNCA1Ni40IDU2LjQgMTcuNC01Ni40IDE3LjQtMTcuNCA1Ni40LTE3LjQtNTYuNC01Ni40LTE3LjR6Ii8+PC9zdmc+)](https://en.wikipedia.org/wiki/Quebec)
 
 ![Lofts des Arts](public/logo.png)
+
+</div>
 
 <div align="center">
   <a href="docs/user-guides/README_FR.md">
