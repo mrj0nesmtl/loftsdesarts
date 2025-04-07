@@ -211,7 +211,7 @@ export function Header() {
             
             <div className="mt-auto mb-8 pt-6 border-t border-zinc-800">
               <div className="text-xs text-zinc-500">
-                &copy; {new Date().getFullYear()} Lofts des Arts
+                &copy; {new Date().getFullYear()} Annonymous Contractor
               </div>
             </div>
           </div>
