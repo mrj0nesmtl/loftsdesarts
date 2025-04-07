@@ -2,7 +2,7 @@
 
 This roadmap outlines the planned development trajectory for the Lofts des Arts condominium website, with detailed tasks, deliverables, and timelines for each phase.
 
-  *Last Updated: April 6, 2025*
+  *Last Updated: April 7, 2025*
 
 ## Development Timeline
 
@@ -31,7 +31,9 @@ gantt
     section Phase 3
     Resident Portal                  :active,  p3, 2025-04-12, 2025-04-21
     Authentication & Profiles        :active,  auth, 2025-04-12, 2025-04-17
-    Messaging System Completion      :active,  msgcomp, 2025-04-13, 2025-04-19
+    Messaging System Implementation  :done,    msgi, 2025-04-13, 2025-04-17
+    UI/UX Improvements               :done,    uii, 2025-04-13, 2025-04-17
+    Messaging System Completion      :active,  msgcomp, 2025-04-17, 2025-04-19
     Package System Completion        :active,  pkgcomp, 2025-04-14, 2025-04-20
     Building Info Repository         :active,  repo, 2025-04-14, 2025-04-21
     
@@ -45,8 +47,9 @@ gantt
     Refinement & Optimization        :         p6, 2025-05-06, 2025-05-12
     
     section Milestones
-    Today                            :milestone, today, 2025-04-12, 0d
+    Today                            :milestone, today, 2025-04-07, 0d
     Phase 2 Complete                 :milestone, m1, 2025-04-12, 0d
+    v0.5.0 Release                   :milestone, m1.5, 2025-04-07, 0d
     Phase 3 Complete                 :milestone, m2, 2025-04-21, 0d
     RC v1                            :milestone, m3, 2025-05-01, 0d
     Production Release v1.0          :milestone, m4, 2025-05-07, 0d
@@ -152,26 +155,37 @@ gantt
 ## Phase 3: Resident Portal (April 12-21, 2025) 🔄
 **Objective:** Create resident-specific features and access controls
 
-### Current Status: In Progress (15% Complete)
+### Current Status: In Progress (60% Complete)
 - [x] Database schema design for resident portal completed
 - [x] Technical planning and architecture documented
 - [x] UI/UX wireframes and prototypes created
 - [x] Role-based access control for residents configured
 - [x] Development environment preparation completed
-- [ ] Resident authentication system in development
-- [ ] Profile management interface in progress
-- [ ] Messaging system real-time features in planning
+- [x] Public homepage UI/UX improved with better visual design
+- [x] Implemented conversation system with full functionality
+- [x] Fixed login page navigation and created smoother user flow
+- [x] Created SQL files for database management and migrations
+- [ ] Resident authentication system in development (45% complete)
+- [ ] Profile management interface in progress (35% complete)
+- [ ] Messaging system real-time features in planning (80% complete)
+- [ ] Newsletter system components created (20% complete)
 
 ### Tasks:
 - [ ] Resident authentication system
+  - [x] Database schema and backend structure
+  - [x] Login page navigation and interface
   - [ ] Self-registration with verification
   - [ ] Unit-based access controls
   - [ ] Password reset and account recovery
 - [ ] Profile management for residents
+  - [x] Database schema design
+  - [x] Profile editor UI foundation
   - [ ] Personal information management
   - [ ] Communication preferences
   - [ ] Household member management
 - [ ] Building information and rules repository
+  - [x] Database schema design
+  - [x] Document organization structure
   - [ ] Searchable building documentation
   - [ ] Bylaws and regulations access
   - [ ] Amenity information and policies
@@ -183,6 +197,8 @@ gantt
 - [ ] Internal messaging system
   - [x] Database schema and backend infrastructure
   - [x] Basic conversation component structure
+  - [x] Conversation creation interface
+  - [x] Conversation list and detail views
   - [ ] Advanced message composition interface
   - [ ] File attachments and rich media support
   - [ ] Real-time notifications via WebSockets
@@ -193,7 +209,7 @@ gantt
   - [ ] Automated notifications to residents
   - [ ] Pickup confirmation process
 - [ ] Directory of services and contacts
-  - [ ] Emergency contact information
+  - [x] Emergency contact information
   - [ ] Local service provider listings
   - [ ] Building staff directory
 
@@ -381,7 +397,7 @@ gantt
 |-------|----------|----------------|----------------------------|
 | Phase 1 | 100% | Completed | ✓ Next.js setup, ✓ Admin dashboard, ✓ Contact system |
 | Phase 2 | 100% | Completed | ✓ Document Management, ✓ Residents System, ✓ Package Management, ✓ Theme System |
-| Phase 3 | 15% | In Progress | 🔄 Resident Auth, 🔄 Profile Management, 🔄 Messaging System |
+| Phase 3 | 60% | In Progress | ✓ Conversation System, ✓ UI/UX Improvements, 🔄 Resident Auth, 🔄 Messaging Completion |
 | Phase 4 | 0% | Not Started | 📅 Events calendar, 📋 Amenity booking |
 | Phase 5 | 0% | Not Started | 📱 Mobile app, 🏢 Building systems integration |
 | Phase 6 | 0% | Not Started | ⚡ Performance optimization, �� Security audit | 
