@@ -16,7 +16,7 @@ export default function MessagingPage() {
         Choisissez une conversation existante dans la barre latérale ou commencez-en une nouvelle pour débuter la messagerie.
       </p>
       <div className="flex flex-col sm:flex-row gap-4">
-        <Link href="/admin/residents">
+        <Link href="/admin/messaging/new">
           <Button>
             Messagerie un résident
           </Button>
