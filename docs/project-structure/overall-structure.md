@@ -1,6 +1,6 @@
 # Overall Project Structure
 
-*Last Updated: 2025-04-06*
+*Last Updated: 2025-04-07*
 
 Top-level directories and files in the Lofts des Arts project.
 
@@ -10,8 +10,6 @@ Top-level directories and files in the Lofts des Arts project.
 ├── LICENSE
 ├── README.md
 ├── Replit.nix
-├── app
-├── components
 ├── components.json
 ├── docs
 │   ├── README.md
@@ -27,7 +25,6 @@ Top-level directories and files in the Lofts des Arts project.
 │   ├── specifications
 │   └── user-guides
 ├── eslint.config.mjs
-├── lib
 ├── loftsdesarts.code-workspace
 ├── next-env.d.ts
 ├── next.config.ts
@@ -37,20 +34,28 @@ Top-level directories and files in the Lofts des Arts project.
 ├── sql
 │   ├── add_syndic_role.sql
 │   ├── building_data_setup.sql
+│   ├── contact_form_rls_fix.sql
 │   ├── create_file_storage_system.sql
 │   ├── create_messaging_system.sql
 │   ├── create_package_system.sql
 │   ├── create_packages_table.sql
 │   ├── create_profiles_table.sql
+│   ├── document_directories.sql
 │   ├── documents_tables.sql
+│   ├── dropbox.sql
+│   ├── enable_realtime.sql
 │   ├── exports
 │   ├── fix_profiles_role.sql
+│   ├── fix_residents_recursive_policy.sql
 │   ├── insert_board_profiles.sql
 │   ├── messaging-schema.sql
+│   ├── messaging_tables.sql
 │   ├── resident_data_setup.sql
-│   ├── residents
+│   ├── residents_rls_policies.sql
+│   ├── site_settings.sql
 │   ├── update_contact_inquiries.sql
 │   ├── update_profiles_roles.sql
+│   ├── user_roles_rls_policies.sql
 │   └── verify_building_data.sql
 ├── src
 │   ├── app
@@ -62,11 +67,10 @@ Top-level directories and files in the Lofts des Arts project.
 │   ├── styles
 │   ├── types
 │   └── utils
-├── styles
 ├── tailwind.config.js
 ├── tsconfig.json
 └── tsconfig.tsbuildinfo
 
-30 directories, 31 files
+25 directories, 40 files
 
 ```
