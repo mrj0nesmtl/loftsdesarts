@@ -4,8 +4,6 @@
  */
 
 import { Conversation, ConversationParticipant } from '@/types/messaging';
-
-// Use the existing supabase client
 import { supabase } from '@/lib/supabase';
 
 /**
@@ -15,39 +13,50 @@ import { supabase } from '@/lib/supabase';
  */
 export const fetchConversations = async (userId: string): Promise<Conversation[]> => {
   try {
-    // Get conversations where the user is a participant
-    const { data, error } = await supabase
+    // Get conversation IDs where the user is a participant
+    const { data: participantData, error: participantError } = await supabase
       .from('conversation_participants')
-      .select(`
-        conversation:conversations (
-          id,
-          title,
-          created_at,
-          updated_at,
-          created_by
-        )
-      `)
+      .select('conversation_id')
       .eq('user_id', userId);
     
-    if (error) throw error;
+    if (participantError) {
+      console.error('Error fetching participant data:', participantError);
+      return [];
+    }
     
-    // Transform data to expected format
-    const conversations = data
-      .filter(item => item.conversation) // Filter out nulls
-      .map(item => ({
-        id: item.conversation.id,
-        title: item.conversation.title,
-        created_at: item.conversation.created_at,
-        updated_at: item.conversation.updated_at,
-        is_group: false, // Default value
-        metadata: {},    // Default value
-        unreadCount: 0   // Default value - can be computed separately
-      }));
+    if (!participantData || participantData.length === 0) {
+      return [];
+    }
+    
+    // Extract conversation IDs
+    const conversationIds = participantData.map(p => p.conversation_id);
+    
+    // Get the actual conversations
+    const { data: conversationsData, error: conversationsError } = await supabase
+      .from('conversations')
+      .select('*')
+      .in('id', conversationIds);
+    
+    if (conversationsError) {
+      console.error('Error fetching conversations:', conversationsError);
+      return [];
+    }
+    
+    // Map to expected format
+    const conversations = (conversationsData || []).map(c => ({
+      id: c.id,
+      title: c.title || '',
+      created_at: c.created_at,
+      updated_at: c.updated_at,
+      is_group: false, // Default value, can be computed later
+      metadata: {},    // Default value
+      participants: [] // Will be populated later if needed
+    }));
     
     return conversations;
   } catch (error) {
-    console.error('Error fetching conversations:', error);
-    return []; // Return empty array instead of throwing to prevent UI breaking
+    console.error('Error in fetchConversations:', error);
+    return [];
   }
 };
 
@@ -58,59 +67,57 @@ export const fetchConversations = async (userId: string): Promise<Conversation[]
  */
 export const fetchConversation = async (conversationId: string): Promise<Conversation | null> => {
   try {
-    console.log('Fetching conversation:', conversationId);
+    // Get the conversation
+    const { data: conversation, error: conversationError } = await supabase
+      .from('conversations')
+      .select('*')
+      .eq('id', conversationId)
+      .single();
     
-    // Use the new RPC function that bypasses RLS
-    const { data, error } = await supabase.rpc(
-      'fetch_conversation',
-      { conversation_id_param: conversationId }
-    );
-    
-    if (error) {
-      console.error('Error fetching conversation from RPC:', error);
-      throw error;
-    }
-    
-    console.log('Conversation RPC response:', data);
-    
-    if (!data || !data.success) {
-      console.warn('Conversation not found or access denied:', data?.message || 'Unknown error');
+    if (conversationError) {
+      console.error('Error fetching conversation:', conversationError);
       return null;
     }
     
-    const conversation = data.conversation;
-    const participants = data.participants || [];
+    // Get participants
+    const { data: participants, error: participantsError } = await supabase
+      .from('conversation_participants')
+      .select('*')
+      .eq('conversation_id', conversationId);
     
-    // For each participant, try to get the user profile
-    const participantsWithUser = await Promise.all(
-      participants.map(async (participant: any) => {
-        try {
-          const { data: userData, error: userError } = await supabase
-            .from('profiles')
-            .select('id, email, display_name')
-            .eq('id', participant.user_id)
-            .single();
-          
-          if (userError) throw userError;
-          
-          return {
-            ...participant,
-            user: userData
-          };
-        } catch (error) {
-          console.warn(`Could not fetch user data for ${participant.user_id}:`, error);
-          return {
-            ...participant,
-            user: {
-              id: participant.user_id,
-              email: 'unknown@example.com',
-              display_name: `User ${participant.user_id.substring(0, 8)}`
-            }
-          };
-        }
-      })
+    if (participantsError) {
+      console.error('Error fetching participants:', participantsError);
+      return null;
+    }
+    
+    const userIds = participants.map(p => p.user_id);
+    
+    // Get user profiles
+    const { data: userProfiles, error: profilesError } = await supabase
+      .from('profiles')
+      .select('id, email, display_name')
+      .in('id', userIds);
+    
+    if (profilesError) {
+      console.error('Error fetching user profiles:', profilesError);
+    }
+    
+    // Create a map for quick lookup
+    const profileMap = Object.fromEntries(
+      (userProfiles || []).map(profile => [profile.id, profile])
     );
     
+    // Add user data to participants
+    const participantsWithUser = participants.map(participant => ({
+      ...participant,
+      user: profileMap[participant.user_id] || {
+        id: participant.user_id,
+        email: 'unknown@example.com',
+        display_name: `User ${participant.user_id.slice(0, 8)}`
+      }
+    }));
+    
+    // Build the conversation object
     const result: Conversation = {
       id: conversation.id,
       title: conversation.title || '',
@@ -118,24 +125,18 @@ export const fetchConversation = async (conversationId: string): Promise<Convers
       updated_at: conversation.updated_at,
       is_group: participants.length > 2,
       metadata: {},
-      participants: participantsWithUser as unknown as ConversationParticipant[]
+      participants: participantsWithUser as any
     };
     
-    console.log('Transformed conversation:', result);
     return result;
   } catch (error) {
-    console.error('Unexpected error in fetchConversation:', error);
-    throw error;
+    console.error('Error in fetchConversation:', error);
+    return null;
   }
 };
 
 /**
- * Create a new conversation
- * @param title The conversation title
- * @param participantIds Array of user IDs to include in the conversation
- * @param isGroup Whether this is a group conversation
- * @param creatorId The ID of the user creating the conversation
- * @returns The created conversation
+ * Create a new conversation - SIMPLE VERSION
  */
 export const createConversation = async (
   title: string,
@@ -144,89 +145,75 @@ export const createConversation = async (
   creatorId: string
 ): Promise<Conversation> => {
   try {
-    console.log('Creating conversation with params:', {
-      title,
-      creatorId,
-      participantIds,
-      isGroup
-    });
+    console.log('Creating conversation with:', { title, participantIds, isGroup, creatorId });
     
-    // Step 1: Create a new conversation
-    const { data: conversation, error: conversationError } = await supabase.rpc(
-      'create_conversation',
-      {
-        title_param: title || (isGroup ? 'New Group' : 'New Conversation'),
-        creator_id_param: creatorId
-      }
-    );
-
-    if (conversationError) {
-      console.error('Error from create_conversation RPC:', conversationError);
-      throw conversationError;
-    }
-    
-    console.log('Created conversation:', conversation);
-
-    if (!conversation?.id) {
-      throw new Error('Failed to retrieve conversation ID from RPC function');
-    }
-    
-    // Step 2: Add participants
-    // Make sure creator is included in participants if not already there
-    const allParticipantIds = [...new Set([creatorId, ...participantIds])];
-    
-    // Add participants one by one (more reliable than batch insert)
-    const addParticipantPromises = allParticipantIds.map(async (userId) => {
-      const isCreator = userId === creatorId;
-      
-      const { data, error } = await supabase.rpc(
-        'add_conversation_participant',
-        {
-          conversation_id_param: conversation.id,
-          user_id_param: userId,
-          role_param: isCreator ? 'owner' : 'member'
+    // Step 1: Insert the conversation
+    const { data: newConversation, error: conversationError } = await supabase
+      .from('conversations')
+      .insert([
+        { 
+          title: title || (isGroup ? 'New Group' : 'New Conversation'),
+          created_by: creatorId,
+          is_group: isGroup
         }
-      );
+      ])
+      .select()
+      .single();
+    
+    if (conversationError) {
+      console.error('Error creating conversation:', conversationError);
+      throw new Error('Failed to create conversation');
+    }
+    
+    console.log('Created conversation:', newConversation);
+    
+    // Step 2: Make sure creator is in the participants list
+    const allParticipantIds = Array.from(new Set([...participantIds, creatorId]));
+    
+    // Step 3: Add participants one by one
+    for (const userId of allParticipantIds) {
+      const isOwner = userId === creatorId;
+      const { error } = await supabase
+        .from('conversation_participants')
+        .insert([
+          {
+            conversation_id: newConversation.id,
+            user_id: userId,
+            role: isOwner ? 'owner' : 'member',
+            joined_at: new Date().toISOString()
+          }
+        ]);
       
       if (error) {
         console.error(`Error adding participant ${userId}:`, error);
+        // Continue anyway, don't throw here
       }
-      
-      return { userId, success: !error, error };
-    });
+    }
     
-    const participantResults = await Promise.all(addParticipantPromises);
-    console.log('Participant addition results:', participantResults);
-    
-    // Create the response object
-    const result: Conversation = {
-      id: conversation.id,
-      title: title || (isGroup ? 'New Group' : 'New Conversation'),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+    // Return the conversation structure
+    return {
+      id: newConversation.id,
+      title: newConversation.title,
+      created_at: newConversation.created_at,
+      updated_at: newConversation.updated_at,
       is_group: isGroup,
       metadata: {},
       participants: allParticipantIds.map(userId => ({
-        id: '',  // We don't have these IDs but they're not critical for the UI
-        conversation_id: conversation.id,
+        id: '', // We don't have this yet
+        conversation_id: newConversation.id,
         user_id: userId,
         role: userId === creatorId ? 'owner' : 'member',
         joined_at: new Date().toISOString()
-      })) as unknown as ConversationParticipant[]
+      })) as any
     };
-    
-    return result;
   } catch (error) {
-    console.error('Unexpected error in createConversation:', error);
+    console.error('Error in createConversation:', error);
     throw error;
   }
 };
 
 /**
  * Update the last read message for a user in a conversation
- * @param conversationId The conversation ID
- * @param userId The user ID
- * @param messageId The ID of the last read message
  */
 export const markConversationAsRead = async (
   conversationId: string,
@@ -240,9 +227,10 @@ export const markConversationAsRead = async (
       .eq('conversation_id', conversationId)
       .eq('user_id', userId);
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error marking conversation as read:', error);
+    }
   } catch (error) {
-    console.error('Error marking conversation as read:', error);
-    throw error;
+    console.error('Error in markConversationAsRead:', error);
   }
 }; 
