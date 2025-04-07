@@ -83,7 +83,7 @@ export const fetchConversation = async (conversationId: string): Promise<Convers
     
     // For each participant, try to get the user profile
     const participantsWithUser = await Promise.all(
-      participants.map(async (participant) => {
+      participants.map(async (participant: any) => {
         try {
           const { data: userData, error: userError } = await supabase
             .from('profiles')
@@ -116,8 +116,8 @@ export const fetchConversation = async (conversationId: string): Promise<Convers
       title: conversation.title || '',
       created_at: conversation.created_at,
       updated_at: conversation.updated_at,
-      is_group: conversation.is_group || participants.length > 2,
-      metadata: conversation.metadata || {},
+      is_group: participants.length > 2,
+      metadata: {},
       participants: participantsWithUser as unknown as ConversationParticipant[]
     };
     

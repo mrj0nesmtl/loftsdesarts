@@ -99,9 +99,7 @@ BEGIN
       'title', c.title,
       'created_at', c.created_at,
       'updated_at', c.updated_at,
-      'created_by', c.created_by,
-      'is_group', COALESCE(c.is_group, false),
-      'metadata', COALESCE(c.metadata, '{}'::jsonb)
+      'created_by', c.created_by
     )
   INTO conversation_data
   FROM conversations c
