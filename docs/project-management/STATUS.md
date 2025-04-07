@@ -4,7 +4,7 @@ This file tracks the current status and progress of the Lofts des Arts website p
 
 ## Current Status: Phase 3 - Resident Portal
 
-Last Updated: April 6, 2025
+Last Updated: April 7, 2025
 
 ## Phase 1: Foundation ✅
 **Completion: 100%**
@@ -98,7 +98,7 @@ Last Updated: April 6, 2025
   - [x] User flows and wireframes
   - [x] Technical documentation
   - [x] Package registration form
-  - [x] QR code generation component
+  - [x] QR code generator for package tracking
   - [x] Barcode scanner component
   - [x] Package status tracking UI
   - [x] Theme-aware package cards and status indicators
@@ -126,7 +126,7 @@ Last Updated: April 6, 2025
   - [x] Visual design consistency
 
 ## Current: Phase 3 - Resident Portal 🔄
-**Completion: 20%**
+**Completion: 30%**
 
 ### Completed Features
 - [x] Database schema for resident portal - 100% complete
@@ -145,13 +145,16 @@ Last Updated: April 6, 2025
   - [x] Database schema design
   - [ ] Profile editor UI - in progress
   - [ ] Profile photo management - not started
-- [ ] Internal messaging system - 35% complete
+- [ ] Internal messaging system - 60% complete
   - [x] Database schema complete
-  - [x] Basic conversation UI structure
-  - [x] Conversation list component
-  - [x] Message component blueprint
-  - [ ] Message thread component - in progress
-  - [ ] Message composition interface - in progress
+  - [x] Conversation creation workflow - complete
+  - [x] Conversation list component - complete
+  - [x] Message thread UI component - complete
+  - [x] New conversation page - complete
+  - [x] Permissive RLS policies for conversations - complete
+  - [x] Conversation redirection flow - complete
+  - [ ] Message sending functionality - in progress
+  - [ ] Message display component - in progress
   - [ ] Real-time updates - not started
 - [ ] Inquiry system improvements - 5% complete
   - [x] Requirements analysis
@@ -250,9 +253,11 @@ gantt
 - French translations missing for some theme-aware components (Issue #52) - In progress
 - ~~Occasional Supabase connection timeout during peak hours (Issue #27)~~ - Fixed in v0.4.0
 - Document preview loading slow for large PDFs (Issue #35)
-- Messaging UI 404 error when clicking "Message a Resident" (Issue #58) - To be fixed in Session 6, Part 2
-- Messaging UI needs offline support for connectivity issues (Issue #56)
-- Missing route handler for resident messaging feature (Issue #59) - To be fixed in Session 6, Part 2
+- ~~Messaging UI 404 error when clicking "Message a Resident" (Issue #58)~~ - Fixed in Session 6, Part 1
+- ~~Missing route handler for resident messaging feature (Issue #59)~~ - Fixed in Session 6, Part 1
+- Messaging system needs 'is_system' column for messages table (Issue #63)
+- Message sending functionality not fully implemented (Issue #64)
+- User ID column missing in messages table (Issue #65)
 
 ## Deployment Information
 - **Environment**: Production
@@ -278,37 +283,42 @@ gantt
 | Real-time messaging performance | Medium | Medium | Implement connection pooling and optimize WebSocket usage |
 
 ## Recently Completed Work
-- Enhanced dashboard with emergency contact cards
-  - Updated layout to accommodate five essential services
-  - Implemented responsive design for all viewports
-  - Improved color contrast for emergency contacts
+- Functional messaging system conversation management
+  - Successfully implemented conversation creation
+  - Created conversation view page
+  - Added conversation list component
+  - Created conversation participants system
+  - Fixed RLS policies for conversation access
+  - Improved error handling and loading states
 - Weather and time widget for admin dashboard
   - Real-time weather conditions for Montreal
   - Automatic updates using OpenWeather API
   - Theme-aware widget design
-- Messaging system UI framework improvements
-  - Conversation list component with search and filtering
-  - New conversation modal implementation
-  - Message thread layout foundation
-  - Mobile-responsive design for messaging interface
+- Enhanced dashboard layout
+  - Updated emergency contact cards layout
+  - Improved responsive design for all viewports
+  - Better color contrast for emergency contacts
 
 ## Current Active Work
+- Message sending functionality
+  - Adding missing 'is_system' column to messages table
+  - Adding 'user_id' column to messages table
+  - Implementing message composition UI
+  - Implementing message display component
+- Message thread real-time updates
 - Resident portal authentication system
 - Profile management for residents
-- Messaging system real-time functionality
-- Messaging system route handlers
 - Inquiry system improvements
-- Newsletter system planning and database design
 - Building information repository structure
-- Maintenance request submission workflow
 
 ## Next Milestone
 Resident Portal Beta Release - Target: April 21, 2025
 
 ## Session 6, Part 2 Focus Areas
-- Fix messaging system 404 error and route handlers
-- Complete the message thread and composition components
+- Complete message sending functionality with proper message schema
+- Add missing columns to messages table
 - Implement real-time message delivery with WebSockets
+- Implement message thread and display components
 - Begin inquiry system enhancements
 - Design and implement newsletter system database schema
 - Create subscription management backend
