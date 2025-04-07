@@ -76,7 +76,7 @@ export default function Home() {
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/50 z-10" />
         
-        <div className="relative z-20 text-center px-4 max-w-3xl mx-auto">
+        <div className="relative z-20 text-center px-4 max-w-3xl mx-auto mt-10 md:mt-14">
           <div className="mb-8">
             <p className="text-3xl md:text-5xl text-zinc-100 font-medium font-title"
                style={{ fontFamily: "'Poiret One', cursive !important" }}>
@@ -99,7 +99,7 @@ export default function Home() {
       {/* About Section */}
       <section className="py-16 bg-black">
         <div className="container px-4 mx-auto md:px-6">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto bg-zinc-900/70 border border-zinc-800 rounded-lg p-8 md:p-10 shadow-lg">
             <h2 className="text-3xl font-bold mb-8 text-center font-title"
                 style={{ fontFamily: "'Poiret One', cursive !important" }}>
               Découvrez un Mode de Vie Luxueux
@@ -126,7 +126,7 @@ export default function Home() {
             <div className="mt-8 text-center">
               <Link
                 href="/about"
-                className="inline-block border border-zinc-600 text-zinc-300 hover:bg-zinc-800 hover:border-zinc-500 hover:text-white font-medium py-2 px-6 rounded-md transition-colors"
+                className="inline-block bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 px-8 rounded-md transition-colors shadow-sm"
               >
                 En Savoir Plus
               </Link>
@@ -138,32 +138,37 @@ export default function Home() {
       {/* Map Section */}
       <section className="py-16 bg-zinc-900">
         <div className="container px-4 mx-auto md:px-6">
-          <h2 className="text-3xl font-bold mb-8 text-center font-title"
-              style={{ fontFamily: "'Poiret One', cursive !important" }}>
-            Notre Emplacement
-          </h2>
-          
-          <div className="aspect-video w-full max-w-4xl mx-auto overflow-hidden rounded-lg">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d356.6934507153928!2d-73.56677393564334!3d45.508200446077666!2m3!1f0!2f39.394737510756755!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x4cc91a4c1b389f6d%3A0x1d0b7483b40ddc56!2sLofts%20des%20Arts!5e1!3m2!1sen!2sca!4v1743925245718!5m2!1sen!2sca" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-          
-          <div className="text-center mt-8">
-            <Link
-              href="https://maps.app.goo.gl/tz5g4Zq5yGPz949N7"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-2 px-6 rounded-md transition-colors"
-            >
-              Itinéraire
-            </Link>
+          <div className="max-w-4xl mx-auto bg-zinc-800/50 border border-zinc-700 rounded-lg p-8 md:p-10 shadow-lg">
+            <h2 className="text-3xl font-bold mb-8 text-center font-title"
+                style={{ fontFamily: "'Poiret One', cursive !important" }}>
+              Notre Emplacement
+            </h2>
+            
+            <div className="aspect-video w-full max-w-4xl mx-auto overflow-hidden rounded-lg border border-zinc-600 shadow-md">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d356.6934507153928!2d-73.56677393564334!3d45.508200446077666!2m3!1f0!2f39.394737510756755!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x4cc91a4c1b389f6d%3A0x1d0b7483b40ddc56!2sLofts%20des%20Arts!5e1!3m2!1sen!2sca!4v1743925245718!5m2!1sen!2sca" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            
+            <div className="text-center mt-6">
+              <p className="text-zinc-300 max-w-2xl mx-auto mb-6">
+                Situé au cœur du Quartier des Spectacles, les Lofts des Arts offrent un accès privilégié aux meilleures attractions culturelles de Montréal.
+              </p>
+              <Link
+                href="https://maps.app.goo.gl/tz5g4Zq5yGPz949N7"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white font-medium py-2 px-6 rounded-md transition-colors shadow-sm"
+              >
+                Itinéraire
+              </Link>
+            </div>
           </div>
         </div>
       </section>
