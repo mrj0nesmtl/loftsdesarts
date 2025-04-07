@@ -169,50 +169,76 @@ export const createConversation = async (
   participantIds: string[],
   isGroup: boolean = false
 ): Promise<Conversation> => {
-  // Get the current user's ID (first participant is assumed to be the creator)
-  const creatorId = participantIds[0];
-  if (!creatorId) {
-    throw new Error('At least one participant (the creator) is required');
+  try {
+    // Get the current user's ID (first participant is assumed to be the creator)
+    const creatorId = participantIds[0];
+    if (!creatorId) {
+      throw new Error('At least one participant (the creator) is required');
+    }
+    
+    console.log('Creating conversation with params:', {
+      title,
+      creatorId,
+      participantIds,
+      isGroup
+    });
+    
+    // Start a transaction
+    const { data: conversation, error: conversationError } = await supabase
+      .from('conversations')
+      .insert({
+        title: title || (isGroup ? 'New Group' : 'New Conversation'),
+        created_by: creatorId
+        // is_group and metadata fields are not in our schema
+      })
+      .select()
+      .single();
+    
+    if (conversationError) {
+      console.error('Error creating conversation: ', JSON.stringify(conversationError, null, 2));
+      console.error('Error code:', conversationError.code);
+      console.error('Error message:', conversationError.message);
+      console.error('Error details:', conversationError.details);
+      throw conversationError;
+    }
+    
+    console.log('Conversation created:', conversation);
+    
+    // Add participants
+    const participants = participantIds.map(userId => ({
+      conversation_id: conversation.id,
+      user_id: userId,
+      role: 'member'
+    }));
+    
+    console.log('Adding participants:', participants);
+    
+    const { data: participantsData, error: participantsError } = await supabase
+      .from('conversation_participants')
+      .insert(participants)
+      .select();
+    
+    if (participantsError) {
+      console.error('Error adding participants: ', JSON.stringify(participantsError, null, 2));
+      console.error('Error code:', participantsError.code);
+      console.error('Error message:', participantsError.message);
+      console.error('Error details:', participantsError.details);
+      throw participantsError;
+    }
+    
+    console.log('Participants added:', participantsData);
+    
+    return {
+      ...conversation,
+      is_group: isGroup, // Add this for our frontend to use
+      metadata: {}, // Add this for our frontend to use
+      participants: participants as unknown as ConversationParticipant[]
+    };
+  } catch (error) {
+    // Log any other errors
+    console.error('Unexpected error in createConversation:', error);
+    throw error;
   }
-  
-  // Start a transaction
-  const { data: conversation, error: conversationError } = await supabase
-    .from('conversations')
-    .insert({
-      title: title || (isGroup ? 'New Group' : 'New Conversation'),
-      created_by: creatorId
-      // is_group and metadata fields are not in our schema
-    })
-    .select()
-    .single();
-  
-  if (conversationError) {
-    console.error('Error creating conversation:', conversationError);
-    throw conversationError;
-  }
-  
-  // Add participants
-  const participants = participantIds.map(userId => ({
-    conversation_id: conversation.id,
-    user_id: userId,
-    role: 'member'
-  }));
-  
-  const { error: participantsError } = await supabase
-    .from('conversation_participants')
-    .insert(participants);
-  
-  if (participantsError) {
-    console.error('Error adding participants:', participantsError);
-    throw participantsError;
-  }
-  
-  return {
-    ...conversation,
-    is_group: isGroup, // Add this for our frontend to use
-    metadata: {}, // Add this for our frontend to use
-    participants: participants as unknown as ConversationParticipant[]
-  };
 };
 
 /**
