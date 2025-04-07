@@ -81,6 +81,10 @@ export default function BoardMemberWikiPage() {
               <ChevronRight className="ml-auto h-4 w-4" />
             </Button>
             <Button variant="ghost" className="justify-start pl-6">
+              {language === 'en' ? 'Current Board Members 2024' : 'Membres actuels du Conseil 2024'}
+              <ChevronRight className="ml-auto h-4 w-4" />
+            </Button>
+            <Button variant="ghost" className="justify-start pl-6">
               {language === 'en' ? 'Governance Tools' : 'Outils de gouvernance'}
               <ChevronRight className="ml-auto h-4 w-4" />
             </Button>
@@ -246,6 +250,89 @@ export default function BoardMemberWikiPage() {
                     </CardDescription>
                   </CardContent>
                 </Card>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Current Board Members 2024 */}
+          <Card>
+            <CardHeader>
+              <CardTitle>{language === 'en' ? 'Current Board Members 2024' : 'Membres actuels du Conseil 2024'}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <p>
+                  {language === 'en' 
+                    ? 'The current board consists of the following resident owners:' 
+                    : 'Le conseil actuel est composé des propriétaires résidents suivants :'}
+                </p>
+                
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>{language === 'en' ? 'Name' : 'Nom'}</TableHead>
+                        <TableHead>{language === 'en' ? 'Unit' : 'Unité'}</TableHead>
+                        <TableHead>{language === 'en' ? 'Floor' : 'Étage'}</TableHead>
+                        <TableHead>{language === 'en' ? 'Contact' : 'Contact'}</TableHead>
+                        <TableHead>{language === 'en' ? 'Role' : 'Rôle'}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Viviane Sokoluk</TableCell>
+                        <TableCell>502</TableCell>
+                        <TableCell>5</TableCell>
+                        <TableCell>
+                          viviane.sokoluk@loftsdesarts.com
+                          <br />
+                          514-616-7496
+                        </TableCell>
+                        <TableCell>{language === 'en' ? 'President' : 'Présidente'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Joel Yaffe</TableCell>
+                        <TableCell>506</TableCell>
+                        <TableCell>5</TableCell>
+                        <TableCell>
+                          joel.yaffe@gmail.com
+                          <br />
+                          514-503-3805
+                        </TableCell>
+                        <TableCell>{language === 'en' ? 'Treasurer' : 'Trésorier'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Jacques Germain</TableCell>
+                        <TableCell>701</TableCell>
+                        <TableCell>7</TableCell>
+                        <TableCell>jacques.germain@loftsdesarts.com</TableCell>
+                        <TableCell>{language === 'en' ? 'Secretary' : 'Secrétaire'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">David Morissette</TableCell>
+                        <TableCell>402</TableCell>
+                        <TableCell>4</TableCell>
+                        <TableCell>
+                          david.morissette@loftsdesarts.com
+                          <br />
+                          438-788-7555
+                        </TableCell>
+                        <TableCell>{language === 'en' ? 'Member' : 'Membre'}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+                
+                <div className="p-4 bg-secondary/20 rounded-lg border border-secondary/30 mt-4">
+                  <h3 className="font-medium mb-2">
+                    {language === 'en' ? 'Board Term' : 'Mandat du Conseil'}
+                  </h3>
+                  <p className="text-sm">
+                    {language === 'en'
+                      ? 'The current board was elected for a one-year term starting January 2024. Board elections are held annually during the December general assembly.'
+                      : 'Le conseil actuel a été élu pour un mandat d\'un an à partir de janvier 2024. Les élections du conseil ont lieu chaque année lors de l\'assemblée générale de décembre.'}
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
